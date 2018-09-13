@@ -46,9 +46,9 @@ kcore_wrap.o: kcore_wrap.cxx
 
 makedir:
 ifeq ($(OS),Windows_NT)
-	@if not exist $(subst /,\,$(ROOTOUTDIR)java/io/kuzzle/sdk) mkdir $(subst /,\,$(ROOTOUTDIR)/java/io/kuzzle/sdk)
+	@if not exist $(subst /,\,$(ROOTOUTDIR)/java/io/kuzzle/sdk) mkdir $(subst /,\,$(ROOTOUTDIR)/java/io/kuzzle/sdk)
 else
-	mkdir -p $(ROOTOUTDIR)java/io/kuzzle/sdk
+	mkdir -p $(ROOTOUTDIR)/java/io/kuzzle/sdk
 endif
 
 make_cpp_sdk:
@@ -61,7 +61,7 @@ make_lib:
 	$(CXX) -shared kcore_wrap.o -o $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB) $(CXXFLAGS) $(LDFLAGS) $(JAVAINCLUDE)
 	strip $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
 
-java: OUTDIR=$(ROOTOUTDIR)java/io/kuzzle/sdk
+java: OUTDIR=$(ROOTOUTDIR)/java/io/kuzzle/sdk
 java: makedir make_cpp_sdk swig $(OBJS) make_lib
 	$(JAVA_HOME)/bin/javac $(OUTDIR)/*.java
 	mkdir -p $(ROOTOUTDIR)/io/kuzzle/sdk/resources
