@@ -82,4 +82,4 @@ clean:
 
 
 
-.PHONY: all clean swig
+.PHONY: all clean swig java remove_so make_lib make_c_sdk makedir

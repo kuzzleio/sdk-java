@@ -1,0 +1,16 @@
+language: java
+os: linux
+sudo: required
+services:
+  - docker
+jdk:
+  - oraclejdk8
+  - oraclejdk9
+  - openjdk8
+before_install:
+      - sudo sysctl -w vm.max_map_count=262144
+script:
+  - make
+  - .ci/start_kuzzle.sh
+  - cd features/java
+  - gradle cucumber
