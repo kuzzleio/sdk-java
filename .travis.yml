@@ -7,6 +7,8 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk8
+go:
+  - "1.11"
 before_install:
   - sudo sysctl -w vm.max_map_count=262144
   - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
