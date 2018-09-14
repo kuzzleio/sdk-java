@@ -9,11 +9,7 @@ jdk:
   - openjdk8
 before_install:
   - sudo sysctl -w vm.max_map_count=262144
-  - wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
-  - sudo tar -C /usr/local -zxf go1.11.linux-amd64.tar.gz
 
 script:
-  - make
   - .ci/start_kuzzle.sh
-  - cd features/java
-  - gradle cucumber
+  - docker exec -ti golang "cd /var/app && make && cd features/java && gradle cucumber"

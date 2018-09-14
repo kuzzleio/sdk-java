@@ -27,3 +27,8 @@ services:
     environment:
       - cluster.name=kuzzle
       - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+
+  golang:
+    image: golang
+    volumes:
+      - "..:/var/app"
