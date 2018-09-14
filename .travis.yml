@@ -12,4 +12,4 @@ before_install:
 
 script:
   - .ci/start_kuzzle.sh
-  - docker exec -ti golang "cd /var/app && make && cd features/java && gradle cucumber"
+  - docker run -ti golang "cd /var/app && make && cd features/java && gradle cucumber"
