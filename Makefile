@@ -73,7 +73,7 @@ java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
 	mkdir -p $(ROOTOUTDIR)/java/src/main/java
 	mv build/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java.so $(ROOTOUTDIR)/java/src/main/resources/
 	ln -sf $(ROOTOUTDIR)/java/io/kuzzle/sdk/* $(ROOTOUTDIR)/java/src/main/java/
-	cd build/java && sh gradlew sourcesJar jar javadocJar
+	cd build/java && gradle sourcesJar jar javadocJar
 	cp -p sdk-cpp/sdk-c/build/$(LIB_PREFIX)kuzzlesdk$(STATICLIB) $(OUTDIR)
 
 clean:
