@@ -4,8 +4,6 @@ sudo: required
 services:
   - docker
 jdk:
-  - oraclejdk8
-  - oraclejdk9
   - openjdk8
 before_install:
   - sudo sysctl -w vm.max_map_count=262144
