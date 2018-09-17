@@ -10,4 +10,4 @@ before_install:
 
 script:
   - .ci/start_kuzzle.sh
-  - docker run --rm -it -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
+  - docker run --rm -it --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
