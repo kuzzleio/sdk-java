@@ -1,0 +1,13 @@
+language: java
+os: linux
+sudo: required
+services:
+  - docker
+jdk:
+  - openjdk8
+before_install:
+  - sudo sysctl -w vm.max_map_count=262144
+
+script:
+  - .ci/start_kuzzle.sh
+  - docker run --rm -it --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
