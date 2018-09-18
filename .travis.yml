@@ -1,13 +1,21 @@
-language: java
-os: linux
-sudo: required
-services:
-  - docker
-jdk:
-  - openjdk8
-before_install:
-  - sudo sysctl -w vm.max_map_count=262144
-
-script:
-  - .ci/start_kuzzle.sh
-  - docker run --rm -it --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
+matrix:
+  include:
+    - os: linux
+    dist: trusty
+    services:
+      - docker
+    env:
+      - ARCH="x86"
+    before_install:
+      - sudo sysctl -w vm.max_map_count=262144
+    script:
+      - ".ci/start_kuzzle.sh"
+      - docker run --rm -it --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
+    deploy:
+    provider: bintray
+    file: descriptorx86.json
+    user: kuzzle
+    key:
+      secure: glq6xzZaJuXqrSU9gtjWeqo7abiT+54/I0NfRlKg/ZUww1sQ01ImlzTJ8vHTC0Vk8K5w0mubaKhjJ8hUfK8+qDQ1kF4LpkM5VYz4cyala+8YMO94O2fd3SKy8ihdFhjRzYRA7DD32Zbze88IQrrEEJhFizDEaHxYyvx1YkV4PDRHk6GOcrN3ROnuWuR6UL307p/wJoYgrb6DdEVJbuwYEyemi4G6AO1ExCr/kzsudAjUIIQN6vaJj37YKO4nXyQqGuywHl2rgaDDMgwPZGeY/QC1BAKMfujtZ2IJuOrJqfM+z7rEbjp01HGp2G9FrdIonrzJf2Wpx1JC7dZ8Z6yF7c8o1p+1g9nqcg4Z8Zv7zcXLUXiMvnOX7UviD/9o9uZTsDHzS1xdnri6DD6l3LH+rAFM9rHBOQaOP28YxEoj7+SnA1jxdIFN2DBTAExRlxshE5b+Bodei/g51qmPmrIpRsAMYKgC9TAbOBqitPYM5SCfj7p+dU6/OeIKhCNmEdSsPM8K4opRpbJx3/iRIWLbvcUwPL33P2R/buKzu+UtDLulqD5+5QZR0TMCLTqns/cGC+7JTkClrt56xHpbN8ekZ74UDRPIb54zz23MbQe+oQtCp1DlPj6cZoj4wHwKj+Y2OOtu1WF0awprCmrKIOjkhkWo0jpk+odwRzhwNrF9A3g=
+    skip_cleanup: true
+    dry_run: true
