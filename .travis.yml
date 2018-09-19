@@ -17,7 +17,7 @@ deploy:
   on:
     all_branches: true
   provider: script
-  script: cd build/java && ./gradlew bintrayUpload
+  script: cd build/java && gradle bintrayUpload
   skip_cleanup: true
 
 matrix:
