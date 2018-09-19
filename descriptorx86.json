@@ -1,7 +1,7 @@
 {
   "package": {
       "name": "kuzzle-sdk-x86",
-      "repo": "kuzzle",
+      "repo": "maven",
       "subject": "kuzzle",
       "desc": "Kuzzle JAVA SDK",
       "website_url": "kuzzle.io",
