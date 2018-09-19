@@ -60,7 +60,7 @@ swig:
 make_lib:
 	$(CXX) -shared kcore_wrap.o -o $(OUTDIR)/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB) $(CXXFLAGS) $(LDFLAGS) $(JAVAINCLUDE)
 	strip $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
-œ
+
 remove_so:
 	rm -rf .$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)*.so*
 
