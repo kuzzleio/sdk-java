@@ -38,6 +38,7 @@ bintray {
 
     pkg {
         repo = 'maven'
+<<<<<<< HEAD
         name = 'kuzzle-sdk-java-' + System.getenv('ARCH')
         userOrg = 'kuzzle'
         licenses = ['Apache-2.0']
@@ -45,6 +46,15 @@ bintray {
         vcsUrl = 'https://github.com/kuzzleio/sdk-java.git'
         websiteUrl = 'https://kuzzle.io'
         issueTrackerUrl = 'https://github.com/kuzzleio/sdk-java/issues'
+=======
+        name = 'kuzzle-sdk-' + System.getenv('ARCH')
+        userOrg = 'kuzzle'
+        licenses = ['Apache-2.0']
+        desc = 'Kuzzle JAVA SDK'
+        vcsUrl = 'https://github.com/kuzzleio/sdk-go.git'
+        websiteUrl = 'https://kuzzle.io'
+        issueTrackerUrl = 'https://github.com/kuzzleio/sdk-go/issues'
+>>>>>>> 68d59a330d0932e2d68e2d4082d0033f783a0d5d
         publicDownloadNumbers = true
         publish = true
     }
@@ -67,7 +77,11 @@ def pomConfig = {
     }
     
     scm {
+<<<<<<< HEAD
        url "https://github.com/kuzzleio/sdk-java"
+=======
+       url "https://github.com/kuzzleio/sdk-go"
+>>>>>>> 68d59a330d0932e2d68e2d4082d0033f783a0d5d
     }
 }
 
@@ -78,13 +92,22 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             groupId 'io.kuzzle'
+<<<<<<< HEAD
             artifactId 'kuzzle-sdk-java-' + System.getenv('ARCH')
+=======
+            artifactId 'kuzzle-sdk-' + System.getenv('ARCH')
+>>>>>>> 68d59a330d0932e2d68e2d4082d0033f783a0d5d
             version version
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Kuzzle JAVA SDK')
+<<<<<<< HEAD
                 root.appendNode('name', 'kuzzle-sdk-java-' + System.getenv('ARCH'))
                 root.appendNode('url', 'https://github.com/kuzzleio/sdk-java')
+=======
+                root.appendNode('name', 'kuzzle-sdk')
+                root.appendNode('url', 'https://github.com/kuzzleio/sdk-go')
+>>>>>>> 68d59a330d0932e2d68e2d4082d0033f783a0d5d
                 root.children().last() + pomConfig
             }
         }
