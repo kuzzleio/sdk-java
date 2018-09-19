@@ -23,13 +23,13 @@ deploy:
 
 matrix:
   include:
-      - env:
+    - env:
         - ARCH="x86"
       script:
         - ".ci/start_kuzzle.sh"
         - docker run --rm -it --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
 
-      - env:
+    - env:
         - ARCH="amd64"
       script:
         - ".ci/start_kuzzle.sh"
