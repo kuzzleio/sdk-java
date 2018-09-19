@@ -1,13 +1,27 @@
 language: java
-os: linux
-sudo: required
+
+env:
+  global:
+    # BINTRAY_USER
+    - secure: "LxONQZ8tHhxTqgu+kqx9fMCubCfTQHZsy/3ibE+l72xG8sOAYfj4hB5k1p4kklnv3skeFQEiL6B++B2qRITOEAPRdD8FExkc+UF/TM1rY5aUtjIjoA3uH4n9hYjHirTO5qNKf4KxDr1Zbcn4ISGebJ0EYwE0SG/ptrd06wPp1G8AHshc8XaZgen6gDaik66OWpQkOkmGsRz2EPmIBVgo7L2LGK21DSxE4/PTo+ou0WYCyxyyWSKLTLt1xZpt9LOtk7IckrHl+Nenl6IbV/CjHb3+5vwdifyFQd+K6AVe32iTIVjdxj7rDhEHYD0EqKb79ey+u8p9HquLnGH03gcVBeFQu/qhhQStsiwrD/S9c8jwBjWOOUnVI4bEbqjqxFaRlPfVnRaAjQZLRKHdqxyTJCdC2Ls79LmkqSCyTxM7WBwwgu4Slf6RJSbKJb5naHYlwDuKPbeyHLAYrxgjEHC28bxQiTr5wwBWxE9BLxUcnkFAXzsy3qE74FQOIjvQbtrruLIOGwRGRYtzyfygGA3MfTHug6JwZGngqFf3k+kbznE8fZe7zxMwT63P6/54rR5fU/plLoTNFqdQsZGAfGOSYuHIEzWXOkWxffqsOwxPa1VxQTLD32O95oBcrcvmw4toC2NeFTe/+zZRMfGMbu7QIi0AL3qFpky3j12zcyA/M2I="
+    # BINTRAY_KEY
+    - secure: "Iqn4ImAwFmQeoXXDb5JOsfcunSiSeLvdp4+AEsIeniMhpIk++ZJPDSxecC+NrvndTrxOXVqHEsFUfHnZYvPHMuvg9nhXvz/rmmyYH0hZqkKg2q2qM+Sz2UJBCvs6D1sJv3ZEVi8d6fVx5bbKXMzSE023XFBBK7l8nBsG5ObXBOzTzrus9UP+fk4FXif/QKJNcUSN7rLejUIxMCk36gMQYqYGiiqL3VE60aTpaUh7Vqj/8nCEPcO3K3gXTVybcGBcmsvinV5YEc+5s5ue8eX10ONY0oYF5GFd7aEsrKEFzT2d7MVq0a29cH1rWrxt6q7vXGZNKAdAQrDyRZUz9rMFtqH+2xOgagm22UiUYNlzrn2eDYRBd08X0y043gumdgmOq/CsyaI5bcUSKMr+rsZ2XIzBjefl8MU0xBhtKMO9g9WRfGBxjRbdg0ivRQoVGJbcUXTDl2WrLMgMjt8DT4nQP+PHdIV2FjZVNioqucqmEzfHIJt+hiw7EonGDnZ9uqkW6hm6b4JpGr5QF1yY6kKVCUQxLueUBAVdiZpULdevL7uYEUzdWIES2wTFE7LaWpHqnCOHYVpkIQpdole6+R0OhINhSHK0FW858xhZ2QGjtL1SSh5yzK4th6dpGKCiwMUSGSj5frpIeWPi+GqYoUQz+TvMGLGG2XGfihx74kQE0FA="
 services:
   - docker
-jdk:
-  - openjdk8
 before_install:
   - sudo sysctl -w vm.max_map_count=262144
-
 script:
-  - .ci/start_kuzzle.sh
+  - ".ci/start_kuzzle.sh"
   - docker run --rm -it --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && cd features/java && gradle cucumber"
+deploy:
+  on:
+    all_branches: true
+  provider: script
+  script: cd build/java && gradle bintrayUpload
+  skip_cleanup: true
+
+matrix:
+  include:
+    - os: linux
+      env:
+        - ARCH="x86"
