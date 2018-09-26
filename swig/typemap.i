@@ -46,3 +46,46 @@
   }
 }
 %apply std::string * { std::string* };
+
+
+// const char** to String[]
+
+%newobject kuzzle_request;
+%typemap(jni) const char** "jobjectArray";
+%typemap(jtype) const char** "String[]";
+%typemap(jstype) const char** "String[]";
+
+%typemap(in) const char** %{
+  jobject fu = (jobject) jenv->GetObjectArrayElement($input, 0);
+
+  size_t size = jenv->GetArrayLength($input);
+  int i = 0;
+  char **res = (char**)malloc(sizeof(*res) * size + 1);
+  while(i < size) {
+    jobject fu = (jobject) jenv->GetObjectArrayElement($input, i);
+    res[i] = (char *)jenv->GetStringUTFChars(static_cast<jstring>(fu), 0);
+    i++;
+  }
+  res[i] = NULL;
+  $1 = res;
+%}
+
+%typemap(out) const char** {
+  size_t count = 0;
+  const char **pos = const_cast<const char**>($1);
+  while(pos[++count]);
+
+  $result = JCALL3(NewObjectArray, jenv, count, JCALL1(FindClass, jenv, "java/lang/String"), NULL);
+  size_t idx = 0;
+  while (*pos) {
+    jobject str = JCALL1(NewStringUTF, jenv, *pos);
+    assert(idx < count);
+    JCALL3(SetObjectArrayElement, jenv, $result, idx++, str);
+    *pos++;
+  }
+}
+
+%typemap(javain) const char** "$javainput"
+%typemap(javaout) const char** {
+  return $jnicall;
+}
