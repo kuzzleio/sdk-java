@@ -50,7 +50,6 @@
 
 // const char** to String[]
 
-%newobject kuzzle_request;
 %typemap(jni) const char** "jobjectArray";
 %typemap(jtype) const char** "String[]";
 %typemap(jstype) const char** "String[]";
