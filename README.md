@@ -15,11 +15,11 @@ The complete SDK documentation is available [here](http://docs.kuzzle.io/sdk-ref
 
 ## Protocol used
 
-The JAVA SDK implement the websocket protocol.
+The JAVA SDK implements the websocket protocol.
 
 ## Build
 
-### Clone the depot
+Execute the following snippet to clone the GIT repository, and build the SDK. It will then be available in the "build/" directory
 
 ```sh
 git clone --recursive git@github.com:kuzzleio/sdk-java.git
@@ -28,13 +28,13 @@ git submodule update --init --recursive
 make
 ```
 
-You should know have the SDK in the `build/java/build/libs` directory.
-
 ## Installation
 
 ### Bintray repository
 
-You can find the sdk's for x86 and amd64 on bintray at https://bintray.com/kuzzle/maven
+The SDK is available for both x86 and amd64 architectures on bintray:
+
+https://bintray.com/kuzzle/maven
 
 ### Maven
 
