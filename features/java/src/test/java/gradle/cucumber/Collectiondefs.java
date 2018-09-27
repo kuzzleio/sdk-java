@@ -10,6 +10,7 @@ import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.NotFoundException;
 import io.kuzzle.sdk.QueryOptions;
 import io.kuzzle.sdk.SearchResult;
+import io.kuzzle.sdk.ValidationResponse;
 import org.junit.Assert;
 
 import javax.management.remote.NotificationResult;
@@ -19,7 +20,7 @@ public class Collectiondefs {
     private World world;
     private boolean exists = false;
     String listCollections;
-    private boolean validateSpecs = false;
+    private ValidationResponse validationResponse;
 
     @Before
     public void before() {
@@ -116,12 +117,12 @@ public class Collectiondefs {
 
     @When("^I validate the specifications of \'([^\"]*)\'$")
     public void i_validate_the_specifications(String collection) throws Exception {
-        this.validateSpecs = k.getCollection().validateSpecifications("{\""+world.index+"\":{\""+collection+"\":{\"strict\":true}}}");
+        this.validationResponse = k.getCollection().validateSpecifications("{\""+world.index+"\":{\""+collection+"\":{\"strict\":true}}}");
     }
 
     @Then("^they should be validated$")
     public void they_should_be_validated() throws Exception {
-        Assert.assertTrue(this.validateSpecs);
+        Assert.assertTrue(this.validationResponse.getValid());
     }
 
     @Given("^has specifications$")
