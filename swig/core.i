@@ -20,7 +20,6 @@ typedef long long time_t;
     try {
       System.loadLibrary("kuzzle-wrapper-java");
     } catch (UnsatisfiedLinkError e) {
-      e.printStackTrace();
       try {
         java.io.InputStream inputStream = kuzzlesdk.class.getResourceAsStream("/libkuzzle-wrapper-java.so");
         java.nio.file.Path path = java.nio.file.FileSystems.getDefault().getPath("").toAbsolutePath();
