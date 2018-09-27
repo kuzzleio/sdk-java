@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kuzzleio/sdk-java.svg?branch=master)](https://travis-ci.org/kuzzleio/sdk-java) [![codecov.io](http://codecov.io/github/kuzzleio/sdk-java/coverage.svg?branch=master)](http://codecov.io/github/kuzzleio/sdk-java?branch=master)
+[![Build Status](https://travis-ci.org/kuzzleio/sdk-java.svg?branch=master)](https://travis-ci.org/kuzzleio/sdk-java)
 
 Official Kuzzle JAVA SDK
 ======
