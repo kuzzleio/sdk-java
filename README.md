@@ -36,7 +36,7 @@ You should know have the SDK in the `build/java/build/libs` directory.
 
 You can find the sdk's for x86 and amd64 on bintray at https://bintray.com/kuzzle/maven
 
-### Maven
+### Maven
 
 For x86:
 
