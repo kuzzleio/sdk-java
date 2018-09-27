@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'io.kuzzle'
-version = '1.0.0'
+version = '1.0.0-' + System.getenv('ARCH')
 
 allprojects {
 	repositories {
@@ -65,7 +65,7 @@ def pomConfig = {
             email "support@kuzzle.io"
         }
     }
-    
+
     scm {
        url "https://github.com/kuzzleio/sdk-java"
     }
