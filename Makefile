@@ -75,6 +75,7 @@ java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
 	cd build/java && ln -sfr io/kuzzle/sdk/* src/main/java/ && cd -
 	cd build/java && gradle sourcesJar jar javadocJar
 	cp -p sdk-cpp/sdk-c/build/$(LIB_PREFIX)kuzzlesdk$(STATICLIB) $(OUTDIR)
+	mv build/java/build/libs/* build/
 
 clean:
 	cd sdk-cpp && $(MAKE) clean
