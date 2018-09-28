@@ -107,6 +107,7 @@
 
 %ignore *::error;
 %ignore *::stack;
+%ignore *::status;
 
 
 %include "std_string.i"
