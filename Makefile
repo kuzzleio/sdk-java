@@ -77,9 +77,19 @@ java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
 	cp -p sdk-cpp/sdk-c/build/$(LIB_PREFIX)kuzzlesdk$(STATICLIB) $(OUTDIR)
 	mv build/java/build/libs/* build/
 
+test: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
+	cd $(ROOT_DIR)$(PATHSEP)features$(PATHSEP)java && gradle cucumber
+
+package: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
+	mkdir $(ROOT_DIR)$(PATHSEP)deploy
+	cp -fr $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar $(ROOT_DIR)$(PATHSEP)deploy
+
 clean:
 	cd sdk-cpp && $(MAKE) clean
 	rm -rf build/java/io build/io build/java/src kcore_wrap.cxx  kcore_wrap.h  kcore_wrap.o
+	rm -rf features/java/.gradle/ features/java/build/
+	rm -rf build/java/.gradle/ build/java/build/
+	rm -rf build/*.jar deploy
 
 
 
