@@ -82,7 +82,7 @@ test: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
 
 package: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
 	mkdir $(ROOT_DIR)$(PATHSEP)deploy
-	cp -fr $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar $(ROOT_DIR)$(PATHSEP)deploy
+	cp -fr $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)kuzzlesdk-$(VERSION)-$(ARCH).jar $(ROOT_DIR)$(PATHSEP)deploy$(PATHSEP)kuzzlesdk-$(ARCH).jar
 
 clean:
 	cd sdk-cpp && $(MAKE) clean
