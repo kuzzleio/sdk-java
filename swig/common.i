@@ -53,6 +53,7 @@
 %rename(NotificationResult) notification_result;
 %rename(NotificationContent) notification_content;
 %rename(SubscribeToSelf) subscribe_to_self;
+%rename(ValidationResponse) validation_response;
 
 // struct options
 %rename(queueMaxSize) queue_max_size;
@@ -106,6 +107,7 @@
 
 %ignore *::error;
 %ignore *::stack;
+%ignore *::status;
 
 
 %include "std_string.i"

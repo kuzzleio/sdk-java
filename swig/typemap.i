@@ -50,11 +50,11 @@
 
 // const char** to String[]
 
-%typemap(jni) const char** "jobjectArray";
-%typemap(jtype) const char** "String[]";
-%typemap(jstype) const char** "String[]";
+%typemap(jni) const char**, const char * const * "jobjectArray";
+%typemap(jtype) const char**, const char * const * "String[]";
+%typemap(jstype) const char**, const char * const * "String[]";
 
-%typemap(in) const char** %{
+%typemap(in) const char**, const char * const * %{
   jobject fu = (jobject) jenv->GetObjectArrayElement($input, 0);
 
   size_t size = jenv->GetArrayLength($input);
@@ -69,7 +69,7 @@
   $1 = res;
 %}
 
-%typemap(out) const char** {
+%typemap(out) const char**, const char * const *  {
   size_t count = 0;
   const char **pos = const_cast<const char**>($1);
   while(pos[++count]);
@@ -84,7 +84,7 @@
   }
 }
 
-%typemap(javain) const char** "$javainput"
-%typemap(javaout) const char** {
+%typemap(javain) const char**, const char * const * "$javainput"
+%typemap(javaout) const char**, const char * const * {
   return $jnicall;
 }
