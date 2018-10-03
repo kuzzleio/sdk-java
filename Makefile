@@ -38,6 +38,7 @@ LDFLAGS = -lkuzzlesdk
 
 SRCS = kcore_wrap.cxx
 OBJS = $(SRCS:.cxx=.o)
+STRIP ?= strip
 
 all: java
 
@@ -59,14 +60,14 @@ swig:
 
 make_lib:
 	$(CXX) -shared kcore_wrap.o -o $(OUTDIR)/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB) $(CXXFLAGS) $(LDFLAGS) $(JAVAINCLUDE)
-	strip $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
+	$(STRIP) $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
 
 remove_so:
 	rm -rf .$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)*.so*
 
 java: OUTDIR=$(ROOTOUTDIR)/java/io/kuzzle/sdk
-java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
-	$(JAVA_HOME)/bin/javac $(OUTDIR)/*.java
+java: remove_so makedir make_c_sdk swig $(OBJS) make_lib
+	javac $(OUTDIR)/*.java
 	mkdir -p $(ROOTOUTDIR)/io/kuzzle/sdk/resources
 	cp build/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java.so build/io/kuzzle/sdk/resources
 	mkdir -p $(ROOTOUTDIR)/java/src/main/resources
