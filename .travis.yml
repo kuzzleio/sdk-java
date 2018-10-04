@@ -8,6 +8,7 @@ services:
 env:
   global:
     - AWS_S3_BUCKET=dl.kuzzle.io
+    - TRAVIS_S3_BUCKET=travis-cache.kuzzle.io
     - AWS_CLOUDFRONT_DISTRIBUTION_ID=E12YL8EZVABYR0
     # BINTRAY_USER
     - secure: "LxONQZ8tHhxTqgu+kqx9fMCubCfTQHZsy/3ibE+l72xG8sOAYfj4hB5k1p4kklnv3skeFQEiL6B++B2qRITOEAPRdD8FExkc+UF/TM1rY5aUtjIjoA3uH4n9hYjHirTO5qNKf4KxDr1Zbcn4ISGebJ0EYwE0SG/ptrd06wPp1G8AHshc8XaZgen6gDaik66OWpQkOkmGsRz2EPmIBVgo7L2LGK21DSxE4/PTo+ou0WYCyxyyWSKLTLt1xZpt9LOtk7IckrHl+Nenl6IbV/CjHb3+5vwdifyFQd+K6AVe32iTIVjdxj7rDhEHYD0EqKb79ey+u8p9HquLnGH03gcVBeFQu/qhhQStsiwrD/S9c8jwBjWOOUnVI4bEbqjqxFaRlPfVnRaAjQZLRKHdqxyTJCdC2Ls79LmkqSCyTxM7WBwwgu4Slf6RJSbKJb5naHYlwDuKPbeyHLAYrxgjEHC28bxQiTr5wwBWxE9BLxUcnkFAXzsy3qE74FQOIjvQbtrruLIOGwRGRYtzyfygGA3MfTHug6JwZGngqFf3k+kbznE8fZe7zxMwT63P6/54rR5fU/plLoTNFqdQsZGAfGOSYuHIEzWXOkWxffqsOwxPa1VxQTLD32O95oBcrcvmw4toC2NeFTe/+zZRMfGMbu7QIi0AL3qFpky3j12zcyA/M2I="
@@ -31,51 +32,44 @@ addons:
 install:
   - pip install awscli --upgrade --user
 
-before_deploy:
-  - make package
+stages:
+  - name: Build & Tests
+  - name: deploy
+    if: type != pull_request
 
-deploy:
-  provider: script
-  script: cd build/java && sudo gradle bintrayUpload
-  skip_cleanup: true
-  on:
-    condition: "$JDK = openjdk8"
-
-  provider: s3
-  access_key_id: $AWS_ACCESS_KEY_ID
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
-  bucket: $AWS_S3_BUCKET
-  region: us-west-2
-  skip_cleanup: true
-  upload-dir: sdk/java/$TRAVIS_BRANCH
-  local-dir: deploy
-  on:
-    condition: "$JDK = openjdk8"
-
-after_deploy:
-  - aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
-
-matrix:
+jobs:
   include:
 # ---------------------------------------------
 # OpenJDK 8: Build, test and deploy (only on master)
 # ---------------------------------------------
 # AMD64
 # ---------------------------------------------
-    - env:
+    - stage: Build & Tests
+      name: "Build & Tests with OpenJDK 8 - AMD64"
+
+      env:
         - ARCH="amd64"
         - JDK="openjdk8"
       script:
         - docker run --rm -it -e ARCH="amd64" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8 bash -c "make clean all && make test"
 
+      after_success:
+        - aws s3 sync build/ s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --exclude "*" --include "*.jar" # clean up after ourselves
+
 # ---------------------------------------------
 # I386
 # ---------------------------------------------
-    - env:
+    - stage: Build & Tests
+      name: "Build & Tests with OpenJDK 8 - i386"
+
+      env:
         - ARCH="x86"
         - JDK="openjdk8"
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && make test"
+
+      after_success:
+        - aws s3 sync build/ s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --exclude "*" --include "*.jar" # clean up after ourselves
 
 # ---------------------------------------------
 # OpenJDK 9: Build & test
@@ -83,7 +77,10 @@ matrix:
 # ---------------------------------------------
 # AMD64
 # ---------------------------------------------
-    - env:
+    - stage: Build & Tests
+      name: "Build & Tests with OpenJDK 9 - AMD64"
+
+      env:
         - ARCH="amd64"
         - JDK="openjdk9"
       script:
@@ -92,7 +89,10 @@ matrix:
 # ---------------------------------------------
 # I386
 # ---------------------------------------------
-    - env:
+    - stage: Build & Tests
+      name: "Build & Tests with OpenJDK 9 - i386"
+
+      env:
         - ARCH="x86"
         - JDK="openjdk9"
       script:
@@ -103,7 +103,10 @@ matrix:
 # ---------------------------------------------
 # AMD64
 # ---------------------------------------------
-    - env:
+    - stage: Build & Tests
+      name: "Build & Tests with Oracle JDK 8 - AMD64"
+
+      env:
         - ARCH="amd64"
         - JDK="oracle8"
       script:
@@ -112,9 +115,63 @@ matrix:
 # ---------------------------------------------
 # I386
 # ---------------------------------------------
-    - env:
+    - stage: Build & Tests
+      name: "Build & Tests with Oracle JDK 8 - i386"
+
+      env:
         - ARCH="x86"
         - JDK="oracle8"
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:oracle8-i386 bash -c "make clean all && make test"
+
+# ---------------------------------------------
+# Deploy on S3
+# ---------------------------------------------
+    - stage: deploy
+      name: "Deploy on S3"
+
+      if: branch = master OR branch =~ ^.?-dev$
+
+      script:
+        - mkdir -p ./deploy
+        - aws s3 sync s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER ./deploy
+
+      deploy:
+        provider: s3
+        access_key_id: $AWS_ACCESS_KEY_ID
+        secret_access_key: $AWS_SECRET_ACCESS_KEY
+        bucket: $AWS_S3_BUCKET
+        region: us-west-2
+        skip_cleanup: true
+        upload-dir: sdk/java/$TRAVIS_BRANCH
+        local-dir: deploy
+        on:
+          branch:
+            - master
+            - ^.?-dev$
+
+      after_deploy:
+        - aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+
+
+
+# ---------------------------------------------
+# Deploy on Bintray
+# ---------------------------------------------
+    - stage: deploy
+      name: "Deploy on Bintray"
+
+      if: branch = master
+
+      script:
+        - mkdir -p ./build/java/build/libs
+        - aws s3 sync s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER ./deploy
+        - cp ./build/java/build/libs/* ./build
+
+      deploy:
+        provider: script
+        script: cd build/java && sudo gradle bintrayUpload
+        skip_cleanup: true
+        on:
+          branch: master
 

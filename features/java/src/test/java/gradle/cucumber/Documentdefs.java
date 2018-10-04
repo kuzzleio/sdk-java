@@ -247,7 +247,7 @@ public class Documentdefs {
         QueryOptions o = new QueryOptions();
         o.setRefresh("wait_for");
 
-        String docs = "{\"documents\":[{\"_id\":\""+doc1+"\", \"body\":{}}, {\"_id\":\""+doc2+"\", \"body\":{}}]}";
+        String docs = "[{\"_id\":\""+doc1+"\", \"body\":{}}, {\"_id\":\""+doc2+"\", \"body\":{}}]";
         try {
             k.getDocument().mCreate(world.index, world.collection, docs, o);
             this.partialException = false;
@@ -266,7 +266,7 @@ public class Documentdefs {
         QueryOptions o = new QueryOptions();
         o.setRefresh("wait_for");
 
-        String docs = "{\"documents\":[{\"_id\":\""+doc1+"\", \"body\":{\"foo\":\"barz\"}}, {\"_id\":\""+doc2+"\", \"body\":{\"foo\":\"barz\"}}]}";
+        String docs = "[{\"_id\":\""+doc1+"\", \"body\":{\"foo\":\"barz\"}}, {\"_id\":\""+doc2+"\", \"body\":{\"foo\":\"barz\"}}]";
         try {
             k.getDocument().mReplace(world.index, world.collection, docs, o);
             this.partialException = false;
@@ -290,7 +290,7 @@ public class Documentdefs {
         QueryOptions o = new QueryOptions();
         o.setRefresh("wait_for");
 
-        String docs = "{\"documents\":[{\"_id\":\""+doc1+"\", \"body\":{\"foo\":\"barz\"}}, {\"_id\":\""+doc2+"\", \"body\":{\"foo\":\"barz\"}}]}";
+        String docs = "[{\"_id\":\""+doc1+"\", \"body\":{\"foo\":\"barz\"}}, {\"_id\":\""+doc2+"\", \"body\":{\"foo\":\"barz\"}}]";
         try {
             k.getDocument().mUpdate(world.index, world.collection, docs, o);
             this.partialException = false;
@@ -317,7 +317,7 @@ public class Documentdefs {
         QueryOptions o = new QueryOptions();
         o.setRefresh("wait_for");
 
-        String docs = "{\"documents\":[{\"_id\":\""+doc1+"\", \"body\":{\"foo\":\"barz\"}}, {\"_id\":\""+doc2+"\", \"body\":{\"foo\":\"barz\"}}]}";
+        String docs = "[{\"_id\":\""+doc1+"\", \"body\":{\"foo\":\"barz\"}}, {\"_id\":\""+doc2+"\", \"body\":{\"foo\":\"barz\"}}]";
         try {
             k.getDocument().mCreateOrReplace(world.index, world.collection, docs, o);
             this.partialException = false;
@@ -367,7 +367,7 @@ public class Documentdefs {
             StringVector v = new StringVector();
             v.add(id1);
             v.add(id2);
-            jsonDocuments = k.getDocument().mGet(world.index, world.collection, v, false);
+            jsonDocuments = k.getDocument().mGet(world.index, world.collection, v);
         } catch (KuzzleException e) {
             this.errorMessage = e.getMessage();
         }
