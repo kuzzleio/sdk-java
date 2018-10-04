@@ -54,6 +54,7 @@
 %rename(NotificationContent) notification_content;
 %rename(SubscribeToSelf) subscribe_to_self;
 %rename(ValidationResponse) validation_response;
+%rename(UserRight) user_right;
 
 // struct options
 %rename(queueMaxSize) queue_max_size;
