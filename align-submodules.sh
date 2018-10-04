@@ -6,12 +6,10 @@ BLUE='\033[0;34m'
 LBLUE='\033[1;34m'
 NC='\033[0m'
 
-function help() {
-  echo "Align all submodule to the same branch as the current repository."
-  echo "You can specify an other branch by passing it as an argument:"
-  echo "  ./align-submodules.sh 1-dev"
-  echo ""
-}
+echo "Align all submodule to the same branch as the current repository."
+echo "You can specify an other branch by passing it as an argument:"
+echo "  ./align-submodules.sh 1-dev"
+echo ""
 
 if [ -z "$1" ]; then
   git_branch=$(git branch | grep \* | cut -d ' ' -f2)
@@ -35,5 +33,3 @@ do
 done
 
 cd $pwd
-
-trap help EXIT
