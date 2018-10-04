@@ -117,7 +117,7 @@ public class Collectiondefs {
 
     @When("^I validate the specifications of \'([^\"]*)\'$")
     public void i_validate_the_specifications(String collection) throws Exception {
-        this.validationResponse = k.getCollection().validateSpecifications("{\""+world.index+"\":{\""+collection+"\":{\"strict\":true}}}");
+        this.validationResponse = k.getCollection().validateSpecifications(world.index, world.collection, "{\""+world.index+"\":{\""+collection+"\":{\"strict\":true}}}");
     }
 
     @Then("^they should be validated$")
