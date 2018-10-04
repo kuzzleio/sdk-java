@@ -2,10 +2,6 @@
 
 Here are a few rules and guidelines to follow if you want to contribute to the Java SDK and, more importantly, if you want to see your pull requests accepted by Kuzzle team.
 
-## Coding style
-
-Since there is not Java code on this repository, there is no coding style to follow.
-
 ## Tools
 
 We use git submodules to link the sdk-go, sdk-c and sdk-cpp.  
