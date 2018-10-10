@@ -1,5 +1,5 @@
 os: linux
-language: java
+language: minimal
 sudo: required
 
 services:
@@ -136,6 +136,14 @@ jobs:
         - mkdir -p ./deploy
         - aws s3 sync s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER ./deploy
 
+      before_deploy:
+        - |
+          if [[ $TRAVIS_BRANCH =~ ^.?-dev$ ]]; then
+            sudo mv ./deploy/kuzzlesdk-*-$ARCH-javadoc.jar ./deploy/kuzzlesdk-$ARCH-experimental-javadoc.jar;
+            sudo mv ./deploy/kuzzlesdk-*-$ARCH-sources.jar ./deploy/kuzzlesdk-$ARCH-experimental-sources.jar;
+            sudo mv ./deploy/kuzzlesdk-*-$ARCH.jar ./deploy/kuzzlesdk-$ARCH-experimental.jar;
+          fi;
+
       deploy:
         provider: s3
         access_key_id: $AWS_ACCESS_KEY_ID
@@ -168,7 +176,8 @@ jobs:
 
       deploy:
         provider: script
-        script: cd build/java && sudo gradle bintrayUpload
+        script:
+          - docker run --rm -it -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8 bash -c "cd build/java && gradle bintrayUpload"
         skip_cleanup: true
         on:
           branch: master

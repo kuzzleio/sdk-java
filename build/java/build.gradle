@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'io.kuzzle'
-version = '1.0.0-' + System.getenv('ARCH')
+version = System.getenv('VERSION') + '-' + System.getenv('ARCH')
 
 allprojects {
 	repositories {
