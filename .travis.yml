@@ -141,12 +141,12 @@ jobs:
       before_deploy:
         - |
           if [[ $TRAVIS_BRANCH =~ ^.?-dev$ ]]; then
-            sudo mv ./deploy/kuzzlesdk-*-amd64-javadoc.jar ./deploy/kuzzlesdk-experimental-amd64-javadoc.jar;
-            sudo mv ./deploy/kuzzlesdk-*-amd64-sources.jar ./deploy/kuzzlesdk-experimental-amd64-sources.jar;
-            sudo mv ./deploy/kuzzlesdk-*-amd64.jar ./deploy/kuzzlesdk-experimental-amd64.jar;
-            sudo mv ./deploy/kuzzlesdk-*-x86-javadoc.jar ./deploy/kuzzlesdk-experimental-x86-javadoc.jar;
-            sudo mv ./deploy/kuzzlesdk-*-x86-sources.jar ./deploy/kuzzlesdk-experimental-x86-sources.jar;
-            sudo mv ./deploy/kuzzlesdk-*-x86.jar ./deploy/kuzzlesdk-experimental-x86.jar;
+            sudo mv ./deploy/kuzzlesdk-*-amd64-javadoc.jar ./deploy/kuzzlesdk-java-experimental-amd64-javadoc.jar;
+            sudo mv ./deploy/kuzzlesdk-*-amd64-sources.jar ./deploy/kuzzlesdk-java-experimental-amd64-sources.jar;
+            sudo mv ./deploy/kuzzlesdk-*-amd64.jar ./deploy/kuzzlesdk-java-experimental-amd64.jar;
+            sudo mv ./deploy/kuzzlesdk-*-x86-javadoc.jar ./deploy/kuzzlesdk-java-experimental-x86-javadoc.jar;
+            sudo mv ./deploy/kuzzlesdk-*-x86-sources.jar ./deploy/kuzzlesdk-java-experimental-x86-sources.jar;
+            sudo mv ./deploy/kuzzlesdk-*-x86.jar ./deploy/kuzzlesdk-java-experimental-x86.jar;
           fi;
 
       deploy:

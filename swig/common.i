@@ -107,7 +107,9 @@
 
 %ignore *::error;
 %ignore *::stack;
-%ignore *::status;
+%ignore *_result::status;
+%ignore *_response::status;
+%ignore token_validity::status;
 
 
 %include "std_string.i"
