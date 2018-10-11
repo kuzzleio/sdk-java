@@ -139,9 +139,9 @@ jobs:
       before_deploy:
         - |
           if [[ $TRAVIS_BRANCH =~ ^.?-dev$ ]]; then
-            sudo mv ./deploy/kuzzlesdk-*-$ARCH-javadoc.jar ./deploy/kuzzlesdk-$ARCH-experimental-javadoc.jar;
-            sudo mv ./deploy/kuzzlesdk-*-$ARCH-sources.jar ./deploy/kuzzlesdk-$ARCH-experimental-sources.jar;
-            sudo mv ./deploy/kuzzlesdk-*-$ARCH.jar ./deploy/kuzzlesdk-$ARCH-experimental.jar;
+            sudo mv ./deploy/kuzzlesdk-*-$ARCH-javadoc.jar ./deploy/kuzzlesdk-experimental-$ARCH-javadoc.jar;
+            sudo mv ./deploy/kuzzlesdk-*-$ARCH-sources.jar ./deploy/kuzzlesdk-experimental-$ARCH-sources.jar;
+            sudo mv ./deploy/kuzzlesdk-*-$ARCH.jar ./deploy/kuzzlesdk-experimental-$ARCH.jar;
           fi;
 
       deploy:
