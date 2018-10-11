@@ -1,5 +1,5 @@
 os: linux
-language: java
+language: minimal
 sudo: required
 
 services:
@@ -18,10 +18,6 @@ env:
     - secure: "L0K61HJ7LxUGy+gQxk2L5gokxfpP/V79WkG/wTMum+P/j4pdODTGVJHEoAdTecxC/F2zqZ3NZikIexz1LE/URojvn9oy3JGs7epnR9iZ4VZ9YE8w54p+T8YgdA26owqNUKZdQA+95G3HLWmiE0JOLPpjeRLpIMbkz1eJvQqexlh6sXeO4suC09+fjBkQsuszBrhsDKCd1rqRdojwlfPJV9O/T3zUWj5JgPwsMDisfutN++0jLmIXc6oOVQIt95nSR5BZ5w7G14FAV4vvFRB7yKQT8ZSfHMikZ301+melrwGW7T8YEy2TwjdhICe4xHyaNGj7Vy+c6+lXwgGnl3P4CuF9zBEGdNd+m5+Vd8GXYAa3gvPe/7aHDkJ6SL+ZfMqDBhHfq0IiRrO8ztmkiJY3BqaGY/a7Hs/CvqtorGI375yeuO9H8OyR2a7QNrrV25xmyAkHLn0zXtIbMVkkLQQc+Osm9uV/UBs5u4YRTl5hMxNi7zA8zgLUq4qQC4inH7Cr3ymN1MxsJX/wp0xdgNP2Qdk2IG73PhIE+EJaTW6NxAEpChlmLjFNZST/GWHWvXFzyekfx1ONGfOzZK0MLibvKoW3QXWEiSvn3dDDauN3Ql0FP4IFAdUIW5KPUpSbFaEuJBuIYnjdB3psxuZkAAKrpr3KyrKoe4A63PhyYbfTJEQ="
     # AWS_SECRET_ACCESS_KEY
     - secure: "gYcMV5o/iI3PZ09RLop9FBS91z+Iy3hdgT930ZTWuYz8QKt8vV5eKW1PSRRvVRmHkiBGdrKYmXfiJGa+2MGMp9v4sHhWkPTSyg5279f+/piT4ccoXT/PyabYB8sHQ4SRQThUKDaVOMy3oPUB43IaebEzPL2GMgbSMfOLj6v5MuhkMBslVg1/pVUXxiZbH1bIB4S8ZtaM7iWY0Ornm9kAb4OwhqifkVGh99p76+MwKT139LFrsXzM5AoZSLucRlVwnSlckpZy+jXVD1HRr6LCyneiWqSpdmSUXmLDP0XcBtfd7aoabawlaB3AUJRpgoAZUy4aVd9FPwnpYglvpnKPK37hx0oy43bS6y4k7NI/tdhYfyN0L4yGC4EYiOTkMhK9ja083J1z17P7zNr0jxTUIzpvptROc5oUVfznJt+VpzCdMagodzNqmgeg6rytjkVRscc2OJH78nVSAIRMteN7E9V6bTVsKpe7BR4eFPnU/4n76lZ/IzPZXAfIzK7vu5dVC8A1WvhpBAApUB7JJay+keBGRqMDd4Fn5o0BSUQoqPuyw6G/cIvJqzX2iZC98KUjVTW/5WI0YrLxYnFNuUKYF+npoSq/KHbTPJQj4SRYFmi1rCfA39PYBeVqksTNL4ouTfgAxwiB3z4RCaYi++oRnjqRReY1u433xzotGDJ6RUE="
-
-before_install:
-  - sudo sysctl -w vm.max_map_count=262144
-  - ./.ci/start_kuzzle.sh
 
 addons:
   apt:
@@ -47,14 +43,15 @@ jobs:
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 8 - AMD64"
 
-      env:
-        - ARCH="amd64"
-        - JDK="openjdk8"
+      before_install:
+        - sudo sysctl -w vm.max_map_count=262144
+        - ./.ci/start_kuzzle.sh
+
       script:
         - docker run --rm -it -e ARCH="amd64" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8 bash -c "make clean all && make test"
 
       after_success:
-        - cd build && aws s3 cp ./ s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --exclude "*" --include "*.jar"
+        - cd build && aws s3 cp . s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --recursive --exclude "*" --include "*.jar" --exclude "*/*"
 
 # ---------------------------------------------
 # I386
@@ -62,14 +59,15 @@ jobs:
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 8 - i386"
 
-      env:
-        - ARCH="x86"
-        - JDK="openjdk8"
+      before_install:
+        - sudo sysctl -w vm.max_map_count=262144
+        - ./.ci/start_kuzzle.sh
+
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8-i386 bash -c "make clean all && make test"
 
       after_success:
-        - cd build && aws s3 cp ./ s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --exclude "*" --include "*.jar"
+        - cd build && aws s3 cp . s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --recursive --exclude "*" --include "*.jar" --exclude "*/*"
 
 # ---------------------------------------------
 # OpenJDK 9: Build & test
@@ -80,9 +78,10 @@ jobs:
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 9 - AMD64"
 
-      env:
-        - ARCH="amd64"
-        - JDK="openjdk9"
+      before_install:
+        - sudo sysctl -w vm.max_map_count=262144
+        - ./.ci/start_kuzzle.sh
+
       script:
         - docker run --rm -it -e ARCH="amd64" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk9 bash -c "make clean all && make test"
 
@@ -92,9 +91,10 @@ jobs:
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 9 - i386"
 
-      env:
-        - ARCH="x86"
-        - JDK="openjdk9"
+      before_install:
+        - sudo sysctl -w vm.max_map_count=262144
+        - ./.ci/start_kuzzle.sh
+
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk9-i386 bash -c "make clean all && make test"
 
@@ -106,9 +106,10 @@ jobs:
     - stage: Build & Tests
       name: "Build & Tests with Oracle JDK 8 - AMD64"
 
-      env:
-        - ARCH="amd64"
-        - JDK="oracle8"
+      before_install:
+        - sudo sysctl -w vm.max_map_count=262144
+        - ./.ci/start_kuzzle.sh
+
       script:
         - docker run --rm -it -e ARCH="amd64" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:oracle8 bash -c "make clean all && make test"
 
@@ -118,9 +119,10 @@ jobs:
     - stage: Build & Tests
       name: "Build & Tests with Oracle JDK 8 - i386"
 
-      env:
-        - ARCH="x86"
-        - JDK="oracle8"
+      before_install:
+        - sudo sysctl -w vm.max_map_count=262144
+        - ./.ci/start_kuzzle.sh
+
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:oracle8-i386 bash -c "make clean all && make test"
 
@@ -135,6 +137,17 @@ jobs:
       script:
         - mkdir -p ./deploy
         - aws s3 sync s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER ./deploy
+
+      before_deploy:
+        - |
+          if [[ $TRAVIS_BRANCH =~ ^.?-dev$ ]]; then
+            sudo mv ./deploy/kuzzlesdk-*-amd64-javadoc.jar ./deploy/kuzzlesdk-experimental-amd64-javadoc.jar;
+            sudo mv ./deploy/kuzzlesdk-*-amd64-sources.jar ./deploy/kuzzlesdk-experimental-amd64-sources.jar;
+            sudo mv ./deploy/kuzzlesdk-*-amd64.jar ./deploy/kuzzlesdk-experimental-amd64.jar;
+            sudo mv ./deploy/kuzzlesdk-*-x86-javadoc.jar ./deploy/kuzzlesdk-experimental-x86-javadoc.jar;
+            sudo mv ./deploy/kuzzlesdk-*-x86-sources.jar ./deploy/kuzzlesdk-experimental-x86-sources.jar;
+            sudo mv ./deploy/kuzzlesdk-*-x86.jar ./deploy/kuzzlesdk-experimental-x86.jar;
+          fi;
 
       deploy:
         provider: s3
@@ -163,12 +176,13 @@ jobs:
 
       script:
         - mkdir -p ./build/java/build/libs
-        - aws s3 sync s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER ./deploy
+        - aws s3 sync s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER ./build/java/build/libs
         - cp ./build/java/build/libs/* ./build
 
       deploy:
         provider: script
-        script: cd build/java && sudo gradle bintrayUpload
+        script:
+          - docker run --rm -it -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk8 bash -c "cd build/java && gradle bintrayUpload"
         skip_cleanup: true
         on:
           branch: master
