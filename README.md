@@ -17,7 +17,7 @@ The complete SDK documentation is available [here](http://docs.kuzzle.io/sdk-ref
 
 The JAVA SDK implements the websocket protocol.
 
-## Build
+### Build
 
 Execute the following snippet to clone the GIT repository, and build the SDK. It will then be available in the "build/" directory
 
