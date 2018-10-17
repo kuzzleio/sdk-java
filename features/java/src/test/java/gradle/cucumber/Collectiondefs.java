@@ -107,7 +107,7 @@ public class Collectiondefs {
 
     @When("^I update the specifications of the collection \'([^\"]*)\'$")
     public void i_update_the_specifications(String collection) throws Exception {
-        k.getCollection().updateSpecifications(world.index, world.collection, "{\"" + world.index + "\":{\""+ collection +"\":{\"strict\":true}}}");
+        k.getCollection().updateSpecifications(world.index, world.collection, "{\"strict\":true}");
     }
 
     @Then("^the specifications of \'([^\"]*)\' should be updated$")
@@ -117,7 +117,7 @@ public class Collectiondefs {
 
     @When("^I validate the specifications of \'([^\"]*)\'$")
     public void i_validate_the_specifications(String collection) throws Exception {
-        this.validationResponse = k.getCollection().validateSpecifications("{\""+world.index+"\":{\""+collection+"\":{\"strict\":true}}}");
+        this.validationResponse = k.getCollection().validateSpecifications(world.index, world.collection, "{\"strict\":true}");
     }
 
     @Then("^they should be validated$")
@@ -127,7 +127,7 @@ public class Collectiondefs {
 
     @Given("^has specifications$")
     public void has_specifications() throws Exception {
-        k.getCollection().updateSpecifications(world.index, world.collection, "{\""+world.index+"\":{\""+world.collection+"\":{\"strict\":true}}}");
+        k.getCollection().updateSpecifications(world.index, world.collection, "{\"strict\":true}");
     }
 
     @When("^I delete the specifications of \'([^\"]*)\'$")
