@@ -60,6 +60,12 @@ typedef long long time_t;
     }
 }
 
+%extend kuzzleio::kuzzle_response {
+    ~kuzzle_response() {
+        kuzzle_free_kuzzle_response($self);
+    }
+}
+
 %include "kuzzle.cpp"
 %include "collection.cpp"
 %include "document.cpp"
