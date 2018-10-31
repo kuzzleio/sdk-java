@@ -73,3 +73,4 @@ typedef long long time_t;
 %include "auth.cpp"
 %include "index.cpp"
 %include "server.cpp"
+%include "search_result.cpp"
