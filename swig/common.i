@@ -20,7 +20,7 @@
 %rename(DateResult) date_result;
 %rename(UserData) user_data;
 # %rename(User, match="class") user;
-%rename(RoomOptions) room_options;
+%rename(RoomOptions) s_room_options;
 %rename(SearchFilters) search_filters;
 # %rename(SearchResult) search_result;
 %rename(NotificationResult) notification_result;
