@@ -83,7 +83,7 @@ public class Collectiondefs {
     @Then("^the collection \'([^\"]*)\' should be empty$")
     public void it_should_be_empty(String collection) throws Exception {
         SearchResult res = k.getDocument().search(world.index, collection, "{}");
-        Assert.assertEquals("[]", res.getDocuments());
+        Assert.assertEquals("[]", res.getHits());
     }
 
     @When("^I update the mapping of collection \'([^\"]*)\'$")
