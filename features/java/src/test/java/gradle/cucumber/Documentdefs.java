@@ -189,14 +189,14 @@ public class Documentdefs {
     @Then("^the document is successfully found$")
     public void the_document_is_successfully_found() throws Exception {
         Assert.assertNotNull(this.documents);
-        Assert.assertNotNull(this.documents.getDocuments());
-        Assert.assertNotEquals("[]", this.documents.getDocuments());
+        Assert.assertNotNull(this.documents.getHits());
+        Assert.assertNotEquals("[]", this.documents.getHits());
     }
 
     @Then("^the document is not found$")
     public void the_document_is_not_found() throws Exception {
-        Assert.assertNotNull(this.documents.getDocuments());
-        Assert.assertEquals("[]", this.documents.getDocuments());
+        Assert.assertNotNull(this.documents.getHits());
+        Assert.assertEquals("[]", this.documents.getHits());
     }
 
     @Then("^I shall receive (\\d+)$")

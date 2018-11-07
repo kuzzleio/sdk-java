@@ -49,14 +49,9 @@ typedef long long time_t;
   }
 %}
 
-%extend kuzzleio::options {
-    options() {
-        options *o = kuzzle_new_options();
-        return o;
-    }
-
-    ~options() {
-        free($self);
+%extend kuzzleio::kuzzle_response {
+    ~kuzzle_response() {
+        kuzzle_free_kuzzle_response($self);
     }
 }
 
@@ -73,3 +68,4 @@ typedef long long time_t;
 %include "auth.cpp"
 %include "index.cpp"
 %include "server.cpp"
+%include "search_result.cpp"

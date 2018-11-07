@@ -35,7 +35,7 @@ public class Geofencedefs {
                 "}";
 
         RoomOptions opts = new RoomOptions();
-        opts.setUser("all");
+        opts.setUsers("all");
         opts.setState("all");
         opts.setScope("all");
         opts.setSubscribeToSelf(true);
