@@ -2,7 +2,7 @@
 %rename(TokenValidity) token_validity;
 %rename(AckResponse) ack_response;
 %rename(queueTTL) queue_ttl;
-%rename(Options, match="class") options;
+%rename(Options, match="class") s_options;
 %rename(QueryOptions) query_options;
 %rename(JsonObject) json_object;
 %rename(JsonResult) json_result;
