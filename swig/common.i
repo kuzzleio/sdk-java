@@ -76,8 +76,8 @@
 %rename(_collection, match="class") collection;
 %rename(_document, match="class") document;
 %rename(_server, match="class") server;
-%rename(_options, match="class") options;
-%rename(_room_options, match="class") room_options;
+%rename(Options, match="class") s_options;
+%rename(RoomOptions, match="class") s_room_options;
 
 %ignore *::error;
 %ignore *::stack;
@@ -90,14 +90,13 @@
 
 
 %{
-#include "options.cpp"
-#include "room_options.cpp"
 #include "search_result.cpp"
 #include "collection.cpp"
 #include "auth.cpp"
 #include "index.cpp"
 #include "server.cpp"
 #include "document.cpp"
+#include "default_constructors.cpp"
 %}
 
 %ignore getListener;

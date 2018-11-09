@@ -1,7 +1,5 @@
 %module(directors="1") kuzzlesdk
 %{
-#include "options.hpp"
-#include "room_options.hpp"
 #include "exceptions.hpp"
 #include "event_emitter.hpp"
 #include "kuzzle.hpp"
@@ -18,8 +16,6 @@
 %define _Complex
 %enddef
 
-%include "options.hpp"
-%include "room_options.hpp"
 %include "kuzzlesdk.h"
 %include "kuzzle.h"
 %include "exceptions.hpp"
