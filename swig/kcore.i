@@ -10,6 +10,8 @@
 #include "document.hpp"
 #include "realtime.hpp"
 #include "auth.hpp"
+#include "options.hpp"
+#include "room_options.hpp"
 #include <assert.h>
 %}
 
@@ -28,3 +30,5 @@
 %include "document.hpp"
 %include "realtime.hpp"
 %include "auth.hpp"
+#include "options.hpp"
+#include "room_options.hpp"

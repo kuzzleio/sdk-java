@@ -2,7 +2,6 @@
 %rename(TokenValidity) token_validity;
 %rename(AckResponse) ack_response;
 %rename(queueTTL) queue_ttl;
-%rename(Options, match="class") options;
 %rename(QueryOptions) query_options;
 %rename(JsonObject) json_object;
 %rename(JsonResult) json_result;
@@ -20,7 +19,6 @@
 %rename(DateResult) date_result;
 %rename(UserData) user_data;
 # %rename(User, match="class") user;
-%rename(RoomOptions) s_room_options;
 %rename(SearchFilters) search_filters;
 # %rename(SearchResult) search_result;
 %rename(NotificationResult) notification_result;
@@ -84,6 +82,8 @@
 %ignore *_result::status;
 %ignore *_response::status;
 %ignore token_validity::status;
+%ignore *::options;
+%ignore *::room_options;
 
 
 %include "std_string.i"
@@ -96,6 +96,8 @@
 #include "index.cpp"
 #include "server.cpp"
 #include "document.cpp"
+#include "options.cpp"
+#include "room_options.cpp"
 %}
 
 %ignore getListener;
