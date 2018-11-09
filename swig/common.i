@@ -26,6 +26,9 @@
 %rename(SubscribeToSelf) subscribe_to_self;
 %rename(ValidationResponse) validation_response;
 %rename(UserRight) user_right;
+%rename(Options, match="class") s_options;
+%rename(RoomOptions, match="class") s_room_options;
+%rename(QueryOptions, match="class") s_query_options;
 
 // struct options
 %rename(queueMaxSize) queue_max_size;
@@ -76,8 +79,6 @@
 %rename(_collection, match="class") collection;
 %rename(_document, match="class") document;
 %rename(_server, match="class") server;
-%rename(Options, match="class") s_options;
-%rename(RoomOptions, match="class") s_room_options;
 
 %ignore *::error;
 %ignore *::stack;
