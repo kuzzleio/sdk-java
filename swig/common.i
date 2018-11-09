@@ -82,8 +82,6 @@
 %ignore *_result::status;
 %ignore *_response::status;
 %ignore token_validity::status;
-%ignore *::options;
-%ignore *::room_options;
 
 
 %include "std_string.i"
