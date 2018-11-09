@@ -55,6 +55,8 @@ typedef long long time_t;
     }
 }
 
+%include "options.cpp"
+%include "room_options.cpp"
 %include "kuzzle.cpp"
 %include "collection.cpp"
 %include "document.cpp"
@@ -63,5 +65,3 @@ typedef long long time_t;
 %include "index.cpp"
 %include "server.cpp"
 %include "search_result.cpp"
-%include "options.cpp"
-%include "room_options.cpp"

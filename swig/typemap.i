@@ -157,3 +157,6 @@
 %typemap(javaout) kuzzleio::user_right** {
   return $jnicall;
 }
+
+%typemap(javabase) kuzzleio::Options "_options";
+%typemap(javabase) kuzzleio::RoomOptions "_room_options";
