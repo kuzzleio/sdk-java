@@ -2,7 +2,6 @@
 %rename(TokenValidity) token_validity;
 %rename(AckResponse) ack_response;
 %rename(queueTTL) queue_ttl;
-%rename(Options, match="class") options;
 %rename(QueryOptions) query_options;
 %rename(JsonObject) json_object;
 %rename(JsonResult) json_result;
@@ -20,7 +19,6 @@
 %rename(DateResult) date_result;
 %rename(UserData) user_data;
 # %rename(User, match="class") user;
-%rename(RoomOptions) s_room_options;
 %rename(SearchFilters) search_filters;
 # %rename(SearchResult) search_result;
 %rename(NotificationResult) notification_result;
@@ -28,6 +26,9 @@
 %rename(SubscribeToSelf) subscribe_to_self;
 %rename(ValidationResponse) validation_response;
 %rename(UserRight) user_right;
+%rename(Options, match="class") s_options;
+%rename(RoomOptions, match="class") s_room_options;
+%rename(QueryOptions, match="class") s_query_options;
 
 // struct options
 %rename(queueMaxSize) queue_max_size;
@@ -96,6 +97,7 @@
 #include "index.cpp"
 #include "server.cpp"
 #include "document.cpp"
+#include "default_constructors.cpp"
 %}
 
 %ignore getListener;
