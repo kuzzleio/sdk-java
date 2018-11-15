@@ -30,11 +30,11 @@ endif
 PATHSEP = $(strip $(SEP))
 JAVA_HOME ?= /usr/local
 ROOTOUTDIR = $(ROOT_DIR)/build
-JAVAINCLUDE = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
+JAVAINCLUDE = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
 SWIG = swig
 
 CXXFLAGS = -g -fPIC -std=c++11 -I.$(PATHSEP)sdk-cpp$(PATHSEP)include -I.$(PATHSEP)sdk-cpp$(PATHSEP)src -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)include$(PATHSEP) -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP) -L.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build
-LDFLAGS = -lkuzzlesdk
+LDFLAGS = -lkuzzlesdk -framework CoreFoundation -framework Security
 
 SRCS = kcore_wrap.cxx
 OBJS = $(SRCS:.cxx=.o)
@@ -59,7 +59,7 @@ swig:
 
 make_lib:
 	$(CXX) -shared kcore_wrap.o -o $(OUTDIR)/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB) $(CXXFLAGS) $(LDFLAGS) $(JAVAINCLUDE)
-	strip $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
+	# strip $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
 
 remove_so:
 	rm -rf .$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)*.so*
@@ -72,7 +72,8 @@ java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
 	mkdir -p $(ROOTOUTDIR)/java/src/main/resources
 	mkdir -p $(ROOTOUTDIR)/java/src/main/java
 	mv build/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java.so $(ROOTOUTDIR)/java/src/main/resources/
-	cd build/java && ln -sfr io/kuzzle/sdk/* src/main/java/ && cd -
+	# cd build/java && ln -sf io/kuzzle/sdk/* src/main/java/ && cd -
+	cd build/java && cp -r io/kuzzle/sdk/* src/main/java/ && cd - && echo "TARASSSS"
 	cd build/java && VERSION=$(VERSION) gradle sourcesJar jar javadocJar
 	cp -p sdk-cpp/sdk-c/build/$(LIB_PREFIX)kuzzlesdk$(STATICLIB) $(OUTDIR)
 	cp build/java/build/libs/* build/
