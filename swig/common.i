@@ -92,6 +92,7 @@
 
 %{
 #include "search_result.cpp"
+#include "specification_search_result.cpp"
 #include "collection.cpp"
 #include "auth.cpp"
 #include "index.cpp"
