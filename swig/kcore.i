@@ -1,5 +1,7 @@
 %module(directors="1") kuzzlesdk
 %{
+#include "protocol.hpp"
+#include "websocket.hpp"
 #include "exceptions.hpp"
 #include "event_emitter.hpp"
 #include "kuzzle.hpp"
@@ -18,6 +20,8 @@
 
 %include "kuzzlesdk.h"
 %include "kuzzle.h"
+%include "protocol.hpp"
+%include "websocket.hpp"
 %include "exceptions.hpp"
 %include "event_emitter.hpp"
 %include "kuzzle.hpp"
