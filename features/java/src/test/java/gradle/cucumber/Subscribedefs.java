@@ -22,7 +22,9 @@ public class Subscribedefs {
     @After
     public void after() {
         if (roomId != null) {
+          try {
             k.getRealtime().unsubscribe(roomId);
+          } catch (KuzzleException e) {}
         }
     }
 

@@ -91,6 +91,7 @@
 
 
 %{
+#include "websocket.cpp"
 #include "search_result.cpp"
 #include "specification_search_result.cpp"
 #include "collection.cpp"
@@ -105,7 +106,7 @@
 %ignore getListeners;
 
 %include "std_function.i"
-%std_function(NotificationListener, void, onMessage, const kuzzleio::notification_result*);
+%std_function(NotificationListener, void, onMessage, kuzzleio::notification_result*);
 %std_function(EventListener, void, trigger, const std::string);
 
 %{
