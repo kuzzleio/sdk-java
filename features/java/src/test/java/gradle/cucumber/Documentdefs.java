@@ -186,6 +186,31 @@ public class Documentdefs {
         }
     }
 
+    @When("^I search documents matching '([^']+)' with from (\\d+) and size (\\d+)$")
+    public void i_search_documents_matching_query(String query, int from, int size) throws Exception {
+        this.errorMessage = null;
+
+        try {
+            QueryOptions options = new QueryOptions();
+            options.setFrom(from);
+            options.setSize(size);
+            this.documents = k.getDocument().search(world.index, world.collection, query, options);
+        } catch (BadRequestException e) {
+            this.errorMessage = e.getMessage();
+        }
+    }
+
+    @When("^I search the next documents$")
+    public void i_search_the_next_documents() throws Exception {
+        this.errorMessage = null;
+
+        try {
+            this.documents = this.documents.next();
+        } catch (BadRequestException e) {
+            this.errorMessage = e.getMessage();
+        }
+    }
+
     @Then("^the document is successfully found$")
     public void the_document_is_successfully_found() throws Exception {
         Assert.assertNotNull(this.documents);
@@ -378,4 +403,15 @@ public class Documentdefs {
         Assert.assertNull(this.errorMessage);
         Assert.assertNotNull(this.jsonDocuments);
     }
+
+    @Then("^The search result should have (a total of|fetched) (\\d+) documents$")
+    public void the_search_result_should_have_a_total_of_documents(String field, int number) throws Exception {
+        if (field == "a total of") {
+            Assert.assertEquals(number, this.documents.getTotal());
+        }
+        else if (field == "fetched") {
+            Assert.assertEquals(number, this.documents.getFetched());
+        }
+    }
+
 }

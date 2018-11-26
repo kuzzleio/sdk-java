@@ -69,3 +69,5 @@ typedef long long time_t;
 %include "index.cpp"
 %include "server.cpp"
 %include "search_result.cpp"
+%include "specification_search_result.cpp"
+%include "default_constructors.cpp"
