@@ -1,6 +1,7 @@
 package gradle.cucumber;
 
 import io.kuzzle.sdk.Kuzzle;
+import io.kuzzle.sdk.WebSocket;
 
 public class KuzzleSingleton {
     private static Kuzzle kuzzle = null;
@@ -10,7 +11,7 @@ public class KuzzleSingleton {
             return kuzzle;
         }
 
-        kuzzle = new Kuzzle((System.getenv().get("KUZZLE_HOST") != null) ? (System.getenv().get("KUZZLE_HOST")) : "localhost");
+        kuzzle = new Kuzzle(new WebSocket((System.getenv().get("KUZZLE_HOST") != null) ? (System.getenv().get("KUZZLE_HOST")) : "localhost"));
         return kuzzle;
     }
 }
