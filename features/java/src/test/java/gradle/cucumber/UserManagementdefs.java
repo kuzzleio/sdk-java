@@ -12,7 +12,7 @@ public class UserManagementdefs {
     private Kuzzle k;
     private String userId;
     private User currentUser;
-    private UserRightVector userRights;
+    private UserRight[] userRights;
 
     @Before
     public void before() {
@@ -109,7 +109,7 @@ public class UserManagementdefs {
     @Then("^I have a vector with (\\d+) rights$")
     public void i_have_a_vector_with_rights(int rightCount) throws Exception {
         // Write code here that turns the phrase above into concrete actions
-        Assert.assertEquals(userRights.size(), rightCount);
+        Assert.assertEquals(userRights.length, rightCount);
     }
 
 }
