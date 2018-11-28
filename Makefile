@@ -33,7 +33,13 @@ ROOTOUTDIR = $(ROOT_DIR)/build
 JAVAINCLUDE = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 SWIG = swig
 
-CXXFLAGS = -g -fPIC -std=c++11 -I.$(PATHSEP)sdk-cpp$(PATHSEP)include -I.$(PATHSEP)sdk-cpp$(PATHSEP)src -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)include$(PATHSEP) -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP) -L.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build
+CXXFLAGS = -g -fPIC -std=c++11 -MMD \
+	-I.$(PATHSEP)include \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)include \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)src \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)kuzzle-c-sdk$(PATHSEP)include \
+	-L.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)kuzzle-c-sdk$(PATHSEP)lib
+
 LDFLAGS = -lkuzzlesdk
 
 SRCS = kcore_wrap.cxx
@@ -62,7 +68,7 @@ make_lib:
 	strip $(ROOTOUTDIR)/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java$(DYNLIB)
 
 remove_so:
-	rm -rf .$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)*.so*
+	rm -rf .$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)kuzzle-c-sdk$(PATHSEP)lib$(PATHSEP)*.so*
 
 java: OUTDIR=$(ROOTOUTDIR)/java/io/kuzzle/sdk
 java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
@@ -74,7 +80,7 @@ java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
 	mv build/java/io/kuzzle/sdk/$(LIB_PREFIX)kuzzle-wrapper-java.so $(ROOTOUTDIR)/java/src/main/resources/
 	cd build/java && ln -sfr io/kuzzle/sdk/* src/main/java/ && cd -
 	cd build/java && VERSION=$(VERSION) gradle sourcesJar jar javadocJar
-	cp -p sdk-cpp/sdk-c/build/$(LIB_PREFIX)kuzzlesdk$(STATICLIB) $(OUTDIR)
+	cp -p sdk-cpp/sdk-c/build/kuzzle-c-sdk/lib/$(LIB_PREFIX)kuzzlesdk$(STATICLIB) $(OUTDIR)
 	cp build/java/build/libs/* build/
 
 test: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
