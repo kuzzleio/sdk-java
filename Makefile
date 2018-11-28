@@ -33,7 +33,15 @@ ROOTOUTDIR = $(ROOT_DIR)/build
 JAVAINCLUDE = -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
 SWIG = swig
 
-CXXFLAGS = -g -fPIC -std=c++11 -I.$(PATHSEP)sdk-cpp$(PATHSEP)include -I.$(PATHSEP)sdk-cpp$(PATHSEP)src -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)include$(PATHSEP) -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP) -L.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build
+# CXXFLAGS = -g -fPIC -std=c++11 -I.$(PATHSEP)sdk-cpp$(PATHSEP)include -I.$(PATHSEP)sdk-cpp$(PATHSEP)src -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)include$(PATHSEP) -I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP) -L.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build
+CXXFLAGS = -g -fPIC -std=c++11 -MMD \
+	-I.$(PATHSEP)include \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)include \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)src \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build \
+	-I.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)kuzzle-c-sdk$(PATHSEP)include \
+	-L.$(PATHSEP)sdk-cpp$(PATHSEP)sdk-c$(PATHSEP)build$(PATHSEP)kuzzle-c-sdk$(PATHSEP)lib
+
 LDFLAGS = -lkuzzlesdk
 
 SRCS = kcore_wrap.cxx
