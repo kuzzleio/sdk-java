@@ -78,7 +78,7 @@ java: makedir make_c_sdk remove_so swig $(OBJS) make_lib
 	cp build/java/build/libs/* build/
 
 test: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
-	cd $(ROOT_DIR)$(PATHSEP)features$(PATHSEP)java && gradle cucumber
+	cd $(ROOT_DIR)$(PATHSEP)features$(PATHSEP)java && VERSION=$(VERSION) gradle cucumber
 
 package: $(ROOT_DIR)$(PATHSEP)build$(PATHSEP)*.jar
 	mkdir $(ROOT_DIR)$(PATHSEP)deploy
