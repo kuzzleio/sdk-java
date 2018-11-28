@@ -1,5 +1,7 @@
 %module(directors="1") kuzzlesdk
 %{
+#include "protocol.hpp"
+#include "websocket.hpp"
 #include "internal/exceptions.hpp"
 #include "internal/event_emitter.hpp"
 #include "kuzzle.hpp"
@@ -16,6 +18,8 @@
 %define _Complex
 %enddef
 
+%include "protocol.hpp"
+%include "websocket.hpp"
 %include "internal/kuzzle_structs.h"
 %include "kuzzle.h"
 %include "internal/exceptions.hpp"
