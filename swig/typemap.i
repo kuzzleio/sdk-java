@@ -96,8 +96,6 @@
 %typemap(jstype) std::vector<kuzzleio::user_right*> "UserRight[]";
 
 %typemap(in) std::vector<kuzzleio::user_right*> %{
-  jobject fu = (jobject) jenv->GetObjectArrayElement($input, 0);
-
   size_t size = jenv->GetArrayLength($input);
   int i = 0;
   std::vector<kuzzleio::user_right*> user_rights;
