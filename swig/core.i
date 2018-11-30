@@ -1,17 +1,21 @@
-%include "common.i"
-
-%include "exceptions.i"
 %include "std_string.i"
+%include "std_vector.i"
+
+%include "common.i"
+%include "exceptions.i"
 %include "typemap.i"
 %include "kcore.i"
 
-%include "std_vector.i"
 
 typedef long long time_t;
 
 %template(StringVector) std::vector<std::string>;
-
 %typemap(out) const StringVector& %{
+    return $1;
+%}
+
+%template(UserRightVector) std::vector<kuzzleio::user_right*>;
+%typemap(out) const UserRightVector& %{
     return $1;
 %}
 
@@ -48,12 +52,6 @@ typedef long long time_t;
     }
   }
 %}
-
-%extend kuzzleio::kuzzle_response {
-    ~kuzzle_response() {
-        kuzzle_free_kuzzle_response($self);
-    }
-}
 
 %extend kuzzleio::kuzzle_response {
     ~kuzzle_response() {

@@ -12,6 +12,7 @@ public class UserManagementdefs {
     private Kuzzle k;
     private String userId;
     private User currentUser;
+    private UserRight[] userRights;
 
     @Before
     public void before() {
@@ -81,7 +82,7 @@ public class UserManagementdefs {
         Assert.assertFalse(k.getAuth().checkToken(k.getJwt()).getValid());
     }
 
-    @Given("^I update my user custom data with the pair \'([^\"]*)\':\'([^\"]*)\'$")
+    @Given("^I update my user custom data with the pair '(.*)':'(.*)'$")
     public void i_update_my_user_custom_data_with_the_pair(String fieldname, String fieldvalue) throws Exception {
         k.getAuth().updateSelf("{\""+fieldname+"\": \""+fieldvalue+"\"}");
     }
@@ -91,7 +92,7 @@ public class UserManagementdefs {
         currentUser = k.getAuth().getCurrentUser();
     }
 
-    @Then("^the response '_source' field contains the pair \'([^\"]*)\':\'([^\"]*)\'$")
+    @Then("^the response 'content' field contains the pair '(.*)':'(.*)'$")
     public void the_response__source_field_contains_the_pair(String key, String value) throws Exception {
         Assert.assertNotNull(currentUser.getContent());
     }
@@ -100,4 +101,15 @@ public class UserManagementdefs {
     public void i_logout() throws Exception {
         k.getAuth().logout();
     }
+
+    @Given("^I get my rights$")
+    public void i_get_my_rights() throws Exception {
+      userRights = k.getAuth().getMyRights();
+    }
+    @Then("^I have a vector with (\\d+) rights$")
+    public void i_have_a_vector_with_rights(int rightCount) throws Exception {
+        // Write code here that turns the phrase above into concrete actions
+        Assert.assertEquals(userRights.length, rightCount);
+    }
+
 }

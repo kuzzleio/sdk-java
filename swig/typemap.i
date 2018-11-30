@@ -89,71 +89,66 @@
   return $jnicall;
 }
 
-// UserRight** to UserRight[]
+// std::vector<user_right*> to UserRight[]
 
-%typemap(jni) kuzzleio::user_right** "jobjectArray";
-%typemap(jtype) kuzzleio::user_right** "UserRight[]";
-%typemap(jstype) kuzzleio::user_right** "UserRight[]";
+%typemap(jni) std::vector<kuzzleio::user_right*> "jobjectArray";
+%typemap(jtype) std::vector<kuzzleio::user_right*> "UserRight[]";
+%typemap(jstype) std::vector<kuzzleio::user_right*> "UserRight[]";
 
-%typemap(in) kuzzleio::user_right** %{
-  jobject fu = (jobject) jenv->GetObjectArrayElement($input, 0);
-
+%typemap(in) std::vector<kuzzleio::user_right*> %{
   size_t size = jenv->GetArrayLength($input);
   int i = 0;
-  user_right** res = (kuzzleio::user_right**)malloc(sizeof(*res) * size + 1);
+  std::vector<kuzzleio::user_right*> user_rights;
+
   while(i < size) {
-    jobject fu = (jobject) jenv->GetObjectArrayElement($input, i);
-    res[i] = (user_right *)fu;
+    jobject user_right = (jobject) jenv->GetObjectArrayElement($input, i);
+    user_rights.push_back((user_right*) user_right);
     i++;
   }
   res[i] = NULL;
   $1 = res;
 %}
 
-%typemap(out) kuzzleio::user_right** {
-  size_t count = 0;
-  user_right** pos = $1;
-  while(pos[++count]);
+%typemap(out) std::vector<kuzzleio::user_right*> {
+  std::vector<kuzzleio::user_right*> user_rights = $1;
 
-  $result = JCALL3(NewObjectArray, jenv, count, JCALL1(FindClass, jenv, "io/kuzzle/sdk/UserRight"), NULL);
-  size_t idx = 0;
+  $result = JCALL3(NewObjectArray, jenv, user_rights.size(), JCALL1(FindClass, jenv, "io/kuzzle/sdk/UserRight"), NULL);
 
-  jclass cls = jenv->FindClass("io/kuzzle/sdk/UserRight");
-  jmethodID constructor = jenv->GetMethodID(cls, "<init>", "()V");
-  jobject user_right = jenv->NewObject(cls, constructor);
-  while (*pos) {
+  jclass user_right_class = jenv->FindClass("io/kuzzle/sdk/UserRight");
+  jmethodID constructor = jenv->GetMethodID(user_right_class, "<init>", "()V");
+  jobject user_right = jenv->NewObject(user_right_class, constructor);
+
+  for (size_t i = 0; i < user_rights.size(); ++i) {
     // Set controller
-    jmethodID setCtrl = jenv->GetMethodID(cls, "setController", "(Ljava/lang/String;)V");
-    jstring ctrl_string = JCALL1(NewStringUTF, jenv, (*pos)->controller);
+    jmethodID setCtrl = jenv->GetMethodID(user_right_class, "setController", "(Ljava/lang/String;)V");
+    jstring ctrl_string = JCALL1(NewStringUTF, jenv, user_rights[i]->controller);
     jenv->CallVoidMethod(user_right, setCtrl, ctrl_string);
 
     // Set action
-    jmethodID setAction = jenv->GetMethodID(cls, "setAction", "(Ljava/lang/String;)V");
-    jstring action_string = JCALL1(NewStringUTF, jenv, (*pos)->action);
+    jmethodID setAction = jenv->GetMethodID(user_right_class, "setAction", "(Ljava/lang/String;)V");
+    jstring action_string = JCALL1(NewStringUTF, jenv, user_rights[i]->action);
     jenv->CallVoidMethod(user_right, setAction, action_string);
 
     // Set index
-    jmethodID setIndex = jenv->GetMethodID(cls, "setIndex", "(Ljava/lang/String;)V");
-    jstring index_string = JCALL1(NewStringUTF, jenv, (*pos)->index);
+    jmethodID setIndex = jenv->GetMethodID(user_right_class, "setIndex", "(Ljava/lang/String;)V");
+    jstring index_string = JCALL1(NewStringUTF, jenv, user_rights[i]->index);
     jenv->CallVoidMethod(user_right, setIndex, index_string);
 
     // Set collection
-    jmethodID setCollection = jenv->GetMethodID(cls, "setCollection", "(Ljava/lang/String;)V");
-    jstring collection_string = JCALL1(NewStringUTF, jenv, (*pos)->collection);
+    jmethodID setCollection = jenv->GetMethodID(user_right_class, "setCollection", "(Ljava/lang/String;)V");
+    jstring collection_string = JCALL1(NewStringUTF, jenv, user_rights[i]->collection);
     jenv->CallVoidMethod(user_right, setCollection, collection_string);
 
     // Set value
-    jmethodID setValue = jenv->GetMethodID(cls, "setValue", "(Ljava/lang/String;)V");
-    jstring value_string = JCALL1(NewStringUTF, jenv, (*pos)->value);
+    jmethodID setValue = jenv->GetMethodID(user_right_class, "setValue", "(Ljava/lang/String;)V");
+    jstring value_string = JCALL1(NewStringUTF, jenv, user_rights[i]->value);
     jenv->CallVoidMethod(user_right, setValue, value_string);
 
-    assert(idx < count);
-    JCALL3(SetObjectArrayElement, jenv, $result, idx++, user_right);
-    *pos++;
+    JCALL3(SetObjectArrayElement, jenv, $result, i, user_right);
   }
 }
 
-%typemap(javain) kuzzleio::user_right** "$javainput"
-%typemap(javaout) kuzzleio::user_right** {
+%typemap(javain) std::vector<kuzzleio::user_right*> "$javainput"
+%typemap(javaout) std::vector<kuzzleio::user_right*> {
   return $jnicall;
 }
