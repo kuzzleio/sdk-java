@@ -99,6 +99,7 @@
 #include "server.cpp"
 #include "document.cpp"
 #include "default_constructors.cpp"
+#include "default_destructors.cpp"
 %}
 
 %ignore getListener;
