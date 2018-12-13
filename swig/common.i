@@ -25,7 +25,6 @@
 %rename(NotificationContent) notification_content;
 %rename(SubscribeToSelf) subscribe_to_self;
 %rename(ValidationResponse) validation_response;
-%rename(UserRight) user_right;
 %rename(Options, match="class") s_options;
 %rename(RoomOptions, match="class") s_room_options;
 %rename(QueryOptions, match="class") s_query_options;

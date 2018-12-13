@@ -14,7 +14,7 @@ typedef long long time_t;
     return $1;
 %}
 
-%template(UserRightVector) std::vector<kuzzleio::user_right*>;
+%template(UserRightVector) std::vector<std::unique_ptr<UserRight>>;
 %typemap(out) const UserRightVector& %{
     return $1;
 %}

@@ -89,32 +89,18 @@
   return $jnicall;
 }
 
-// std::vector<user_right*> to UserRight[]
+// std::vector<std::unique_ptr<UserRight>> to UserRight[]
 
-%typemap(jni) std::vector<kuzzleio::user_right*> "jobjectArray";
-%typemap(jtype) std::vector<kuzzleio::user_right*> "UserRight[]";
-%typemap(jstype) std::vector<kuzzleio::user_right*> "UserRight[]";
+%typemap(jni) std::vector<std::unique_ptr<UserRight>> "jobjectArray";
+%typemap(jtype) std::vector<std::unique_ptr<UserRight>> "UserRight[]";
+%typemap(jstype) std::vector<std::unique_ptr<UserRight>> "UserRight[]";
 
-%typemap(in) std::vector<kuzzleio::user_right*> %{
-  size_t size = jenv->GetArrayLength($input);
-  int i = 0;
-  std::vector<kuzzleio::user_right*> user_rights;
-
-  while(i < size) {
-    jobject user_right = (jobject) jenv->GetObjectArrayElement($input, i);
-    user_rights.push_back((user_right*) user_right);
-    i++;
-  }
-  res[i] = NULL;
-  $1 = res;
-%}
-
-%typemap(out) std::vector<kuzzleio::user_right*> {
-  std::vector<kuzzleio::user_right*> user_rights = $1;
-
-  $result = JCALL3(NewObjectArray, jenv, user_rights.size(), JCALL1(FindClass, jenv, "io/kuzzle/sdk/UserRight"), NULL);
-
+%typemap(out) std::vector<std::unique_ptr<UserRight>> {
+  std::vector<std::unique_ptr<UserRight>> user_rights = $1;
   jclass user_right_class = jenv->FindClass("io/kuzzle/sdk/UserRight");
+
+  $result = JCALL3(NewObjectArray, jenv, user_rights.size(), user_right_class, NULL);
+
   jmethodID constructor = jenv->GetMethodID(user_right_class, "<init>", "()V");
   jobject user_right = jenv->NewObject(user_right_class, constructor);
 
@@ -148,7 +134,7 @@
   }
 }
 
-%typemap(javain) std::vector<kuzzleio::user_right*> "$javainput"
-%typemap(javaout) std::vector<kuzzleio::user_right*> {
+%typemap(javain) std::vector<std::unique_ptr<UserRight>> "$javainput"
+%typemap(javaout) std::vector<std::unique_ptr<UserRight>> {
   return $jnicall;
 }
