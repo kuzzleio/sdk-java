@@ -12,6 +12,8 @@
 #include "internal/document.hpp"
 #include "internal/realtime.hpp"
 #include "internal/auth.hpp"
+#include "internal/user.hpp"
+#include "internal/user_right.hpp"
 #include <assert.h>
 %}
 
@@ -32,3 +34,5 @@
 %include "internal/document.hpp"
 %include "internal/realtime.hpp"
 %include "internal/auth.hpp"
+%include "internal/user.hpp"
+%include "internal/user_right.hpp"

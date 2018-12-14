@@ -89,52 +89,53 @@
   return $jnicall;
 }
 
-// std::vector<std::unique_ptr<UserRight>> to UserRight[]
+// std::vector<std::shared_ptr<UserRight>> to UserRight[]
 
-%typemap(jni) std::vector<std::unique_ptr<UserRight>> "jobjectArray";
-%typemap(jtype) std::vector<std::unique_ptr<UserRight>> "UserRight[]";
-%typemap(jstype) std::vector<std::unique_ptr<UserRight>> "UserRight[]";
+%typemap(jni) std::vector<std::shared_ptr<UserRight>> "jobjectArray";
+%typemap(jtype) std::vector<std::shared_ptr<UserRight>> "UserRight[]";
+%typemap(jstype) std::vector<std::shared_ptr<UserRight>> "UserRight[]";
 
-%typemap(out) std::vector<std::unique_ptr<UserRight>> {
-  std::vector<std::unique_ptr<UserRight>> user_rights = $1;
+%typemap(out) std::vector<std::shared_ptr<UserRight>> {
+  std::vector<std::shared_ptr<UserRight>> * user_rights = & $1;
   jclass user_right_class = jenv->FindClass("io/kuzzle/sdk/UserRight");
-
-  $result = JCALL3(NewObjectArray, jenv, user_rights.size(), user_right_class, NULL);
+  $result = JCALL3(NewObjectArray, jenv, user_rights->size(), user_right_class, NULL);
 
   jmethodID constructor = jenv->GetMethodID(user_right_class, "<init>", "()V");
   jobject user_right = jenv->NewObject(user_right_class, constructor);
 
-  for (size_t i = 0; i < user_rights.size(); ++i) {
+  jmethodID
+    setCtrl = jenv->GetMethodID(user_right_class, "controller", "(Ljava/lang/String;)V"),
+    setAction = jenv->GetMethodID(user_right_class, "action", "(Ljava/lang/String;)V"),
+    setIndex = jenv->GetMethodID(user_right_class, "index", "(Ljava/lang/String;)V"),
+    setCollection = jenv->GetMethodID(user_right_class, "collection", "(Ljava/lang/String;)V"),
+    setValue = jenv->GetMethodID(user_right_class, "value", "(Ljava/lang/String;)V");
+
+  for (size_t i = 0; i < user_rights->size(); ++i) {
     // Set controller
-    jmethodID setCtrl = jenv->GetMethodID(user_right_class, "setController", "(Ljava/lang/String;)V");
-    jstring ctrl_string = JCALL1(NewStringUTF, jenv, user_rights[i]->controller);
+    jstring ctrl_string = JCALL1(NewStringUTF, jenv, (*user_rights)[i]->controller().c_str());
     jenv->CallVoidMethod(user_right, setCtrl, ctrl_string);
 
     // Set action
-    jmethodID setAction = jenv->GetMethodID(user_right_class, "setAction", "(Ljava/lang/String;)V");
-    jstring action_string = JCALL1(NewStringUTF, jenv, user_rights[i]->action);
+    jstring action_string = JCALL1(NewStringUTF, jenv, (*user_rights)[i]->action().c_str());
     jenv->CallVoidMethod(user_right, setAction, action_string);
 
     // Set index
-    jmethodID setIndex = jenv->GetMethodID(user_right_class, "setIndex", "(Ljava/lang/String;)V");
-    jstring index_string = JCALL1(NewStringUTF, jenv, user_rights[i]->index);
+    jstring index_string = JCALL1(NewStringUTF, jenv, (*user_rights)[i]->index().c_str());
     jenv->CallVoidMethod(user_right, setIndex, index_string);
 
     // Set collection
-    jmethodID setCollection = jenv->GetMethodID(user_right_class, "setCollection", "(Ljava/lang/String;)V");
-    jstring collection_string = JCALL1(NewStringUTF, jenv, user_rights[i]->collection);
+    jstring collection_string = JCALL1(NewStringUTF, jenv, (*user_rights)[i]->collection().c_str());
     jenv->CallVoidMethod(user_right, setCollection, collection_string);
 
     // Set value
-    jmethodID setValue = jenv->GetMethodID(user_right_class, "setValue", "(Ljava/lang/String;)V");
-    jstring value_string = JCALL1(NewStringUTF, jenv, user_rights[i]->value);
+    jstring value_string = JCALL1(NewStringUTF, jenv, (*user_rights)[i]->value().c_str());
     jenv->CallVoidMethod(user_right, setValue, value_string);
 
     JCALL3(SetObjectArrayElement, jenv, $result, i, user_right);
   }
 }
 
-%typemap(javain) std::vector<std::unique_ptr<UserRight>> "$javainput"
-%typemap(javaout) std::vector<std::unique_ptr<UserRight>> {
+%typemap(javain) std::vector<std::shared_ptr<UserRight>> "$javainput"
+%typemap(javaout) std::vector<std::shared_ptr<UserRight>> {
   return $jnicall;
 }

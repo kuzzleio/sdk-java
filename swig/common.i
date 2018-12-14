@@ -98,6 +98,8 @@
 #include "server.cpp"
 #include "document.cpp"
 #include "default_constructors.cpp"
+#include "user.cpp"
+#include "user_right.cpp"
 %}
 
 %ignore getListener;

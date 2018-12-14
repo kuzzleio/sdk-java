@@ -6,16 +6,10 @@
 %include "typemap.i"
 %include "kcore.i"
 
-
 typedef long long time_t;
 
 %template(StringVector) std::vector<std::string>;
 %typemap(out) const StringVector& %{
-    return $1;
-%}
-
-%template(UserRightVector) std::vector<std::unique_ptr<UserRight>>;
-%typemap(out) const UserRightVector& %{
     return $1;
 %}
 
@@ -69,3 +63,5 @@ typedef long long time_t;
 %include "server.cpp"
 %include "search_result.cpp"
 %include "default_constructors.cpp"
+%include "user.cpp"
+%include "user_right.cpp"
