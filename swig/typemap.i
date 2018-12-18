@@ -91,26 +91,27 @@
 
 // std::vector<std::shared_ptr<UserRight>> to UserRight[]
 
-%typemap(jni) std::vector<std::shared_ptr<UserRight>> "jobjectArray";
-%typemap(jtype) std::vector<std::shared_ptr<UserRight>> "UserRight[]";
-%typemap(jstype) std::vector<std::shared_ptr<UserRight>> "UserRight[]";
+%typemap(jni) std::vector<std::shared_ptr<kuzzleio::UserRight>> "jobjectArray";
+%typemap(jtype) std::vector<std::shared_ptr<kuzzleio::UserRight>> "UserRight[]";
+%typemap(jstype) std::vector<std::shared_ptr<kuzzleio::UserRight>> "UserRight[]";
 
-%typemap(out) std::vector<std::shared_ptr<UserRight>> {
+%typemap(out) std::vector<std::shared_ptr<kuzzleio::UserRight>> {
   std::vector<std::shared_ptr<UserRight>> * user_rights = & $1;
+
   jclass user_right_class = jenv->FindClass("io/kuzzle/sdk/UserRight");
   $result = JCALL3(NewObjectArray, jenv, user_rights->size(), user_right_class, NULL);
 
-  jmethodID constructor = jenv->GetMethodID(user_right_class, "<init>", "()V");
-  jobject user_right = jenv->NewObject(user_right_class, constructor);
-
   jmethodID
-    setCtrl = jenv->GetMethodID(user_right_class, "controller", "(Ljava/lang/String;)V"),
-    setAction = jenv->GetMethodID(user_right_class, "action", "(Ljava/lang/String;)V"),
-    setIndex = jenv->GetMethodID(user_right_class, "index", "(Ljava/lang/String;)V"),
-    setCollection = jenv->GetMethodID(user_right_class, "collection", "(Ljava/lang/String;)V"),
-    setValue = jenv->GetMethodID(user_right_class, "value", "(Ljava/lang/String;)V");
+    constructor = jenv->GetMethodID(user_right_class, "<init>", "()V"),
+    setCtrl = jenv->GetMethodID(user_right_class, "setController", "(Ljava/lang/String;)V"),
+    setAction = jenv->GetMethodID(user_right_class, "setAction", "(Ljava/lang/String;)V"),
+    setIndex = jenv->GetMethodID(user_right_class, "setIndex", "(Ljava/lang/String;)V"),
+    setCollection = jenv->GetMethodID(user_right_class, "setCollection", "(Ljava/lang/String;)V"),
+    setValue = jenv->GetMethodID(user_right_class, "setValue", "(Ljava/lang/String;)V");
 
   for (size_t i = 0; i < user_rights->size(); ++i) {
+    jobject user_right = jenv->NewObject(user_right_class, constructor);
+
     // Set controller
     jstring ctrl_string = JCALL1(NewStringUTF, jenv, (*user_rights)[i]->controller().c_str());
     jenv->CallVoidMethod(user_right, setCtrl, ctrl_string);
@@ -135,7 +136,6 @@
   }
 }
 
-%typemap(javain) std::vector<std::shared_ptr<UserRight>> "$javainput"
-%typemap(javaout) std::vector<std::shared_ptr<UserRight>> {
+%typemap(javaout) std::vector<std::shared_ptr<kuzzleio::UserRight>> {
   return $jnicall;
 }

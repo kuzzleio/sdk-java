@@ -1,5 +1,7 @@
 %module(directors="1") kuzzlesdk
 %{
+#include "internal/user.hpp"
+#include "internal/user_right.hpp"
 #include "protocol.hpp"
 #include "websocket.hpp"
 #include "internal/exceptions.hpp"
@@ -12,14 +14,14 @@
 #include "internal/document.hpp"
 #include "internal/realtime.hpp"
 #include "internal/auth.hpp"
-#include "internal/user.hpp"
-#include "internal/user_right.hpp"
 #include <assert.h>
 %}
 
 %define _Complex
 %enddef
 
+%include "internal/user.hpp"
+%include "internal/user_right.hpp"
 %include "protocol.hpp"
 %include "websocket.hpp"
 %include "internal/kuzzle_structs.h"
@@ -34,5 +36,3 @@
 %include "internal/document.hpp"
 %include "internal/realtime.hpp"
 %include "internal/auth.hpp"
-%include "internal/user.hpp"
-%include "internal/user_right.hpp"

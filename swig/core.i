@@ -53,6 +53,8 @@ typedef long long time_t;
     }
 }
 
+%include "user.cpp"
+%include "user_right.cpp"
 %include "websocket.cpp"
 %include "kuzzle.cpp"
 %include "collection.cpp"
@@ -63,5 +65,3 @@ typedef long long time_t;
 %include "server.cpp"
 %include "search_result.cpp"
 %include "default_constructors.cpp"
-%include "user.cpp"
-%include "user_right.cpp"
