@@ -6,16 +6,10 @@
 %include "typemap.i"
 %include "kcore.i"
 
-
 typedef long long time_t;
 
 %template(StringVector) std::vector<std::string>;
 %typemap(out) const StringVector& %{
-    return $1;
-%}
-
-%template(UserRightVector) std::vector<kuzzleio::user_right*>;
-%typemap(out) const UserRightVector& %{
     return $1;
 %}
 
@@ -59,6 +53,8 @@ typedef long long time_t;
     }
 }
 
+%include "user.cpp"
+%include "user_right.cpp"
 %include "websocket.cpp"
 %include "kuzzle.cpp"
 %include "collection.cpp"

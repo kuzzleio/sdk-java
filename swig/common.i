@@ -1,4 +1,3 @@
-%rename(User, match="class") kuzzle_user;
 %rename(TokenValidity) token_validity;
 %rename(AckResponse) ack_response;
 %rename(queueTTL) queue_ttl;
@@ -18,14 +17,12 @@
 %rename(ShardsResult) shards_result;
 %rename(DateResult) date_result;
 %rename(UserData) user_data;
-# %rename(User, match="class") user;
 %rename(SearchFilters) search_filters;
 # %rename(SearchResult) search_result;
 %rename(NotificationResult) notification_result;
 %rename(NotificationContent) notification_content;
 %rename(SubscribeToSelf) subscribe_to_self;
 %rename(ValidationResponse) validation_response;
-%rename(UserRight) user_right;
 %rename(Options, match="class") s_options;
 %rename(RoomOptions, match="class") s_room_options;
 %rename(QueryOptions, match="class") s_query_options;
@@ -71,6 +68,24 @@
 %rename(requestId) request_id;
 %rename(roomId) room_id;
 
+// class User
+%rename(getId, fullname="1") kuzzleio::User::id() const;
+%rename(getContent, fullname="1") kuzzleio::User::content() const;
+%rename(getProfileIds, fullname="1") kuzzleio::User::profile_ids() const;
+
+// class UserRight
+%rename(getController, fullname="1") kuzzleio::UserRight::controller() const;
+%rename(getAction, fullname="1") kuzzleio::UserRight::action() const;
+%rename(getIndex, fullname="1") kuzzleio::UserRight::index() const;
+%rename(getCollection, fullname="1") kuzzleio::UserRight::collection() const;
+%rename(getValue, fullname="1") kuzzleio::UserRight::value() const;
+%rename(setController, fullname="1") kuzzleio::UserRight::controller(std::string const&);
+%rename(setAction, fullname="1") kuzzleio::UserRight::action(std::string const&);
+%rename(setIndex, fullname="1") kuzzleio::UserRight::index(std::string const&);
+%rename(setCollection, fullname="1") kuzzleio::UserRight::collection(std::string const&);
+%rename(setValue, fullname="1") kuzzleio::UserRight::value(std::string const&);
+
+
 %rename(delete) delete_;
 
 %rename(_auth, match="class") auth;
@@ -91,6 +106,8 @@
 
 
 %{
+#include "user.cpp"
+#include "user_right.cpp"
 #include "websocket.cpp"
 #include "search_result.cpp"
 #include "collection.cpp"
