@@ -47,50 +47,6 @@
 }
 %apply std::string * { std::string* };
 
-
-// const char** to String[]
-
-%typemap(jni) const char**, const char * const * "jobjectArray";
-%typemap(jtype) const char**, const char * const * "String[]";
-%typemap(jstype) const char**, const char * const * "String[]";
-
-%typemap(in) const char**, const char * const * %{
-  jobject fu = (jobject) jenv->GetObjectArrayElement($input, 0);
-
-  size_t size = jenv->GetArrayLength($input);
-  int i = 0;
-  char **res = (char**)malloc(sizeof(*res) * size + 1);
-  while(i < size) {
-    jobject fu = (jobject) jenv->GetObjectArrayElement($input, i);
-    res[i] = (char *)jenv->GetStringUTFChars(static_cast<jstring>(fu), 0);
-    i++;
-  }
-  res[i] = NULL;
-  $1 = res;
-%}
-
-%typemap(out) const char**, const char * const *  {
-  size_t count = 0;
-  const char **pos = const_cast<const char**>($1);
-  while(pos[++count]);
-
-  $result = JCALL3(NewObjectArray, jenv, count, JCALL1(FindClass, jenv, "java/lang/String"), NULL);
-  size_t idx = 0;
-  while (*pos) {
-    jobject str = JCALL1(NewStringUTF, jenv, *pos);
-    assert(idx < count);
-    JCALL3(SetObjectArrayElement, jenv, $result, idx++, str);
-    *pos++;
-  }
-}
-
-%typemap(javain) const char**, const char * const * "$javainput"
-%typemap(javaout) const char**, const char * const * {
-  return $jnicall;
-}
-
-// std::vector<std::shared_ptr<UserRight>> to UserRight[]
-
 %typemap(jni) std::vector<std::shared_ptr<kuzzleio::UserRight>> "jobjectArray";
 %typemap(jtype) std::vector<std::shared_ptr<kuzzleio::UserRight>> "UserRight[]";
 %typemap(jstype) std::vector<std::shared_ptr<kuzzleio::UserRight>> "UserRight[]";
