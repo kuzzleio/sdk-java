@@ -1,6 +1,5 @@
 %rename(TokenValidity) token_validity;
 %rename(AckResponse) ack_response;
-%rename(queueTTL) queue_ttl;
 %rename(QueryOptions) query_options;
 %rename(JsonObject) json_object;
 %rename(JsonResult) json_result;
@@ -28,11 +27,10 @@
 %rename(QueryOptions, match="class") s_query_options;
 
 // struct options
+%rename(queueTTL) queue_ttl;
 %rename(queueMaxSize) queue_max_size;
-%rename(offlineMode) offline_mode;
 %rename(autoQueue) auto_queue;
 %rename(autoReconnect) auto_reconnect;
-%rename(autoReplay) auto_replay;
 %rename(autoReplay) auto_replay;
 %rename(autoResubscribe) auto_resubscribe;
 %rename(reconnectionDelay) reconnection_delay;
