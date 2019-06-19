@@ -11,21 +11,20 @@ You can access the Kuzzle repository on [Github](https://github.com/kuzzleio/kuz
 
 ## SDK Documentation
 
-The complete SDK documentation is available [here](http://docs.kuzzle.io/sdk-reference/)
+The complete SDK documentation is available [here](https://docs.kuzzle.io/sdk/java/2)
 
 ## Protocol used
 
 The JAVA SDK implements the websocket protocol.
 
-### Build
+### Build jar
 
 Execute the following snippet to clone the GIT repository, and build the SDK. It will then be available in the "build/" directory
 
 ```sh
-git clone --recursive git@github.com:kuzzleio/sdk-java.git
+git clone git@github.com:kuzzleio/sdk-java.git
 cd sdk-java
-git submodule update --init --recursive
-make
+./gradlew jar
 ```
 
 ## Installation
@@ -38,38 +37,24 @@ https://bintray.com/kuzzle/maven
 
 ### Maven
 
-For x86:
-
 ```xml
 <dependency>
   <groupId>io.kuzzle</groupId>
-  <artifactId>kuzzle-sdk-java-x86</artifactId>
-  <version>1.0.0</version>
+  <artifactId>kuzzle-sdk-java</artifactId>
+  <version>2.0.0</version>
   <type>pom</type>
 </dependency>
 ```
 
-For amd64:
-
-```xml
-<dependency>
-  <groupId>io.kuzzle</groupId>
-  <artifactId>kuzzle-sdk-java-amd64</artifactId>
-  <version>1.0.0</version>
-  <type>pom</type>
-</dependency>
-```
 
 ### Gradle
 
-For x86:
-
 ```groovy
-compile 'io.kuzzle:kuzzle-sdk-java-x86:1.0.0'
+compile 'io.kuzzle:kuzzle-sdk-java:2.0.0'
 ```
 
 For amd64:
 
 ```groovy
-compile 'io.kuzzle:kuzzle-sdk-java-amd64:1.0.0'
+compile 'io.kuzzle:kuzzle-sdk-java:2.0.0'
 ```
