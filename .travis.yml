@@ -7,11 +7,6 @@ env:
     # BINTRAY_KEY
     - secure: "Iqn4ImAwFmQeoXXDb5JOsfcunSiSeLvdp4+AEsIeniMhpIk++ZJPDSxecC+NrvndTrxOXVqHEsFUfHnZYvPHMuvg9nhXvz/rmmyYH0hZqkKg2q2qM+Sz2UJBCvs6D1sJv3ZEVi8d6fVx5bbKXMzSE023XFBBK7l8nBsG5ObXBOzTzrus9UP+fk4FXif/QKJNcUSN7rLejUIxMCk36gMQYqYGiiqL3VE60aTpaUh7Vqj/8nCEPcO3K3gXTVybcGBcmsvinV5YEc+5s5ue8eX10ONY0oYF5GFd7aEsrKEFzT2d7MVq0a29cH1rWrxt6q7vXGZNKAdAQrDyRZUz9rMFtqH+2xOgagm22UiUYNlzrn2eDYRBd08X0y043gumdgmOq/CsyaI5bcUSKMr+rsZ2XIzBjefl8MU0xBhtKMO9g9WRfGBxjRbdg0ivRQoVGJbcUXTDl2WrLMgMjt8DT4nQP+PHdIV2FjZVNioqucqmEzfHIJt+hiw7EonGDnZ9uqkW6hm6b4JpGr5QF1yY6kKVCUQxLueUBAVdiZpULdevL7uYEUzdWIES2wTFE7LaWpHqnCOHYVpkIQpdole6+R0OhINhSHK0FW858xhZ2QGjtL1SSh5yzK4th6dpGKCiwMUSGSj5frpIeWPi+GqYoUQz+TvMGLGG2XGfihx74kQE0FA="
 
-
-before_install:
-  - export TERM=dumb
-  - pip install --user codecov
-
 script:
   bash gradlew test jacocoTestReport
 
