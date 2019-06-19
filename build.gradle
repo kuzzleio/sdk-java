@@ -28,14 +28,6 @@ allprojects {
     apply plugin: 'java-library'
 }
 
-sourceSets {
-    test {
-        java {
-            srcDirs = ["test/"]
-        }
-    }
-}
-
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
@@ -114,6 +106,23 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
     testImplementation 'org.mockito:mockito-core:1.9.5'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ["test"]
+        }
+    }
 }
 
 artifacts {
