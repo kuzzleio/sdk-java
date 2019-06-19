@@ -1,5 +1,8 @@
 language: java
 
+jdk:
+  - openjdk8
+
 env:
   global:
     # BINTRAY_USER
