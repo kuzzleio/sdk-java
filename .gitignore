@@ -1,5 +1,2 @@
-kcore_*
-build/*
-features/java/.gradle/
-features/java/build
 *.gradle*
+.idea
