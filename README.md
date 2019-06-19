@@ -27,6 +27,8 @@ cd sdk-java
 ./gradlew jar
 ```
 
+You can then find the jars file in build/libs/
+
 ## Installation
 
 ### Bintray repository
