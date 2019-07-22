@@ -35,6 +35,17 @@ stages:
 
 jobs:
   include:
+    - stage: Tests
+      name: Dead link check
+      if: type = pull_request OR type = push AND branch =~ /^master|[0-9]+-(dev|stable)$/ OR type = cron
+
+      before_script:
+        - npm run doc-prepare
+        - npm run --prefix doc/framework clone-repos
+        - gem install typhoeus
+      script:
+        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
+
 # ---------------------------------------------
 # OpenJDK 8: Build, test and deploy (only on master)
 # ---------------------------------------------
@@ -186,4 +197,3 @@ jobs:
         skip_cleanup: true
         on:
           branch: master
-
