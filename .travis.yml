@@ -14,10 +14,9 @@ env:
     - secure: "LxONQZ8tHhxTqgu+kqx9fMCubCfTQHZsy/3ibE+l72xG8sOAYfj4hB5k1p4kklnv3skeFQEiL6B++B2qRITOEAPRdD8FExkc+UF/TM1rY5aUtjIjoA3uH4n9hYjHirTO5qNKf4KxDr1Zbcn4ISGebJ0EYwE0SG/ptrd06wPp1G8AHshc8XaZgen6gDaik66OWpQkOkmGsRz2EPmIBVgo7L2LGK21DSxE4/PTo+ou0WYCyxyyWSKLTLt1xZpt9LOtk7IckrHl+Nenl6IbV/CjHb3+5vwdifyFQd+K6AVe32iTIVjdxj7rDhEHYD0EqKb79ey+u8p9HquLnGH03gcVBeFQu/qhhQStsiwrD/S9c8jwBjWOOUnVI4bEbqjqxFaRlPfVnRaAjQZLRKHdqxyTJCdC2Ls79LmkqSCyTxM7WBwwgu4Slf6RJSbKJb5naHYlwDuKPbeyHLAYrxgjEHC28bxQiTr5wwBWxE9BLxUcnkFAXzsy3qE74FQOIjvQbtrruLIOGwRGRYtzyfygGA3MfTHug6JwZGngqFf3k+kbznE8fZe7zxMwT63P6/54rR5fU/plLoTNFqdQsZGAfGOSYuHIEzWXOkWxffqsOwxPa1VxQTLD32O95oBcrcvmw4toC2NeFTe/+zZRMfGMbu7QIi0AL3qFpky3j12zcyA/M2I="
     # BINTRAY_KEY
     - secure: "Iqn4ImAwFmQeoXXDb5JOsfcunSiSeLvdp4+AEsIeniMhpIk++ZJPDSxecC+NrvndTrxOXVqHEsFUfHnZYvPHMuvg9nhXvz/rmmyYH0hZqkKg2q2qM+Sz2UJBCvs6D1sJv3ZEVi8d6fVx5bbKXMzSE023XFBBK7l8nBsG5ObXBOzTzrus9UP+fk4FXif/QKJNcUSN7rLejUIxMCk36gMQYqYGiiqL3VE60aTpaUh7Vqj/8nCEPcO3K3gXTVybcGBcmsvinV5YEc+5s5ue8eX10ONY0oYF5GFd7aEsrKEFzT2d7MVq0a29cH1rWrxt6q7vXGZNKAdAQrDyRZUz9rMFtqH+2xOgagm22UiUYNlzrn2eDYRBd08X0y043gumdgmOq/CsyaI5bcUSKMr+rsZ2XIzBjefl8MU0xBhtKMO9g9WRfGBxjRbdg0ivRQoVGJbcUXTDl2WrLMgMjt8DT4nQP+PHdIV2FjZVNioqucqmEzfHIJt+hiw7EonGDnZ9uqkW6hm6b4JpGr5QF1yY6kKVCUQxLueUBAVdiZpULdevL7uYEUzdWIES2wTFE7LaWpHqnCOHYVpkIQpdole6+R0OhINhSHK0FW858xhZ2QGjtL1SSh5yzK4th6dpGKCiwMUSGSj5frpIeWPi+GqYoUQz+TvMGLGG2XGfihx74kQE0FA="
-    # AWS_ACCESS_KEY_ID
-    - secure: "L0K61HJ7LxUGy+gQxk2L5gokxfpP/V79WkG/wTMum+P/j4pdODTGVJHEoAdTecxC/F2zqZ3NZikIexz1LE/URojvn9oy3JGs7epnR9iZ4VZ9YE8w54p+T8YgdA26owqNUKZdQA+95G3HLWmiE0JOLPpjeRLpIMbkz1eJvQqexlh6sXeO4suC09+fjBkQsuszBrhsDKCd1rqRdojwlfPJV9O/T3zUWj5JgPwsMDisfutN++0jLmIXc6oOVQIt95nSR5BZ5w7G14FAV4vvFRB7yKQT8ZSfHMikZ301+melrwGW7T8YEy2TwjdhICe4xHyaNGj7Vy+c6+lXwgGnl3P4CuF9zBEGdNd+m5+Vd8GXYAa3gvPe/7aHDkJ6SL+ZfMqDBhHfq0IiRrO8ztmkiJY3BqaGY/a7Hs/CvqtorGI375yeuO9H8OyR2a7QNrrV25xmyAkHLn0zXtIbMVkkLQQc+Osm9uV/UBs5u4YRTl5hMxNi7zA8zgLUq4qQC4inH7Cr3ymN1MxsJX/wp0xdgNP2Qdk2IG73PhIE+EJaTW6NxAEpChlmLjFNZST/GWHWvXFzyekfx1ONGfOzZK0MLibvKoW3QXWEiSvn3dDDauN3Ql0FP4IFAdUIW5KPUpSbFaEuJBuIYnjdB3psxuZkAAKrpr3KyrKoe4A63PhyYbfTJEQ="
+    - AWS_ACCESS_KEY_ID=AKIAIYAXFUAHXOWP2MJA
     # AWS_SECRET_ACCESS_KEY
-    - secure: "gYcMV5o/iI3PZ09RLop9FBS91z+Iy3hdgT930ZTWuYz8QKt8vV5eKW1PSRRvVRmHkiBGdrKYmXfiJGa+2MGMp9v4sHhWkPTSyg5279f+/piT4ccoXT/PyabYB8sHQ4SRQThUKDaVOMy3oPUB43IaebEzPL2GMgbSMfOLj6v5MuhkMBslVg1/pVUXxiZbH1bIB4S8ZtaM7iWY0Ornm9kAb4OwhqifkVGh99p76+MwKT139LFrsXzM5AoZSLucRlVwnSlckpZy+jXVD1HRr6LCyneiWqSpdmSUXmLDP0XcBtfd7aoabawlaB3AUJRpgoAZUy4aVd9FPwnpYglvpnKPK37hx0oy43bS6y4k7NI/tdhYfyN0L4yGC4EYiOTkMhK9ja083J1z17P7zNr0jxTUIzpvptROc5oUVfznJt+VpzCdMagodzNqmgeg6rytjkVRscc2OJH78nVSAIRMteN7E9V6bTVsKpe7BR4eFPnU/4n76lZ/IzPZXAfIzK7vu5dVC8A1WvhpBAApUB7JJay+keBGRqMDd4Fn5o0BSUQoqPuyw6G/cIvJqzX2iZC98KUjVTW/5WI0YrLxYnFNuUKYF+npoSq/KHbTPJQj4SRYFmi1rCfA39PYBeVqksTNL4ouTfgAxwiB3z4RCaYi++oRnjqRReY1u433xzotGDJ6RUE="
+    - secure: "dIcQzFpHKRf92cAiMA+SYsudtHWNcbYadVDb7zlJayWGUGy0i4CGwwOoOOrUcWgHxYhdN9XGwvFJTSswjHLRiHEyPFBwW8x/VfaCRS+jAcblMXyWNajvm0930S/3fRv5LA+4UKNmeXMuCGSf35ZqyEIEeuThkIomYvB/tBD1wcMpBUtQfmilLm3sUTaGUnFB651jBHshlYOZ8BAGLLmX1PAfT1wCrpVcrjq5kayNOIilJkwKGSr6q9C0p7+ULNZ4bHsATKLlYNs7Xcs+9a66p1EtKetP72DQsHrr8x3wB2Hhk3U425kmjIoE3gYnF7x3h3EpO5m0rGessbgdRF1SF7XK7Bsj4ukLb4HoktA8G7734ox4848RpH60aKUHRCsiebX7JKgJe1eEwU5BZK8+PFPGH6bI1YG1HQNqthzotTHFXu058uMHnyLv2PmDWWEYMM79fCyuRo8gJJ8GJhDgaGLgtizzEb6grcNW+QwunjA6nP4o7F9o+9b3lfGlsgL595V/CeWLNnHvENkSr67RN2NkDZm6q6EHbOk8AWtQc24mVawCwCbcJjp0sPkbQdCHUXSBNXjdwrvJLA3h94A2uVEmrV7mzMdfj+i9X3IS/HXRLeQk6Ivq2s/b1W6c7rBfz4zZUO7Uu5iYpVzT71yNFra13JkW3REFgHgETEvGkko="
 
 addons:
   apt:
@@ -35,16 +34,91 @@ stages:
 
 jobs:
   include:
+# ---------------------------------------------
+# Documentation
+# ---------------------------------------------
     - stage: Tests
       name: Dead link check
       if: type = pull_request OR type = push AND branch =~ /^master|[0-9]+-(dev|stable)$/ OR type = cron
+      language: node_js
+      node_js: 10
 
       before_script:
         - npm run doc-prepare
         - npm run --prefix doc/framework clone-repos
-        - gem install typhoeus
       script:
+        - gem install typhoeus
         - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
+
+    - stage: Deployment Doc Dev
+      name: Deploy next-docs.kuzzle.io
+      if: branch = 1-dev
+      language: node_js
+      node_js: 10
+      env:
+        - NODE_ENV=production
+        - S3_BUCKET=docs-next.kuzzle.io
+        - CLOUDFRONT_DISTRIBUTION_ID=E2ZCCEK9GRB49U
+        - AWS_DEFAULT_REGION=us-west-2
+
+      addons:
+        apt:
+          packages:
+            - python
+            - python-pip
+
+      install:
+        - pip install awscli --upgrade --user
+
+      script:
+        - npm run doc-prepare
+        - npm run doc-build
+
+      deploy:
+        provider: script
+        script:
+          - npm run doc-upload
+        skip_cleanup: true
+        on:
+          branch: 1-dev
+
+      after_deploy:
+        - npm run doc-cloudfront
+
+    - stage: Deployment Doc Prod
+      name: Deploy docs.kuzzle.io
+      if: branch = 1-stable
+      language: node_js
+      node_js: 10
+      env:
+        - NODE_ENV=production
+        - S3_BUCKET=docs.kuzzle.io
+        - CLOUDFRONT_DISTRIBUTION_ID=E3D6RP0POLCJMM
+        - AWS_DEFAULT_REGION=us-west-2
+
+      addons:
+        apt:
+          packages:
+            - python
+            - python-pip
+
+      install:
+        - pip install awscli --upgrade --user
+
+      script:
+        - npm run doc-prepare
+        - npm run doc-build
+
+      deploy:
+        provider: script
+        script:
+          - npm run doc-upload
+        skip_cleanup: true
+        on:
+          branch: 1-stable
+
+      after_deploy:
+        - npm run doc-cloudfront
 
 # ---------------------------------------------
 # OpenJDK 8: Build, test and deploy (only on master)

@@ -3,3 +3,5 @@ build/*
 features/java/.gradle/
 features/java/build
 *.gradle*
+
+doc/framework
