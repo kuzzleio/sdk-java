@@ -101,8 +101,10 @@ public class Collectiondefs {
     @Then("^the mapping of \'([^\"]*)\' should be updated$")
     public void the_mapping_should_be_updated(String collection) throws Exception {
         String mapping = k.getCollection().getMapping(world.index, collection);
-        Assert.assertEquals(
-            "{\"" + world.index + "\":{\"mappings\":{\"" + collection + "\":{\"properties\":{\"foo\":{\"type\":\"text\",\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}}}}}}}", mapping);
+        String expectedMapping = "{\"" + world.index + "\":{\"mappings\":{\"" + collection + "\":{\"dynamic\":\"true\",\"properties\":{\"foo\":{\"type\":\"text\",\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}}}}}}}";
+        System.out.println(mapping);
+        System.out.println(expectedMapping);
+        Assert.assertEquals(expectedMapping, mapping);
     }
 
     @When("^I update the specifications of the collection \'([^\"]*)\'$")
