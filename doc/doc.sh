@@ -21,6 +21,7 @@ fi
 case $1 in
   prepare)
     echo "Clone documentation framework"
+    rm -rf framework/
     git clone --depth 10 --single-branch --branch master https://github.com/kuzzleio/documentation.git framework/
 
     echo "Link local doc for dead links checking"
@@ -39,12 +40,17 @@ case $1 in
     ./framework/node_modules/.bin/vuepress build $DOC_VERSION/ $ARGS
   ;;
 
+  build-netlify)
+    export SITE_BASE="/"
+    ./framework/node_modules/.bin/vuepress build $DOC_VERSION/ $ARGS
+  ;;
+
   upload)
     aws s3 sync $DOC_VERSION/.vuepress/dist s3://$S3_BUCKET$SITE_BASE
   ;;
 
   cloudfront)
-    aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths '/*'
+    aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "$SITE_BASE*"
   ;;
 
   *)
