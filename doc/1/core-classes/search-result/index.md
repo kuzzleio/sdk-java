@@ -8,7 +8,7 @@ order: 600
 
 # SearchResult
 
-When performing a [search](/sdk/java/1/controllers/document/search/), Kuzzle returns an `SearchResult` object, which holds the items matching the given query and allows to drill through next result pages if applicable.
+When performing a [search](/sdk/java/1/controllers/document/search), Kuzzle returns an `SearchResult` object, which holds the items matching the given query and allows to drill through next result pages if applicable.
 
 ## Properties
 

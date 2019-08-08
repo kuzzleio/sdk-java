@@ -54,7 +54,7 @@ Returns a JSON string containing the updated/created document.
 
 ## Exceptions
 
-Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle errors](/sdk/java/1/essentials/error-handling/).
+Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle errors](/sdk/java/1/essentials/error-handling).
 
 ## Usage
 
