@@ -7,7 +7,7 @@ description: Collection:mdeleteDocument
 
 # mDeleteDocument
 
-Delete multiple [Documents](/sdk/java/2/core-classes/document/) according to the input IDs.
+Delete multiple [Documents](/sdk/java/2/core-classes/document) according to the input IDs.
 
 ---
 

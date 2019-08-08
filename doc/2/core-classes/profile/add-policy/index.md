@@ -10,7 +10,7 @@ description: Profile:addPolicy
 Adds a role to the security profile.
 
 :::info
-Updating a security profile will have no impact until the [save](/sdk/java/2/core-classes/profile/save/) method is called
+Updating a security profile will have no impact until the [save](/sdk/java/2/core-classes/profile/save) method is called
 :::
 
 ---

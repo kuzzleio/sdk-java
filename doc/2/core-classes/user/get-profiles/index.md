@@ -7,7 +7,7 @@ description: User:getProfiles
 
 # getProfiles
 
-Gets the security [Profile](/sdk/java/2/core-classes/profile/) instances linked to the user from Kuzzle's API.
+Gets the security [Profile](/sdk/java/2/core-classes/profile) instances linked to the user from Kuzzle's API.
 
 ---
 
@@ -30,7 +30,7 @@ Gets the security [Profile](/sdk/java/2/core-classes/profile/) instances linked 
 
 ## Callback Response
 
-Returns an array of security [Profile](/sdk/java/2/core-classes/profile/) objects.
+Returns an array of security [Profile](/sdk/java/2/core-classes/profile) objects.
 
 ## Usage
 

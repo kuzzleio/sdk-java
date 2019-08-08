@@ -39,7 +39,7 @@ Returns the `Security` object to allow chaining.
 
 ## Callback Response
 
-Returns an updated [User](/sdk/java/2/core-classes/user/) object.
+Returns an updated [User](/sdk/java/2/core-classes/user) object.
 
 ## Usage
 

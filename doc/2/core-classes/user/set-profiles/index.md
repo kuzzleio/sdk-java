@@ -10,7 +10,7 @@ description: User:setProfiles
 Replaces the security profiles linked to the user.
 
 :::info
-Updating a user will have no impact until the [create](/sdk/java/2/core-classes/user/create/) or [replace](/sdk/java/2/core-classes/user/replace/) method is called.
+Updating a user will have no impact until the [create](/sdk/java/2/core-classes/user/create/) or [replace](/sdk/java/2/core-classes/user/replace) method is called.
 :::
 
 ---
@@ -27,7 +27,7 @@ Updating a user will have no impact until the [create](/sdk/java/2/core-classes/
 
 | Arguments  | Type                     | Description                                                                     |
 | ---------- | ------------------------ | ------------------------------------------------------------------------------- |
-| `profiles` | array of Profile objects | An array of instantiated [Profile](/sdk/java/2/core-classes/profile/) objects |
+| `profiles` | array of Profile objects | An array of instantiated [Profile](/sdk/java/2/core-classes/profile) objects |
 
 ---
 

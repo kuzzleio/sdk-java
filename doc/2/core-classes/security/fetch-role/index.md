@@ -31,7 +31,7 @@ Fetches a single stored role using its unique ID.
 
 ## Callback Response
 
-Returns a [Role](/sdk/java/2/core-classes/role/) object.
+Returns a [Role](/sdk/java/2/core-classes/role) object.
 
 ## Usage
 

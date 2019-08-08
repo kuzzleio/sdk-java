@@ -47,7 +47,7 @@ The `user` object to provide must have the following properties:
 
 ## Callback Response
 
-Returns a [User](/sdk/java/2/core-classes/user/) object.
+Returns a [User](/sdk/java/2/core-classes/user) object.
 
 ## Usage
 

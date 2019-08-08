@@ -7,7 +7,7 @@ description: MemoryStorage:hscan
 
 # hscan
 
-Identical to [scan](/sdk/java/2/core-classes/memory-storage/scan/), except that `hscan` iterates over the fields contained in a hash.
+Identical to [scan](/sdk/java/2/core-classes/memory-storage/scan), except that `hscan` iterates over the fields contained in a hash.
 
 [[_Redis documentation_]](https://redis.io/commands/hscan)
 
