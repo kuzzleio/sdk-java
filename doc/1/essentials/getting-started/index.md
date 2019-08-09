@@ -15,7 +15,7 @@ This page shows examples of scripts that **store** documents in Kuzzle, and of s
 Before proceeding, please make sure your system meets the following requirements:
 
 - **Oracle JDK or OpenJDK** version 8 or higher ([OpenJDK installation instructions](https://openjdk.java.net/install/))
-- A running Kuzzle Server ([Kuzzle installation guide](/core/1/guides/essentials/installing-kuzzle/))
+- A running Kuzzle Server ([Kuzzle installation guide](/core/1/guides/essentials/installing-kuzzle))
 
 :::
 
@@ -81,8 +81,8 @@ Connected!
 New document added to yellow-taxi collection!
 ```
 
-You can perform other actions such as [delete](/sdk/go/1/controllers/document/delete/),
-[replace](/sdk/go/1/controllers/document/replace/) or [search](/sdk/go/1/controllers/document/search/) documents. There are also other ways to interact with Kuzzle like our [Admin Console](/core/1/guides/essentials/admin-console/), the [Kuzzle HTTP API](/core/1/api/essentials/connecting-to-kuzzle/) or by using your [own protocol](/core/1/protocols/essentials/getting-started/).
+You can perform other actions such as [delete](/sdk/go/1/controllers/document/delete),
+[replace](/sdk/go/1/controllers/document/replace) or [search](/sdk/go/1/controllers/document/search) documents. There are also other ways to interact with Kuzzle like our [Admin Console](/core/1/guides/essentials/admin-console), the [Kuzzle HTTP API](/core/1/api/essentials/connecting-to-kuzzle) or by using your [own protocol](/core/1/protocols/essentials/getting-started).
 
 Now you know how to:
 
@@ -121,5 +121,5 @@ Now that you're more familiar with the Java SDK, you can dive even deeper to lea
 
 - discover what this SDK has to offer by browsing other sections of this documentation
 - learn how to use [Koncorde](/core/1/guides/cookbooks/realtime-api) to create incredibly fine-grained and blazing-fast subscriptions
-- follow our guide to learn how to perform [basic authentication](/core/1/guides/essentials/user-authentication/#local-strategy)
-- follow our guide to learn how to [manage users and how to set up fine-grained access control](/core/1/guides/essentials/security/)
+- follow our guide to learn how to perform [basic authentication](/core/1/guides/essentials/user-authentication#local-strategy)
+- follow our guide to learn how to [manage users and how to set up fine-grained access control](/core/1/guides/essentials/security)

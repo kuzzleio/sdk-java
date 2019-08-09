@@ -8,7 +8,7 @@ order: 100
 
 # Notifications
 
-The [Realtime.subscribe](/sdk/java/1/controllers/realtime/subscribe/) method takes a `io.kuzzle.sdk.NotificationListener` event listener (implements the `EventListener` interface).
+The [Realtime.subscribe](/sdk/java/1/controllers/realtime/subscribe) method takes a `io.kuzzle.sdk.NotificationListener` event listener (implements the `EventListener` interface).
 That listener is fed with a `io.kuzzle.sdk.NotificationResult` object, whose content depends on the type of notification.
 
 Properties can be accessed with usual getters and setters.
@@ -29,7 +29,7 @@ These `io.kuzzle.sdk.NotificationResult` represent [documents changes & messages
 | `scope`      | String                            | `in`: document enters (or stays) in the scope<br/>`out`: document leaves the scope                    |
 | `timestamp`  | BigInteger                        | Timestamp of the event, in Epoch-millis format                                                        |
 | `nType`      | String                            | `document`: the notification type                                                                     |
-| `volatile`   | String                            | JSON String representing request [volatile data](/core/1/api/essentials/volatile-data/)               |
+| `volatile`   | String                            | JSON String representing request [volatile data](/core/1/api/essentials/volatile-data)               |
 
 The `io.kuzzle.sdk.NotificationContent` object has the following properties for document notifications & messages:
 
@@ -54,7 +54,7 @@ These `io.kuzzle.sdk.NotificationResult` represent [user events](/core/1/api/ess
 | `timestamp`  | Number                            | Timestamp of the event, in Epoch-millis format                                                        |
 | `nType`      | BigInteger                        | `user`: the notification type                                                                         |
 | `user`       | String                            | `in`: a new user has subscribed to the same filters<br/>`out`: a user cancelled a shared subscription |
-| `volatile`   | String                            | JSON String representing request [volatile data](/core/1/api/essentials/volatile-data/)               |
+| `volatile`   | String                            | JSON String representing request [volatile data](/core/1/api/essentials/volatile-data)               |
 
 The `io.kuzzle.sdk.NotificationContent` object has the following properties for user events:
 

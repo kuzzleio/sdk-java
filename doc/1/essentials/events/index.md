@@ -12,7 +12,7 @@ An event system allows to be notified when the SDK status changes. These events 
 
 Subscription to these events is possible by specifying callbacks that will be executed when a specific event is issued by the SDK instance.
 
-These callbacks can be added by the method [addListener](/sdk/java/1/core-classes/kuzzle/add-listener/).
+These callbacks can be added by the method [addListener](/sdk/java/1/core-classes/kuzzle/add-listener).
 
 **Note:** listeners are called in the order of their insertion.
 
@@ -74,7 +74,7 @@ Triggered whenever a request is removed from the offline queue.
 
 **Callback arguments**
 
-A String representing a JSON object containing the [request](/core/1/api/essentials/query-syntax/) removed from the queue.
+A String representing a JSON object containing the [request](/core/1/api/essentials/query-syntax) removed from the queue.
 
 ## offlineQueuePush
 
@@ -86,7 +86,7 @@ A String representing a JSON object containing the following properties:
 
 | Property  | Type        | Description                                                            |
 | --------- | ----------- | ---------------------------------------------------------------------- |
-| `request` | JSON object | The [request](/core/1/api/essentials/query-syntax/) added to the queue |
+| `request` | JSON object | The [request](/core/1/api/essentials/query-syntax) added to the queue |
 
 ## queryError
 
