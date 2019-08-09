@@ -7,7 +7,7 @@ description: MemoryStorage:geopos
 
 # geopos
 
-Returns the positions (longitude, latitude) of the provided key's members (see [geoadd](/sdk/java/2/core-classes/memory-storage/geoadd/)).
+Returns the positions (longitude, latitude) of the provided key's members (see [geoadd](/sdk/java/2/core-classes/memory-storage/geoadd)).
 
 [[_Redis documentation_]](https://redis.io/commands/geopos)
 
