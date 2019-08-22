@@ -1,4 +1,4 @@
-package io.kuzzle.sdk.Response;
+package io.kuzzle.sdk.CoreClasses;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -10,6 +10,7 @@ public class Task<T> {
     private AtomicReference<T> object = null;
 
     public Task() {
+        object = new AtomicReference<>();
         countDownLatch = new CountDownLatch(1);
         future = CompletableFuture.<T>supplyAsync(() -> {
             try {
@@ -25,6 +26,10 @@ public class Task<T> {
 
     public CompletableFuture<T> getFuture() {
         return future;
+    }
+
+    public void setException(Exception e) {
+        future.completeExceptionally(e);
     }
 
     public void trigger() {

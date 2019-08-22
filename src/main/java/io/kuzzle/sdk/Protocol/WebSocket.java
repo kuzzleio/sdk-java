@@ -1,24 +1,22 @@
 package io.kuzzle.sdk.Protocol;
 
+import com.google.gson.JsonObject;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketFactory;
 import com.sun.istack.internal.NotNull;
-import io.kuzzle.sdk.Events.EventListener;
-import io.kuzzle.sdk.Kuzzle;
-import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.function.Consumer;
+import java.util.concurrent.*;
 
 public class WebSocket extends AbstractProtocol {
 
+    private CompletableFuture connecting;
     private CountDownLatch waiter;
-    private BlockingDeque<JSONObject> queue;
-    private WebSocketClient socket;
+    private BlockingDeque<JsonObject> queue;
+    private com.neovisionaries.ws.client.WebSocket socket;
     private ProtocolState state = ProtocolState.CLOSE;
+    private URI uri;
 
     public ProtocolState getState() {
         return state;
@@ -34,83 +32,59 @@ public class WebSocket extends AbstractProtocol {
             throw new IllegalArgumentException("Host name/address can't be empty");
         }
 
-        URI uri = new URI((ssl ? "wss" : "ws") + "://" + host + ":" + port + "/");
+        this.uri = new URI((ssl ? "wss" : "ws") + "://" + host + ":" + port + "/");
         this.queue = new LinkedBlockingDeque<>();
-        this.socket = new WebSocketClient(uri);
-        this.socket.disableAutomaticReconnection();
-        this.waiter = new CountDownLatch(1);
     }
 
     @Override
-    public void send(JSONObject payload) {
+    public void send(JsonObject payload) {
         queue.add(payload);
     }
 
     @Override
     public void connect() throws Exception {
+        if (socket != null) {
+            return;
+        }
+
+        socket = new WebSocketFactory().createSocket(uri);
+
         socket.connect();
-        this.waiter.await();
+        state = ProtocolState.OPEN;
+        dispatchStateChange(state);
+        Dequeue();
+
+        socket.addListener(new WebSocketAdapter() {
+            @Override
+            public void onTextMessage(com.neovisionaries.ws.client.WebSocket websocket, String text) throws Exception {
+                super.onTextMessage(websocket, text);
+                dispatchMessageEvent(text);
+            }
+        });
     }
 
     @Override
     public void disconnect() {
-        state = ProtocolState.CLOSE;
-        socket.close();
+        CloseState();
     }
 
-    private void Dequeue() {
+    private void CloseState() {
+        socket.disconnect();
+        state = ProtocolState.CLOSE;
+        socket = null;
+        dispatchStateChange(state);
+    }
+
+    private Thread Dequeue() {
         Thread thread = new Thread(() -> {
             while (state == ProtocolState.OPEN) {
-                JSONObject payload = queue.poll();
+                JsonObject payload = queue.poll();
                 if (payload != null) {
-                    socket.send(payload.toString());
+                    socket.sendText(payload.toString());
                 }
             }
         });
         thread.start();
-    }
-
-    private class WebSocketClient extends tech.gusavila92.websocketclient.WebSocketClient {
-
-        public WebSocketClient(URI uri) {
-            super(uri);
-        }
-
-        @Override
-        public void onOpen() {
-            state = ProtocolState.OPEN;
-            waiter.countDown();
-            Dequeue();
-        }
-
-        @Override
-        public void onTextReceived(String message) {
-            dispatchMessageEvent(message);
-        }
-
-        @Override
-        public void onBinaryReceived(byte[] data) {
-
-        }
-
-        @Override
-        public void onPingReceived(byte[] data) {
-
-        }
-
-        @Override
-        public void onPongReceived(byte[] data) {
-
-        }
-
-        @Override
-        public void onException(Exception e) {
-            state = ProtocolState.CLOSE;
-        }
-
-        @Override
-        public void onCloseReceived() {
-            state = ProtocolState.CLOSE;
-        }
+        return thread;
     }
 }

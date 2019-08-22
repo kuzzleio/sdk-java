@@ -1,10 +1,6 @@
 package io.kuzzle.sdk.Options;
 
-import jdk.nashorn.api.scripting.JSObject;
-import jdk.nashorn.internal.scripts.JO;
-import org.json.JSONObject;
-
-import java.util.function.Function;
+import com.google.gson.JsonObject;
 import java.util.function.Predicate;
 
 public class KuzzleOptions {
@@ -18,7 +14,7 @@ public class KuzzleOptions {
     private boolean autoReplay = false;
     private boolean autoResubscribe = true;
 
-    private Predicate<JSONObject> filter = (JSONObject obj) -> true;
+    private Predicate<JsonObject> filter = (JsonObject obj) -> true;
 
     public KuzzleOptions() {}
 
@@ -98,12 +94,12 @@ public class KuzzleOptions {
         return this;
     }
 
-    public Predicate<JSONObject> getFilter() {
+    public Predicate<JsonObject> getFilter() {
         return filter;
     }
 
-    public KuzzleOptions withFilter(Predicate<JSONObject> filter) {
-        this.filter = filter != null ? filter : ((JSONObject object) -> true);
+    public KuzzleOptions withFilter(Predicate<JsonObject> filter) {
+        this.filter = filter != null ? filter : ((JsonObject object) -> true);
         return this;
     }
 }

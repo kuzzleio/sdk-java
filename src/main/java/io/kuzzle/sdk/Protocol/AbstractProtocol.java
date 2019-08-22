@@ -1,7 +1,7 @@
 package io.kuzzle.sdk.Protocol;
 
+import com.google.gson.JsonObject;
 import io.kuzzle.sdk.Events.EventListener;
-import org.json.JSONObject;
 
 import java.util.function.Consumer;
 
@@ -19,7 +19,7 @@ public abstract class AbstractProtocol {
     public abstract void connect() throws Exception;
     public abstract void disconnect();
 
-    public abstract void send(JSONObject paylog);
+    public abstract void send(JsonObject payload);
 
     public boolean registerMessageEvent(Consumer<String> callback) {
         return messageReceived.register(callback);

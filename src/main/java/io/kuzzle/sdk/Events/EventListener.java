@@ -7,24 +7,41 @@ import java.util.function.Consumer;
 
 public class EventListener <T> {
 
-    private Set<Consumer<T>> events;
+    private Set<Object> callbacks;
 
     public EventListener() {
-        events = ConcurrentHashMap.newKeySet();
+        callbacks = ConcurrentHashMap.newKeySet();
     }
 
     public boolean register(final Consumer<T> callback) {
-        return events.remove(callback);
+        return callbacks.add(callback);
+    }
+
+    public boolean register(final Runnable callback) {
+        return callbacks.add(callback);
     }
 
     public boolean unregister(final Consumer<T> callback) {
-        return events.remove(callback);
+        return callbacks.remove(callback);
+    }
+
+    public boolean unregister(final Runnable callback) {
+        return callbacks.remove(callback);
     }
 
     public void trigger(final T obj) {
-        Iterator<Consumer<T>> iterator = events.iterator();
-        while (iterator.hasNext()) {
-            iterator.next().accept(obj);
+        for (Object callback : callbacks) {
+            if (callback instanceof Consumer) {
+                ((Consumer<T>)callback).accept(obj);
+            }
+        }
+    }
+
+    public void trigger() {
+        for (Object callback : callbacks) {
+            if (callback instanceof Runnable) {
+                ((Runnable)callback).run();
+            }
         }
     }
 }
