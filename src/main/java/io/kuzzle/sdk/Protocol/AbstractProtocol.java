@@ -6,8 +6,8 @@ import io.kuzzle.sdk.Events.EventListener;
 import java.util.function.Consumer;
 
 public abstract class AbstractProtocol {
-    private EventListener<ProtocolState> stateChanged;
-    private EventListener<String> messageReceived;
+    protected EventListener<ProtocolState> stateChanged;
+    protected EventListener<String> messageReceived;
 
     public AbstractProtocol() {
         stateChanged = new EventListener<ProtocolState>();

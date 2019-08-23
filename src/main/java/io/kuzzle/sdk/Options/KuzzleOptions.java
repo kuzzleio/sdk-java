@@ -3,6 +3,8 @@ package io.kuzzle.sdk.Options;
 import com.google.gson.JsonObject;
 import java.util.function.Predicate;
 
+import static io.kuzzle.sdk.Helpers.Default.notNull;
+
 public class KuzzleOptions {
     
     private int maxQueueSize = -1;
@@ -36,7 +38,10 @@ public class KuzzleOptions {
     }
 
     public KuzzleOptions withMaxQueueSize(int maxQueueSize) {
-        this.maxQueueSize = maxQueueSize < 0 ? -1 : maxQueueSize;
+        this.maxQueueSize = maxQueueSize < 0
+                ? -1
+                : maxQueueSize;
+
         return this;
     }
 
@@ -45,7 +50,10 @@ public class KuzzleOptions {
     }
 
     public KuzzleOptions withMinTokenDuration(int minTokenDuration) {
-        this.minTokenDuration = minTokenDuration < 0 ? -1 : minTokenDuration;
+        this.minTokenDuration = minTokenDuration < 0
+                ? -1
+                : minTokenDuration;
+
         return this;
     }
 
@@ -54,7 +62,10 @@ public class KuzzleOptions {
     }
 
     public KuzzleOptions withRefreshedTokenDuration(int refreshedTokenDuration) {
-        this.refreshedTokenDuration = refreshedTokenDuration < 0 ? -1 : refreshedTokenDuration;
+        this.refreshedTokenDuration = refreshedTokenDuration < 0
+                ? -1
+                : refreshedTokenDuration;
+
         return this;
     }
 
@@ -99,7 +110,7 @@ public class KuzzleOptions {
     }
 
     public KuzzleOptions withFilter(Predicate<JsonObject> filter) {
-        this.filter = filter != null ? filter : ((JsonObject object) -> true);
+        this.filter = notNull(filter, (JsonObject obj) -> true);
         return this;
     }
 }

@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public class EventListener <T> {
 
-    private Set<Object> callbacks;
+    protected Set<Object> callbacks;
 
     public EventListener() {
         callbacks = ConcurrentHashMap.newKeySet();

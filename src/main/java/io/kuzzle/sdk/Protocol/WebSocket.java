@@ -11,22 +11,30 @@ import java.util.concurrent.*;
 
 public class WebSocket extends AbstractProtocol {
 
-    private CompletableFuture connecting;
-    private CountDownLatch waiter;
-    private BlockingDeque<JsonObject> queue;
-    private com.neovisionaries.ws.client.WebSocket socket;
-    private ProtocolState state = ProtocolState.CLOSE;
-    private URI uri;
+    protected CompletableFuture connecting;
+    protected CountDownLatch waiter;
+    protected BlockingDeque<JsonObject> queue;
+    protected com.neovisionaries.ws.client.WebSocket socket;
+    protected ProtocolState state = ProtocolState.CLOSE;
+    protected URI uri;
 
     public ProtocolState getState() {
         return state;
     }
 
-    public WebSocket(@NotNull String host, int port) throws URISyntaxException, IllegalArgumentException {
+    public WebSocket(
+            @NotNull String host,
+            int port
+    ) throws URISyntaxException, IllegalArgumentException {
         this(host, port, false);
     }
 
-    public WebSocket(@NotNull String host, int port, boolean ssl) throws URISyntaxException, IllegalArgumentException {
+    public WebSocket(
+            @NotNull String host,
+            int port,
+            boolean ssl
+    ) throws URISyntaxException, IllegalArgumentException {
+
         super();
         if (host == null || host.isEmpty()) {
             throw new IllegalArgumentException("Host name/address can't be empty");
@@ -68,14 +76,14 @@ public class WebSocket extends AbstractProtocol {
         CloseState();
     }
 
-    private void CloseState() {
+    protected void CloseState() {
         socket.disconnect();
         state = ProtocolState.CLOSE;
         socket = null;
         dispatchStateChange(state);
     }
 
-    private Thread Dequeue() {
+    protected Thread Dequeue() {
         Thread thread = new Thread(() -> {
             while (state == ProtocolState.OPEN) {
                 JsonObject payload = queue.poll();
