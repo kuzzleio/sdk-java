@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 import static io.kuzzle.sdk.Helpers.Default.notNull;
 
@@ -98,7 +99,7 @@ public class Kuzzle {
         ) {
             if (response.error != null) {
                 if (response.error.message != null
-                    && response.error.message == "Token expired"
+                    && response.error.message.equals("Token expired")
                 ) {
                     tokenExpiredEvent.trigger();
                 }
@@ -114,9 +115,11 @@ public class Kuzzle {
                 Task<Response> task = requests.get(
                         notNull(response.requestId, "")
                 );
+
                 if (task != null) {
                     task.trigger(response);
                 }
+
                 requests.remove(notNull(response.requestId, ""));
             }
         } else {
@@ -139,6 +142,14 @@ public class Kuzzle {
 
     public boolean unregisterTokenExpiredEvent(Runnable callback) {
         return tokenExpiredEvent.unregister(callback);
+    }
+
+    public boolean registerUnhandledResponseEvent(Consumer<Response> callback) {
+        return unhandledResponseEvent.register(callback);
+    }
+
+    public boolean unregisterUnhandledResponseEvent(Consumer<Response> callback) {
+        return unhandledResponseEvent.unregister(callback);
     }
 
     public void dispatchTokenExpired() {
