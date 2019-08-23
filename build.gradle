@@ -126,6 +126,11 @@ sourceSets {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '-Xplugin:Manifold'
+    options.fork = true
+}
+
 artifacts {
     archives sourcesJar
     archives javadocJar
