@@ -16,10 +16,6 @@ public class TestableTask <T> extends Task {
         super();
     }
 
-    public void applyMockCountDownLatch() {
-        super.countDownLatch = mockedCountDownLatch;
-    }
-
     public void applyMockFuture() {
         super.future = mockedFuture;
     }

@@ -50,15 +50,11 @@ public class Task<T> {
 
 
     public void trigger() {
-        if (countDownLatch.getCount() > 0) {
-            countDownLatch.countDown();
-        }
+        countDownLatch.countDown();
     }
 
     public void trigger(T object) {
-        if (countDownLatch.getCount() > 0) {
-            atomicReference.set(object);
-            countDownLatch.countDown();
-        }
+        atomicReference.set(object);
+        countDownLatch.countDown();
     }
 }

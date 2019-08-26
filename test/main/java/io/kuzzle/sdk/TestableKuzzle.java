@@ -6,7 +6,7 @@ import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
-import io.kuzzle.sdk.CoreClasses.Response.Response;
+import io.kuzzle.sdk.CoreClasses.Responses.Response;
 
 import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;

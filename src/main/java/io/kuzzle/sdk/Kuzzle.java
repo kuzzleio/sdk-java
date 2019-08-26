@@ -12,13 +12,14 @@ import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 import io.kuzzle.sdk.CoreClasses.Task;
-import io.kuzzle.sdk.CoreClasses.Response.Response;
 
 import java.net.URISyntaxException;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+
+import io.kuzzle.sdk.CoreClasses.Responses.*;
 
 import static io.kuzzle.sdk.Helpers.Default.notNull;
 

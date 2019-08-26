@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.mockito.Matchers.any;
@@ -58,7 +59,7 @@ public class TaskTests {
         task.applyMockFuture();
 
         when(task.mockedFuture.isCancelled())
-                .thenAnswer(invocation -> true);
+                .thenReturn(true);
 
         Assert.assertTrue(task.isCancelled());
 
@@ -74,7 +75,7 @@ public class TaskTests {
         task.applyMockFuture();
 
         when(task.mockedFuture.isDone())
-                .thenAnswer(invocation -> true);
+                .thenReturn(true);
 
         Assert.assertTrue(task.isDone());
 
@@ -90,7 +91,7 @@ public class TaskTests {
         task.applyMockFuture();
 
         when(task.mockedFuture.isCompletedExceptionally())
-                .thenAnswer(invocation -> true);
+                .thenReturn(true);
 
         Assert.assertTrue(task.isCompletedExceptionally());
 
@@ -115,48 +116,36 @@ public class TaskTests {
 
     @Test
     public void triggerTest() {
-        TestableTask<Object> task = new TestableTask<>();
-        task.applyMockCountDownLatch();
+        Task task = new Task();
 
-        when(task.mockedCountDownLatch.getCount())
-                .thenAnswer(invocation -> 1);
+        final AtomicBoolean success = new AtomicBoolean(false);
+
+        CompletableFuture taskChain = task.getFuture().thenRun(() -> {
+            success.set(true);
+        });
 
         task.trigger();
 
-        verify(
-                task.mockedCountDownLatch,
-                times(1)
-        ).getCount();
+        taskChain.join();
 
-        verify(
-                task.mockedCountDownLatch,
-                times(1)
-        ).countDown();
+        Assert.assertTrue(success.get());
+
     }
 
     @Test
     public void triggerWithObjectTest() {
-        TestableTask<String> task = new TestableTask();
-        task.applyMockCountDownLatch();
+        Task<String> task = new Task();
 
-        when(task.mockedCountDownLatch.getCount())
-                .thenAnswer(invocation -> 1);
+        final AtomicBoolean success = new AtomicBoolean(false);
 
-        Object obj = new Object();
+        CompletableFuture taskChain = task.getFuture().thenAccept((str) -> {
+            success.set(str.equals("foobar"));
+        });
+
         task.trigger("foobar");
 
-        verify(
-                task.mockedCountDownLatch,
-                times(1)
-        ).getCount();
+        taskChain.join();
 
-        Assert.assertNotNull(task.getAtomicReference().get());
-
-        task.getAtomicReference().get().equals("foobar");
-
-        verify(
-                task.mockedCountDownLatch,
-                times(1)
-        ).countDown();
+        Assert.assertTrue(success.get());
     }
 }
