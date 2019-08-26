@@ -1,4 +1,4 @@
-package io.kuzzle.sdk.Response;
+package io.kuzzle.sdk.CoreClasses.Response;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;

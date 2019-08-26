@@ -6,15 +6,10 @@ import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
-import io.kuzzle.sdk.Protocol.WebSocket;
-import io.kuzzle.sdk.Response.Response;
-import org.junit.Before;
-import org.junit.Test;
+import io.kuzzle.sdk.CoreClasses.Response.Response;
 
 import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static org.mockito.Mockito.*;
 
 public class TestableKuzzle extends Kuzzle {
 
@@ -32,6 +27,14 @@ public class TestableKuzzle extends Kuzzle {
 
     public EventListener getTokenExpiredEventListener() {
         return super.tokenExpiredEvent;
+    }
+
+    public void setUnhandledResponseEventListener(EventListener eventListener) {
+        super.unhandledResponseEvent = eventListener;
+    }
+
+    public EventListener getUnhandledResponseEventListener() {
+        return super.unhandledResponseEvent;
     }
 
     public void onStateChanged(ProtocolState state) {

@@ -7,16 +7,16 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Task<T> {
     protected CountDownLatch countDownLatch;
     protected CompletableFuture<T> future;
-    protected AtomicReference<T> object = null;
+    protected AtomicReference<T> atomicReference = null;
 
     public Task() {
-        object = new AtomicReference<T>();
+        atomicReference = new AtomicReference<T>();
         countDownLatch = new CountDownLatch(1);
         future = CompletableFuture.<T>supplyAsync(() -> {
             try {
                 countDownLatch.await();
 
-                return object.get();
+                return atomicReference.get();
             } catch (InterruptedException e) {
                 return null;
             }
@@ -31,7 +31,7 @@ public class Task<T> {
         future.completeExceptionally(e);
     }
 
-    public boolean isCanceled() {
+    public boolean isCancelled() {
         return future.isCancelled();
     }
 
@@ -41,6 +41,10 @@ public class Task<T> {
 
     public boolean isCompletedExceptionally() {
         return future.isCompletedExceptionally();
+    }
+
+    public void setCancelled(boolean state) {
+        future.cancel(state);
     }
 
 
@@ -53,7 +57,7 @@ public class Task<T> {
 
     public void trigger(T object) {
         if (countDownLatch.getCount() > 0) {
-            this.object.set(object);
+            atomicReference.set(object);
             countDownLatch.countDown();
         }
     }

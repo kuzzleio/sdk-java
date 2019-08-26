@@ -6,15 +6,13 @@ import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Events.EventListener;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
-import io.kuzzle.sdk.Helpers.Default;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 import io.kuzzle.sdk.Protocol.WebSocket;
-import io.kuzzle.sdk.Response.ErrorResponse;
-import io.kuzzle.sdk.Response.Response;
+import io.kuzzle.sdk.CoreClasses.Response.ErrorResponse;
+import io.kuzzle.sdk.CoreClasses.Response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.net.URISyntaxException;
@@ -30,12 +28,15 @@ import static org.mockito.Mockito.*;
 public class KuzzleTests {
     private AbstractProtocol networkProtocol = mock(WebSocket.class);
     private EventListener tokenExpiredEventListener = mock(EventListener.class);
+    private EventListener<Response>
+            unhandledResponseEventListener = mock(EventListener.class);
     private TestableKuzzle kuzzle;
 
     @Before
     public void setup() throws URISyntaxException {
         kuzzle = new TestableKuzzle(networkProtocol);
         kuzzle.setTokenExpiredEventListener(tokenExpiredEventListener);
+        kuzzle.setUnhandledResponseEventListener(unhandledResponseEventListener);
     }
 
     @Test
@@ -62,58 +63,57 @@ public class KuzzleTests {
     @Test
     public void unregisterTokenExpiredEvent() throws Exception {
         kuzzle.unregisterTokenExpiredEvent(() -> {});
-        verify(tokenExpiredEventListener, times(1)).unregister(any(Runnable.class));
+        verify(
+                tokenExpiredEventListener,
+                times(1)
+        ).unregister(any(Runnable.class));
     }
 
     @Test
     public void onStateChanged() {
-        ConcurrentHashMap<String, Task<Response>> requests = kuzzle.getRequests();
+        ConcurrentHashMap<String, Task<Response>>
+                requests = kuzzle.getRequests();
 
         Task<Response> response = new Task<Response>();
         requests.put("foobar", response);
         kuzzle.onStateChanged(ProtocolState.CLOSE);
-        assertEquals(requests.size(), 0);
+        assertEquals(0, requests.size());
         assertTrue(response.isCompletedExceptionally());
     }
 
     @Test(expected = NotConnectedException.class)
-    public void queryShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
-        when(networkProtocol.getState()).thenAnswer(new Answer<ProtocolState>() {
+    public void queryShouldThrowWhenNotConnected()
+            throws NotConnectedException, InternalException {
+        when(networkProtocol.getState())
+            .thenAnswer(
+                (Answer<ProtocolState>) invocation -> ProtocolState.CLOSE
+            );
 
-            @Override
-            public ProtocolState answer(InvocationOnMock invocation) throws Throwable {
-                return ProtocolState.CLOSE;
-            }
-
-        });
         kuzzle.query(new JsonObject());
     }
 
     @Test
     public void querySuccess() throws NotConnectedException, InternalException {
-        when(networkProtocol.getState()).thenAnswer(new Answer<ProtocolState>() {
+        when(networkProtocol.getState())
+            .thenAnswer(
+                (Answer<ProtocolState>) invocation -> ProtocolState.OPEN
+            );
 
-            @Override
-            public ProtocolState answer(InvocationOnMock invocation) throws Throwable {
-                return ProtocolState.OPEN;
-            }
-
-        });
         CompletableFuture<Response> response = kuzzle.query(new JsonObject());
         assertNotNull(response);
-        verify(networkProtocol, times(1)).send(any(JsonObject.class));
+        verify(
+                networkProtocol,
+                times(1)
+        ).send(any(JsonObject.class));
     }
 
     @Test(expected = InternalException.class)
-    public void queryShouldThrowWhenVolatileIsNotJsonObject() throws NotConnectedException, InternalException {
-        when(networkProtocol.getState()).thenAnswer(new Answer<ProtocolState>() {
-
-            @Override
-            public ProtocolState answer(InvocationOnMock invocation) throws Throwable {
-                return ProtocolState.OPEN;
-            }
-
-        });
+    public void queryShouldThrowWhenVolatileIsNotJsonObject()
+            throws NotConnectedException, InternalException {
+        when(networkProtocol.getState())
+            .thenAnswer(
+                (Answer<ProtocolState>) invocation -> ProtocolState.OPEN
+            );
 
         JsonObject payload = new JsonObject();
         payload.addProperty("volatile", "foobar");
@@ -134,11 +134,14 @@ public class KuzzleTests {
 
         Task<Response> task = new Task<Response>();
 
-        requests.put("request-id", task);
+        requests.put("room-id", task);
 
         kuzzle.onResponseReceived(new Gson().toJson(response));
 
-        verify(tokenExpiredEventListener, times(1)).trigger();
+        verify(
+                tokenExpiredEventListener,
+                times(1)
+        ).trigger();
     }
 
     @Test
@@ -154,16 +157,12 @@ public class KuzzleTests {
 
         requests.put("request-id", task);
 
-        kuzzle.registerUnhandledResponseEvent((Response obj) -> {
-            if (Default.notNull(response.requestId, "")
-                       .equals("foobar")
-            ) {
-                success.set(true);
-            }
-        });
-
         kuzzle.onResponseReceived(new Gson().toJson(response));
-        assertTrue(success.get());
+
+        verify(
+                unhandledResponseEventListener,
+                times(1)
+        ).trigger(any(Response.class));
     }
 
 }

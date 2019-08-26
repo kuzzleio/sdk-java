@@ -4,42 +4,55 @@ import com.google.gson.JsonObject;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.sun.istack.internal.NotNull;
+import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.*;
 
+import static io.kuzzle.sdk.Helpers.Default.notNull;
+
 public class WebSocket extends AbstractProtocol {
 
-    protected CompletableFuture connecting;
-    protected CountDownLatch waiter;
     protected BlockingDeque<JsonObject> queue;
     protected com.neovisionaries.ws.client.WebSocket socket;
     protected ProtocolState state = ProtocolState.CLOSE;
     protected URI uri;
 
+    protected final boolean ssl;
+    protected final int port;
+    protected int connectionTimeout;
+
     public ProtocolState getState() {
         return state;
     }
 
-    public WebSocket(
-            @NotNull String host,
-            int port
-    ) throws URISyntaxException, IllegalArgumentException {
-        this(host, port, false);
+    public WebSocket(@NotNull String host)
+            throws URISyntaxException, IllegalArgumentException {
+        this(host, new WebSocketOptions());
     }
 
     public WebSocket(
             @NotNull String host,
-            int port,
-            boolean ssl
+            WebSocketOptions options
     ) throws URISyntaxException, IllegalArgumentException {
-
         super();
+
+        WebSocketOptions wsOptions =
+                options != null
+                ? new WebSocketOptions(options)
+                : new WebSocketOptions();
+
+        ssl = wsOptions.isSsl();
+        port = wsOptions.getPort();
+        connectionTimeout = wsOptions.getConnectionTimeout();
+
         if (host == null || host.isEmpty()) {
             throw new IllegalArgumentException("Host name/address can't be empty");
         }
-
         this.uri = new URI((ssl ? "wss" : "ws") + "://" + host + ":" + port + "/");
         this.queue = new LinkedBlockingDeque<>();
     }
@@ -49,13 +62,27 @@ public class WebSocket extends AbstractProtocol {
         queue.add(payload);
     }
 
+    protected com.neovisionaries.ws.client.WebSocket createClientSocket() throws IOException {
+        WebSocketFactory wsFactory = new WebSocketFactory();
+
+        if (connectionTimeout > -1) {
+            wsFactory = wsFactory.setConnectionTimeout(connectionTimeout);
+        }
+
+        if (ssl) {
+            wsFactory.setSocketFactory(SSLSocketFactory.getDefault());
+        }
+
+        return wsFactory.createSocket(uri);
+    }
+
     @Override
     public void connect() throws Exception {
         if (socket != null) {
             return;
         }
 
-        socket = new WebSocketFactory().createSocket(uri);
+        socket = createClientSocket();
 
         socket.connect();
         state = ProtocolState.OPEN;
@@ -64,7 +91,10 @@ public class WebSocket extends AbstractProtocol {
 
         socket.addListener(new WebSocketAdapter() {
             @Override
-            public void onTextMessage(com.neovisionaries.ws.client.WebSocket websocket, String text) throws Exception {
+            public void onTextMessage(
+                    com.neovisionaries.ws.client.WebSocket websocket,
+                    String text
+            ) throws Exception {
                 super.onTextMessage(websocket, text);
                 dispatchMessageEvent(text);
             }
@@ -77,10 +107,12 @@ public class WebSocket extends AbstractProtocol {
     }
 
     protected void CloseState() {
-        socket.disconnect();
-        state = ProtocolState.CLOSE;
-        socket = null;
-        dispatchStateChange(state);
+        if (socket != null) {
+            socket.disconnect();
+            state = ProtocolState.CLOSE;
+            socket = null;
+            dispatchStateChange(state);
+        }
     }
 
     protected Thread Dequeue() {
@@ -94,5 +126,16 @@ public class WebSocket extends AbstractProtocol {
         });
         thread.start();
         return thread;
+    }
+
+    public int getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout =
+                connectionTimeout < 0
+                ? -1
+                : connectionTimeout;
     }
 }
