@@ -1,0 +1,80 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+plugins {
+    id "com.jfrog.bintray" version "1.7.3"
+    id 'jacoco'
+    id 'java'
+}
+
+configurations {
+    childJars
+}
+
+group 'io.kuzzle'
+version '3.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+    apply plugin: 'idea'
+    apply plugin: 'maven-publish'
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+javadoc.failOnError = false
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+    compile project(':kuzzle-sdk-base')
+    childJars project(':kuzzle-sdk-base')
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+jar {
+    from { configurations.childJars.collect { zipTree(it) } }
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+test {
+    useJUnit()
+
+    maxHeapSize = '1G'
+}
+
