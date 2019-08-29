@@ -1,0 +1,4 @@
+rootProject.name = 'kuzzle-sdk-java'
+
+include ':kuzzle-sdk-base'
+project(':kuzzle-sdk-base').projectDir = new File("../kuzzle-sdk-base")
