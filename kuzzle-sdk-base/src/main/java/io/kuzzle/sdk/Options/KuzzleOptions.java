@@ -12,8 +12,6 @@ public class KuzzleOptions<T> {
     private int maxRequestDelay = 1000;
 
     private boolean autoReconnect = true;
-    private boolean autoReplay = false;
-    private boolean autoResubscribe = true;
 
     private Predicate<T> filter = (T obj) -> true;
 
@@ -26,8 +24,6 @@ public class KuzzleOptions<T> {
         
         this.maxRequestDelay = options.maxRequestDelay;
         this.autoReconnect = options.autoReconnect;
-        this.autoReplay = options.autoReplay;
-        this.autoResubscribe = options.autoResubscribe;
         
         this.filter = options.filter;
     }
@@ -83,24 +79,6 @@ public class KuzzleOptions<T> {
 
     public KuzzleOptions withAutoReconnect(boolean autoReconnect) {
         this.autoReconnect = autoReconnect;
-        return this;
-    }
-
-    public boolean isAutoReplayed() {
-        return autoReplay;
-    }
-
-    public KuzzleOptions withAutoReplay(boolean autoReplay) {
-        this.autoReplay = autoReplay;
-        return this;
-    }
-
-    public boolean isAutoResubscribed() {
-        return autoResubscribe;
-    }
-
-    public KuzzleOptions withAutoResubscribe(boolean autoResubscribe) {
-        this.autoResubscribe = autoResubscribe;
         return this;
     }
 

@@ -19,6 +19,9 @@ import io.kuzzle.sdk.CoreClasses.Responses.*;
 
 import static io.kuzzle.sdk.Helpers.Default.notNull;
 
+/**
+ * @param <T> This is the json object of the Json library you want to use
+ */
 public abstract class AbstractKuzzle<T> {
 
     protected EventListener tokenExpiredEvent;
@@ -29,23 +32,62 @@ public abstract class AbstractKuzzle<T> {
     public final String version;
     public final String instanceId;
 
+    /**
+     * Authentication token
+     */
+    protected String authenticationToken;
+
+
+    /**
+     * The maximum amount of elements that the queue can contains.
+     * If set to -1, the size is unlimited.
+     */
     protected int maxQueueSize;
+
+
+    /**
+     * The minimum duration of a Token before being automatically refreshed.
+     * If set to -1 the SDK does not refresh the token automatically.
+     */
     protected int minTokenDuration;
+
+
+    /**
+     * The minimum duration of a Token after refresh.
+     * If set to -1 the SDK does not refresh the token automatically.
+     */
     protected int refreshedTokenDuration;
+
+    /**
+     * The maximum delay between two requests to be replayed
+     */
     protected int maxRequestDelay;
 
+    /**
+     * Queue requests when network is down,
+     * and automatically replay them when the SDK successfully reconnects.
+     */
     protected boolean autoReconnect;
-    protected boolean autoReplay;
-    protected boolean autoResubscribe;
 
     protected ConcurrentHashMap<String, Task<Response<T>>>
                     requests = new ConcurrentHashMap<>();
 
+    /** Initialize a new instance of Kuzzle
+     * @param jobject           An instance of an object implementing IJObject
+     * @param networkProtocol   The network protocol
+     * @throws IllegalArgumentException
+     */
     public AbstractKuzzle(IJObject<T> jobject, AbstractProtocol<T> networkProtocol)
             throws IllegalArgumentException {
         this(jobject, networkProtocol, new KuzzleOptions());
     }
 
+    /** Initialize a new instance of Kuzzle
+     * @param jobject           An instance of an object implementing IJObject
+     * @param networkProtocol   The network protocol
+     * @param options           Kuzzle options
+     * @throws IllegalArgumentException
+     */
     public AbstractKuzzle(
             IJObject<T>  jobject,
             AbstractProtocol<T> networkProtocol,
@@ -76,8 +118,6 @@ public abstract class AbstractKuzzle<T> {
         this.maxRequestDelay = kOptions.getMaxRequestDelay();
 
         this.autoReconnect = kOptions.isAutoReconnected();
-        this.autoReplay = kOptions.isAutoReplayed();
-        this.autoResubscribe = kOptions.isAutoResubscribed();
 
         this.version = "2.0";
         this.instanceId = UUID.randomUUID().toString();
@@ -86,14 +126,23 @@ public abstract class AbstractKuzzle<T> {
         this.unhandledResponseEvent = new EventListener<>();
     }
 
+    /** Establish a network connection
+     * @throws Exception
+     */
     public void connect() throws Exception {
         networkProtocol.connect();
     }
 
+    /**
+     * Disconnect this instance
+     */
     public void disconnect() {
         networkProtocol.disconnect();
     }
 
+    /** Handles the ResponseReceivedEvent from the network protocol
+     * @param payload Raw API Response
+     */
     protected void onResponseReceived(String payload) {
 
         System.out.println(payload);
@@ -134,6 +183,7 @@ public abstract class AbstractKuzzle<T> {
     }
 
     protected void onStateChanged(ProtocolState state) {
+        // If not connected anymore: close tasks and clean up the requests buffer
         if (state == ProtocolState.CLOSE) {
             for (Task task : requests.values()) {
                 task.setException(new ConnectionLostException());
@@ -142,26 +192,51 @@ public abstract class AbstractKuzzle<T> {
         }
     }
 
+    /** Registers a callback to be called when the token expires
+     * @param callback A callback
+     * @return true if success
+     */
     public boolean registerTokenExpiredEvent(Runnable callback) {
         return tokenExpiredEvent.register(callback);
     }
 
+    /** Unregisters a previously registered callback for the TokenExpired event
+     * @param callback A callback
+     * @return true if success
+     */
     public boolean unregisterTokenExpiredEvent(Runnable callback) {
         return tokenExpiredEvent.unregister(callback);
     }
 
+    /** Registers a callback to be called when a response is unhandled
+     * @param callback  A callback
+     * @return true if success
+     */
     public boolean registerUnhandledResponseEvent(Consumer<Response> callback) {
         return unhandledResponseEvent.register(callback);
     }
 
+    /**
+     * @param callback Unregisters a previously registered callback for the UnhandledResponse event
+     * @return true if success
+     */
     public boolean unregisterUnhandledResponseEvent(Consumer<Response> callback) {
         return unhandledResponseEvent.unregister(callback);
     }
 
+    /**
+     * Triggers the TokenExpired event
+     */
     public void dispatchTokenExpired() {
         tokenExpiredEvent.trigger();
     }
 
+    /** Sends an API request to Kuzzle and returns the corresponding API
+     * @param query Kuzzle API query
+     * @return A CompletableFuture
+     * @throws InternalException
+     * @throws NotConnectedException
+     */
     public CompletableFuture<Response<T>> query(T query)
             throws InternalException, NotConnectedException {
         if (query == null) {
@@ -179,6 +254,10 @@ public abstract class AbstractKuzzle<T> {
                 queryJObject.put("refresh", "wait_for");
             }
             queryJObject.remove("waitForRefresh");
+        }
+
+        if (authenticationToken != null) {
+            queryJObject.put("jwt", authenticationToken);
         }
 
         String requestId = UUID.randomUUID().toString();
@@ -207,5 +286,19 @@ public abstract class AbstractKuzzle<T> {
         }
 
         return task.getFuture();
+    }
+
+    /**
+     * @return The authentication token
+     */
+    public String getAuthenticationToken() {
+        return authenticationToken;
+    }
+
+    /** Set the authentication token
+     * @param token Authentication token
+     */
+    public void setAuthenticationToken(String token) {
+        authenticationToken = token;
     }
 }
