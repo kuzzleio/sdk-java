@@ -20,7 +20,7 @@ import io.kuzzle.sdk.CoreClasses.Responses.*;
 import static io.kuzzle.sdk.Helpers.Default.notNull;
 
 /**
- * @param <T> This is the json object of the Json library you want to use
+ * @param <T> The json object of the Json library you want to use.
  */
 public abstract class AbstractKuzzle<T> {
 
@@ -63,12 +63,6 @@ public abstract class AbstractKuzzle<T> {
      */
     protected int maxRequestDelay;
 
-    /**
-     * Queue requests when network is down,
-     * and automatically replay them when the SDK successfully reconnects.
-     */
-    protected boolean autoReconnect;
-
     protected ConcurrentHashMap<String, Task<Response<T>>>
                     requests = new ConcurrentHashMap<>();
 
@@ -109,15 +103,13 @@ public abstract class AbstractKuzzle<T> {
                 : new KuzzleOptions();
 
         this.networkProtocol = networkProtocol;
-        this.networkProtocol.registerMessageEvent(this::onResponseReceived);
-        this.networkProtocol.registerStateChange(this::onStateChanged);
+        this.networkProtocol.registerResponseEvent(this::onResponseReceived);
+        this.networkProtocol.registerStateChangeEvent(this::onStateChanged);
 
         this.maxQueueSize = kOptions.getMaxQueueSize();
         this.minTokenDuration = kOptions.getMinTokenDuration();
         this.refreshedTokenDuration = kOptions.getRefreshedTokenDuration();
         this.maxRequestDelay = kOptions.getMaxRequestDelay();
-
-        this.autoReconnect = kOptions.isAutoReconnected();
 
         this.version = "2.0";
         this.instanceId = UUID.randomUUID().toString();

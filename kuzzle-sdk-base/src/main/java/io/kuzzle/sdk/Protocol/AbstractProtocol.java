@@ -5,6 +5,9 @@ import io.kuzzle.sdk.Events.EventListener;
 
 import java.util.function.Consumer;
 
+/**
+ * @param <T> The json object of the Json library you want to use.
+ */
 public abstract class AbstractProtocol<T> {
     protected EventListener<ProtocolState> stateChanged;
     protected EventListener<String> messageReceived;
@@ -14,32 +17,67 @@ public abstract class AbstractProtocol<T> {
         messageReceived = new EventListener<String>();
     }
 
+    /** Current connection state.
+     * @return The state.
+     */
     public abstract ProtocolState getState();
 
+    /** connect this instance.
+     * @throws Exception
+     */
     public abstract void connect() throws Exception;
+
+    /**
+     * Disconnect this instance.
+     */
     public abstract void disconnect();
 
+    /** Send the specified payload to Kuzzle.
+     * @param payload
+     */
     public abstract void send(IJObject<T> payload);
 
-    public boolean registerMessageEvent(Consumer<String> callback) {
+
+    /**
+     * Register to the Response event
+     */
+    public boolean registerResponseEvent(Consumer<String> callback) {
         return messageReceived.register(callback);
     }
-    public boolean unregisterMessageEvent(Consumer<String> callback) {
+
+    /**
+     * Unregister from the Response event
+     */
+    public boolean unregisterResponseEvent(Consumer<String> callback) {
         return messageReceived.unregister(callback);
     }
 
-    public boolean registerStateChange(Consumer<ProtocolState> callback) {
+    /**
+     * Register to the StateChange event
+     */
+    public boolean registerStateChangeEvent(Consumer<ProtocolState> callback) {
         return stateChanged.register(callback);
     }
-    public boolean unregisterStateChange(Consumer<ProtocolState> callback) {
+
+    /**
+     * Unregister from the StateChange event
+     */
+    public boolean unregisterStateChangeEvent(Consumer<ProtocolState> callback) {
         return stateChanged.unregister(callback);
     }
 
-    protected void dispatchStateChange(ProtocolState state) {
+
+    /** Dispatch a state changed event.
+     * @param state The ProtocolState.
+     */
+    protected void dispatchStateChangeEvent(ProtocolState state) {
         stateChanged.trigger(state);
     }
 
-    protected void dispatchMessageEvent(String message) {
+    /** Dispatch a message received from a Kuzzle server.
+     * @param message Kuzzle API response.
+     */
+    protected void dispatchResponseEvent(String message) {
         messageReceived.trigger(message);
     }
 }
