@@ -11,6 +11,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.*;
 
+/**
+ * @param <T> The json object of the Json library you want to use.
+ */
 public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
 
     protected BlockingDeque<IJObject> queue;
@@ -31,6 +34,12 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
         this(host, new WebSocketOptions());
     }
 
+    /**
+     * @param host      Kuzzle host address
+     * @param options   WebSocket options
+     * @throws URISyntaxException
+     * @throws IllegalArgumentException
+     */
     public AbstractWebSocket(
             String host,
             WebSocketOptions options
@@ -73,6 +82,9 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
         return wsFactory.createSocket(uri);
     }
 
+    /** Connects to a Kuzzle server.
+     * @throws Exception
+     */
     @Override
     public void connect() throws Exception {
         if (socket != null) {
@@ -83,7 +95,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
 
         socket.connect();
         state = ProtocolState.OPEN;
-        dispatchStateChange(state);
+        dispatchStateChangeEvent(state);
         Dequeue();
 
         socket.addListener(new WebSocketAdapter() {
@@ -93,11 +105,14 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
                     String text
             ) throws Exception {
                 super.onTextMessage(websocket, text);
-                dispatchMessageEvent(text);
+                dispatchResponseEvent(text);
             }
         });
     }
 
+    /**
+     * Disconnects this instance.
+     */
     @Override
     public void disconnect() {
         CloseState();
@@ -108,7 +123,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
             socket.disconnect();
             state = ProtocolState.CLOSE;
             socket = null;
-            dispatchStateChange(state);
+            dispatchStateChangeEvent(state);
         }
     }
 

@@ -4,22 +4,84 @@ import io.kuzzle.sdk.CoreClasses.Json.IJObject;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializable;
 import io.kuzzle.sdk.Helpers.IJObjectHelper;
 
+
+/**
+ * @param <T> The json object of the Json library you want to use.
+ */
 public class Response<T> implements JsonSerializable<T> {
 
     public String room;
+
+    /**
+     * Response payload (depends on the executed API action)
+     */
     public IJObject result;
-    public ErrorResponse error;
+
+    /**
+     * Error object (null if the request finished successfully)
+     */
+    public ErrorResponse<T> error;
+
+    /**
+     * Request unique identifier.
+     */
     public String requestId;
+
+    /**
+     * Response status, following HTTP status codes
+     */
     public int status;
+
+    /**
+     * Executed Kuzzle API controller.
+     */
     public String controller;
+
+    /**
+     * Executed Kuzzle API controller's action.
+     */
     public String action;
+
+    /**
+     * Impacted data index.
+     */
     public String index;
+
+    /**
+     * Impacted data collection.
+     */
     public String collection;
+
+    /**
+     * Volatile data.
+     */
     public IJObject Volatile;
+
+    // The following properties are specific to real-time notifications
+
+    /**
+     * Network protocol at the origin of the real-time notification.
+     */
     public String protocol;
+
+    /**
+     * Document scope ("in" or "out")
+     */
     public String scope;
+
+    /**
+     * Document state
+     */
     public String state;
+
+    /**
+     * Notification timestamp (UTC)
+     */
     public Long timestamp;
+
+    /**
+     * Notification type
+     */
     public String type;
 
     @Override
@@ -29,9 +91,11 @@ public class Response<T> implements JsonSerializable<T> {
                 "result",
                 IJObjectHelper.newIJObject()
         );
-        error = jsonObject.isIJObject("error")
-                ? new ErrorResponse(jsonObject.getIJObject("error"))
-                : null;
+        error = null;
+        if (jsonObject.isIJObject("error")) {
+            error = new ErrorResponse<T>();
+            error.fromIJObject(jsonObject.<T>getIJObject("error"));
+        }
         requestId = jsonObject.getString("requestId");
         status = jsonObject.optInteger("status", 0);
         controller = jsonObject.getString("controller");
