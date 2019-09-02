@@ -1,0 +1,3 @@
+[submodule "kuzzle-sdk-base/src/test/resources/features/s"]
+	path = kuzzle-sdk-base/src/test/resources/features/
+	url = https://github.com/kuzzleio/sdk-features.git
