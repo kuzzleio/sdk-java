@@ -1,10 +1,9 @@
-package io.kuzzle.test.ProtocolTest;
+package io.kuzzle.unittests.ProtocolTest;
 
 import io.kuzzle.runner.Protocol.WebSocket;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.mock;

@@ -1,4 +1,4 @@
-package io.kuzzle.test.EventsTest;
+package io.kuzzle.unittests.EventsTest;
 
 import io.kuzzle.sdk.Events.EventListener;
 

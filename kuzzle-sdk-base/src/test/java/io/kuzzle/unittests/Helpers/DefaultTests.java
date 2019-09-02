@@ -1,4 +1,4 @@
-package io.kuzzle.test.Helpers;
+package io.kuzzle.unittests.Helpers;
 
 import io.kuzzle.sdk.Helpers.Default;
 import org.junit.Assert;

@@ -1,4 +1,4 @@
-package io.kuzzle.test;
+package io.kuzzle.unittests;
 
 import io.kuzzle.runner.Kuzzle;
 import io.kuzzle.sdk.CoreClasses.Task;

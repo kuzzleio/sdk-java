@@ -1,4 +1,4 @@
-package io.kuzzle.test.ProtocolTest;
+package io.kuzzle.unittests.ProtocolTest;
 
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Protocol.ProtocolState;

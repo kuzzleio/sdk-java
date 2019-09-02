@@ -1,4 +1,4 @@
-package io.kuzzle.test;
+package io.kuzzle.unittests;
 
 import io.kuzzle.runner.Helpers.IJObjectHelper;
 import io.kuzzle.runner.Protocol.WebSocket;

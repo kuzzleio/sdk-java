@@ -1,4 +1,4 @@
-package io.kuzzle.test.EventsTest;
+package io.kuzzle.unittests.EventsTest;
 
 import org.junit.Assert;
 import org.junit.Test;
