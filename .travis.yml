@@ -1,119 +1,75 @@
+---
+# -----------------
+# YAML Templates
+# -----------------
 
-env:
-  global:
-    # BINTRAY_USER
-    - secure: "LxONQZ8tHhxTqgu+kqx9fMCubCfTQHZsy/3ibE+l72xG8sOAYfj4hB5k1p4kklnv3skeFQEiL6B++B2qRITOEAPRdD8FExkc+UF/TM1rY5aUtjIjoA3uH4n9hYjHirTO5qNKf4KxDr1Zbcn4ISGebJ0EYwE0SG/ptrd06wPp1G8AHshc8XaZgen6gDaik66OWpQkOkmGsRz2EPmIBVgo7L2LGK21DSxE4/PTo+ou0WYCyxyyWSKLTLt1xZpt9LOtk7IckrHl+Nenl6IbV/CjHb3+5vwdifyFQd+K6AVe32iTIVjdxj7rDhEHYD0EqKb79ey+u8p9HquLnGH03gcVBeFQu/qhhQStsiwrD/S9c8jwBjWOOUnVI4bEbqjqxFaRlPfVnRaAjQZLRKHdqxyTJCdC2Ls79LmkqSCyTxM7WBwwgu4Slf6RJSbKJb5naHYlwDuKPbeyHLAYrxgjEHC28bxQiTr5wwBWxE9BLxUcnkFAXzsy3qE74FQOIjvQbtrruLIOGwRGRYtzyfygGA3MfTHug6JwZGngqFf3k+kbznE8fZe7zxMwT63P6/54rR5fU/plLoTNFqdQsZGAfGOSYuHIEzWXOkWxffqsOwxPa1VxQTLD32O95oBcrcvmw4toC2NeFTe/+zZRMfGMbu7QIi0AL3qFpky3j12zcyA/M2I="
-    # BINTRAY_KEY
-    - secure: "Iqn4ImAwFmQeoXXDb5JOsfcunSiSeLvdp4+AEsIeniMhpIk++ZJPDSxecC+NrvndTrxOXVqHEsFUfHnZYvPHMuvg9nhXvz/rmmyYH0hZqkKg2q2qM+Sz2UJBCvs6D1sJv3ZEVi8d6fVx5bbKXMzSE023XFBBK7l8nBsG5ObXBOzTzrus9UP+fk4FXif/QKJNcUSN7rLejUIxMCk36gMQYqYGiiqL3VE60aTpaUh7Vqj/8nCEPcO3K3gXTVybcGBcmsvinV5YEc+5s5ue8eX10ONY0oYF5GFd7aEsrKEFzT2d7MVq0a29cH1rWrxt6q7vXGZNKAdAQrDyRZUz9rMFtqH+2xOgagm22UiUYNlzrn2eDYRBd08X0y043gumdgmOq/CsyaI5bcUSKMr+rsZ2XIzBjefl8MU0xBhtKMO9g9WRfGBxjRbdg0ivRQoVGJbcUXTDl2WrLMgMjt8DT4nQP+PHdIV2FjZVNioqucqmEzfHIJt+hiw7EonGDnZ9uqkW6hm6b4JpGr5QF1yY6kKVCUQxLueUBAVdiZpULdevL7uYEUzdWIES2wTFE7LaWpHqnCOHYVpkIQpdole6+R0OhINhSHK0FW858xhZ2QGjtL1SSh5yzK4th6dpGKCiwMUSGSj5frpIeWPi+GqYoUQz+TvMGLGG2XGfihx74kQE0FA="
-    - AWS_ACCESS_KEY_ID=AKIAIYAXFUAHXOWP2MJA
-    # AWS_SECRET_ACCESS_KEY
-    - secure: "dIcQzFpHKRf92cAiMA+SYsudtHWNcbYadVDb7zlJayWGUGy0i4CGwwOoOOrUcWgHxYhdN9XGwvFJTSswjHLRiHEyPFBwW8x/VfaCRS+jAcblMXyWNajvm0930S/3fRv5LA+4UKNmeXMuCGSf35ZqyEIEeuThkIomYvB/tBD1wcMpBUtQfmilLm3sUTaGUnFB651jBHshlYOZ8BAGLLmX1PAfT1wCrpVcrjq5kayNOIilJkwKGSr6q9C0p7+ULNZ4bHsATKLlYNs7Xcs+9a66p1EtKetP72DQsHrr8x3wB2Hhk3U425kmjIoE3gYnF7x3h3EpO5m0rGessbgdRF1SF7XK7Bsj4ukLb4HoktA8G7734ox4848RpH60aKUHRCsiebX7JKgJe1eEwU5BZK8+PFPGH6bI1YG1HQNqthzotTHFXu058uMHnyLv2PmDWWEYMM79fCyuRo8gJJ8GJhDgaGLgtizzEb6grcNW+QwunjA6nP4o7F9o+9b3lfGlsgL595V/CeWLNnHvENkSr67RN2NkDZm6q6EHbOk8AWtQc24mVawCwCbcJjp0sPkbQdCHUXSBNXjdwrvJLA3h94A2uVEmrV7mzMdfj+i9X3IS/HXRLeQk6Ivq2s/b1W6c7rBfz4zZUO7Uu5iYpVzT71yNFra13JkW3REFgHgETEvGkko="
-
-
-sudo: true
-
+# ------------------------
+# Jobs configuration
+# ------------------------
 jobs:
   include:
-    - stage: Tests
-      name: Dead link check
-      if: type = pull_request OR type = push AND branch =~ /^master|[0-9]+-(dev|stable)$/ OR type = cron
-      language: node_js
-      node_js: 10
-
-      before_script:
-        - npm run doc-prepare
-        - npm run --prefix doc/framework clone-repos
-      script:
-        - gem install typhoeus
-        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
-
-    - stage: Deployment Doc Dev
-      name: Deploy next-docs.kuzzle.io
-      if: type = push AND branch =~ .*-dev
-      language: node_js
-      node_js: 10
-      env:
-        - NODE_ENV=production
-        - S3_BUCKET=docs-next.kuzzle.io
-        - CLOUDFRONT_DISTRIBUTION_ID=E2ZCCEK9GRB49U
-        - AWS_DEFAULT_REGION=us-west-2
-
-      addons:
-        apt:
-          packages:
-            - python
-            - python-pip
-
-      install:
-        - pip install awscli --upgrade --user
-
-      script:
-        - npm run doc-prepare
-        - npm run doc-build
-
-      deploy:
-        provider: script
-        script:
-          - npm run doc-upload
-        skip_cleanup: true
-
-      after_deploy:
-        - npm run doc-cloudfront
-
-    - stage: Deployment Doc Prod
-      name: Deploy docs.kuzzle.io
-      if: type = push AND branch =~ /^master|[0-9]+-stable$/
-      language: node_js
-      node_js: 10
-      env:
-        - NODE_ENV=production
-        - S3_BUCKET=docs.kuzzle.io
-        - CLOUDFRONT_DISTRIBUTION_ID=E3D6RP0POLCJMM
-        - AWS_DEFAULT_REGION=us-west-2
-
-      addons:
-        apt:
-          packages:
-            - python
-            - python-pip
-
-      install:
-        - pip install awscli --upgrade --user
-
-      script:
-        - npm run doc-prepare
-        - npm run doc-build
-
-      deploy:
-        provider: script
-        script:
-          - npm run doc-upload
-        skip_cleanup: true
-
-      after_deploy:
-        - npm run doc-cloudfront
-
-
-    - stage: Deployment
-      name: Deploy to Bintray
-      if: branch = master AND tag IS present AND type != cron
+    # ---------------------------------------
+    # Unit Tests & Linters
+    # ---------------------------------------
+    - stage: Unit Tests & Linters
+      name: Unit Tests & ESLint
+      dist: trusty
       language: java
-
-      jdk:
-        - openjdk8
-
+      jdk: oraclejdk8
+      sudo: false
+      before_cache:
+        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        directories:
+          - $HOME/.gradle/caches/
+          - $HOME/.gradle/wrapper/
+      install:
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-base
+        - gradle assemble
       script:
-        bash gradlew test jacocoTestReport
-
-      notifications:
-        email: false
-
+        - gradle check
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
-      deploy:
-        provider: script
-        script: ./gradlew bintrayUpload
-        skip_cleanup: true
-        on:
-          condition: $TRAVIS_BRANCH = master
+    # ---------------------------------------
+    # Builds
+    # ---------------------------------------
+    - stage: Builds
+      name: Build SDK Java
+      language: java
+      jdk: oraclejdk8
+      sudo: false
+      before_cache:
+        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        directories:
+          - $HOME/.gradle/caches/
+          - $HOME/.gradle/wrapper/
+      install:
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-base
+        - gradle assemble
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - gradle assemble
+      script:
+        - gradle build
+
+# ------------------------
+# Stages configuration
+# ------------------------
+stages:
+  - name: Unit Tests
+    if: type =~ /(cron|push|pull_request)/ AND branch =~ /^master|[0-9]+-(dev|stable)$/
+  - name: Builds
+    if: type =~ /(cron|push|pull_request)/ AND branch =~ /^master|[0-9]+-(dev|stable)$/
+
+# ---------------------------------------
+# Notifications
+# ---------------------------------------
+notifications:
+  slack:
+    rooms:
+      - secure: "ACjz4TJEYBEzmwVOYrCNnr4+jC0FaX+qh150QacYGIgaQYL+U3xLEQmWNlZ3oxaPPMDAk42m+diHolqNwh6qsOWaPSWRlGfLKhHLSzRI98bhF7HQ+3eLMYmx7y7SKwRzyRjus0jgxp0Kc2mq0nhKqv+7rarQtIgWlC1PLrzZ35CUbUlqYSoeYAlXoyDB1eZgYsvjt+eC5yCvGePsfKbupWC2/hIVl+qZ+9AhVmOfiMv7daFW29Vu300aoY+0IqwX7jHGcmHn/7QCRsx0IBy/SL24TzfSV9SUSnbjK4fTrcrhjYDEZdH1lpvDtvr50GgkrTjy1wPVz8XIyCZ7LZolylkx+nR1MWyvum20QRFub2Qhz/+rS+OFiQZ8H01BPuklLUTSQhBksfpGBck3d2yNLiTqGEVWYTnZ9mkCnMQ3BzJXEF04KLHG7wYn2rk6wjPghVmFQH5GMsxM5v33CFgcNzp6lRJOX9CmjZosck6o9SA0WlazHH/CLWWKk1wrQ1ygDayW5m+N/o58UIxgW2LIUlp4tV1z/bRtO2yTd020yWchlKPVmf1A5OMfigJNMRsQGNZNadS7qA2M394OJw3/Hg+0EVF8gai/V8FRijmkxmhYyCIYMcjaGwx8JxfoMrRKcM76haBAhg0JQxsSVKzyXfONGzd5DXjcxSGZ2wuEdu0="
+    on_success: never
+    on_failure: always
