@@ -136,8 +136,6 @@ public abstract class AbstractKuzzle<T> {
      * @param payload Raw API Response
      */
     protected void onResponseReceived(String payload) {
-
-        System.out.println(payload);
         Response<T> response = new Response<>();
         response.fromIJObject(IJObjectHelper.parse(payload));
 
