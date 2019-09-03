@@ -1,0 +1,7 @@
+name: kuzzle#connect
+description: Connects to Kuzzle using the `host` property provided in the constructor parameters. Subsequent call have no effect if the SDK is already connected.
+hooks:
+  before:
+  after:
+template: catch
+expected: Success

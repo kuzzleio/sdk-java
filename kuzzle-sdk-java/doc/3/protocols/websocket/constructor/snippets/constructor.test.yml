@@ -1,0 +1,7 @@
+name: websocket#constructor
+description: This constructor creates a new WebSocket connection, using the specified options.
+hooks:
+  before:
+  after:
+template: empty
+expected: Success

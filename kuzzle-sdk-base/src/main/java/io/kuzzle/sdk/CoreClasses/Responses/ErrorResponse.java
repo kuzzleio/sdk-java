@@ -7,7 +7,7 @@ import io.kuzzle.sdk.Helpers.IJObjectHelper;
 /** Represents a Kuzzle API error.
  * @param <T> The json object of the Json library you want to use.
  */
-public class ErrorResponse<T> implements JsonSerializable<T> {
+public class ErrorResponse<T> extends JsonSerializable<T> {
 
     public ErrorResponse() {
 

@@ -8,7 +8,7 @@ import io.kuzzle.sdk.Helpers.IJObjectHelper;
 /**
  * @param <T> The json object of the Json library you want to use.
  */
-public class Response<T> implements JsonSerializable<T> {
+public class Response<T> extends JsonSerializable<T> {
 
     public String room;
 

@@ -63,7 +63,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
     }
 
     @Override
-    public void send(IJObject payload) {
+    public void send(IJObject<T> payload) {
         queue.add(payload);
     }
 

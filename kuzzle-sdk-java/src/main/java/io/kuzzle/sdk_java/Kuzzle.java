@@ -9,7 +9,7 @@ import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import java.net.URISyntaxException;
 
 public class Kuzzle extends AbstractKuzzle<JsonObject> {
-    public Kuzzle(AbstractProtocol<JsonObject> networkProtocol) throws URISyntaxException, IllegalArgumentException {
+    public Kuzzle(AbstractProtocol<JsonObject> networkProtocol) throws IllegalArgumentException {
         super(new GObject(), networkProtocol);
     }
 
