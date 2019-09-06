@@ -1,7 +1,7 @@
-name: kuzzle#disconnect
-description: Connects to Kuzzle using the `host` property provided in the constructor parameters. Subsequent call have no effect if the SDK is already connected.
+name: kuzzle#query
+description: Send a now query to the server
 hooks:
   before:
   after:
 template: default
-expected: Success
+expected: \{\"room\":\".*\",\"result\":\{\"now\":[0-9]+\},.*\}

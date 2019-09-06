@@ -44,7 +44,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.code.gson:gson:2.8.5'
     compile project(':kuzzle-sdk-base')
     childJars project(':kuzzle-sdk-base')
 }

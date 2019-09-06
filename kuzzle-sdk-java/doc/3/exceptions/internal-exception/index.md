@@ -8,6 +8,6 @@ order: 10
 
 # InternalException
 
-Inherits from the [KuzzleException](/sdk/csharp/1/exceptions/kuzzle-exception) class.
+Inherits from the [KuzzleException](/sdk/java/3/exceptions/kuzzle-exception) class.
 
 The `InternalException` class is thrown on an unexpected SDK behavior.

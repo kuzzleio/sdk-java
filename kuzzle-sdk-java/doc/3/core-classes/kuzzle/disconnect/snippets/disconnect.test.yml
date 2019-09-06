@@ -1,7 +1,7 @@
 name: kuzzle#disconnect
-description: Connects to Kuzzle using the `host` property provided in the constructor parameters. Subsequent call have no effect if the SDK is already connected.
+description: Disconnect kuzzle.
 hooks:
   before:
   after:
-template: default
+template: kuzzle
 expected: Success

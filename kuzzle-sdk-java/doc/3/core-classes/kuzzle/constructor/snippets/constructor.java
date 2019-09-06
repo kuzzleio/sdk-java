@@ -1,4 +1,4 @@
 
-WebSocket networkProtocol = new WebSocket("localhost");
+WebSocket networkProtocol = new WebSocket("kuzzle");
 
 Kuzzle kuzzle = new Kuzzle(networkProtocol);

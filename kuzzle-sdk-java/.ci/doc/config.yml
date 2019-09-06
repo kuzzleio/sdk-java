@@ -1,0 +1,20 @@
+---
+
+snippets:
+  mount: /mnt
+  path: doc/**/snippets/*.test.yml
+  templates: /mnt/.ci/doc/templates
+
+runners:
+  default: java
+
+  java:
+    service: doc-runner-java
+    path: /var/snippets/java
+    lint:
+      cmd: echo "lint me master"
+    build:
+      cmd: cp -f {{ snippet.source }} Main.java && javac -cp "/mnt/build/libs/kuzzle-sdk-java-3.0.0.jar:/gson2.8.5.jar" Main.java
+    run:
+      cmd: java -cp ".:/mnt/build/libs/kuzzle-sdk-java-3.0.0.jar:/gson2.8.5.jar" Main
+      before: timeout 600 bash -c 'until curl -f -s -o /dev/null http://kuzzle:7512/_now; do sleep 1; done'

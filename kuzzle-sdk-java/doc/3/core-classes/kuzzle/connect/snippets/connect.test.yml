@@ -3,5 +3,5 @@ description: Connects to Kuzzle using the `host` property provided in the constr
 hooks:
   before:
   after:
-template: catch
+template: empty_disconnect
 expected: Success
