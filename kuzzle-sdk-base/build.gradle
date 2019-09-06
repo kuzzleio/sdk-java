@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.neovisionaries:nv-websocket-client:2.9'
+    implementation 'com.neovisionaries:nv-websocket-client:2.9'
     testImplementation 'com.google.code.gson:gson:2.8.5'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
