@@ -45,7 +45,8 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.8.5'
-    compile project(':kuzzle-sdk-base')
+    compileOnly project(':kuzzle-sdk-base')
+    childJars project(':kuzzle-sdk-base')
 }
 
 jacocoTestReport {
@@ -63,7 +64,10 @@ artifacts {
 }
 
 jar {
-    from { configurations.childJars.collect { zipTree(it) } }
+    dependsOn configurations.childJars
+    from {
+        configurations.childJars.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
 }
 
 compileJava {
