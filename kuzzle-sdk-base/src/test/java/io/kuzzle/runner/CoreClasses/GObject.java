@@ -20,52 +20,61 @@ public class GObject implements IJObject<JsonObject> {
     }
 
     @Override
-    public void put(String property, Byte value) {
+    public IJObject<JsonObject> put(String property, Byte value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Short value) {
+    public IJObject<JsonObject> put(String property, Short value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Integer value) {
+    public IJObject<JsonObject> put(String property, Integer value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Long value) {
+    public IJObject<JsonObject> put(String property, Long value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, String value) {
+    public IJObject<JsonObject> put(String property, String value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Double value) {
+    public IJObject<JsonObject> put(String property, Double value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Float value) {
+    public IJObject<JsonObject> put(String property, Float value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Boolean value) {
+    public IJObject<JsonObject> put(String property, Boolean value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, Character value) {
+    public IJObject<JsonObject> put(String property, Character value) {
         jsonObject.addProperty(property, value);
+        return this;
     }
 
     @Override
-    public void put(String property, IJObject<JsonObject> value) {
+    public IJObject<JsonObject> put(String property, IJObject<JsonObject> value) {
         if (value != null) {
             jsonObject.add(
                     property,
@@ -74,10 +83,11 @@ public class GObject implements IJObject<JsonObject> {
         } else {
             jsonObject.add(property, new JsonNull());
         }
+        return this;
     }
 
     @Override
-    public void put(String property, Object value) {
+    public IJObject<JsonObject> put(String property, Object value) {
         if (value == null) {
             jsonObject.add(property, new JsonNull());
         } else if (value instanceof JsonElement) {
@@ -85,6 +95,7 @@ public class GObject implements IJObject<JsonObject> {
         } else if (value instanceof JsonSerializable) {
             put(property, ((JsonSerializable<JsonObject>) value).toIJObject());
         }
+        return this;
     }
 
     @Override

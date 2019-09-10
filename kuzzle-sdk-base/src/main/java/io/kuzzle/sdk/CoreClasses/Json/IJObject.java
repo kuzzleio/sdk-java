@@ -8,17 +8,17 @@ public interface IJObject<T> {
     /**
      * Associate an object to the specified property key.
      */
-    public void put(String property, Byte value);
-    public void put(String property, Short value);
-    public void put(String property, Integer value);
-    public void put(String property, Long value);
-    public void put(String property, String value);
-    public void put(String property, Double value);
-    public void put(String property, Float value);
-    public void put(String property, Boolean value);
-    public void put(String property, Character value);
-    public void put(String property, IJObject<T> value);
-    public void put(String property, Object value);
+    public IJObject<T> put(String property, Byte value);
+    public IJObject<T> put(String property, Short value);
+    public IJObject<T> put(String property, Integer value);
+    public IJObject<T> put(String property, Long value);
+    public IJObject<T> put(String property, String value);
+    public IJObject<T> put(String property, Double value);
+    public IJObject<T> put(String property, Float value);
+    public IJObject<T> put(String property, Boolean value);
+    public IJObject<T> put(String property, Character value);
+    public IJObject<T> put(String property, IJObject<T> value);
+    public IJObject<T> put(String property, Object value);
 
     /**
      * Return the object at the specified property key.
