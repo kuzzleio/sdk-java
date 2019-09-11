@@ -4,4 +4,6 @@ out
 .idea
 *.iml
 bin
+*.class
+
 doc/framework
