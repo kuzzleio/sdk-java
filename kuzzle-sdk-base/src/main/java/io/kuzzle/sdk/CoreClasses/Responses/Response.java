@@ -92,9 +92,9 @@ public class Response<T> implements JsonSerializable<T> {
                 IJObjectHelper.newIJObject()
         );
         error = null;
-        if (jsonObject.isIJObject("error")) {
+        if (jsonObject.isJsonObject("error")) {
             error = new ErrorResponse<T>();
-            error.fromIJObject(jsonObject.<T>getIJObject("error"));
+            error.fromIJObject(jsonObject.<T>getJsonObject("error"));
         }
         requestId = jsonObject.getString("requestId");
         status = jsonObject.optInteger("status", 0);

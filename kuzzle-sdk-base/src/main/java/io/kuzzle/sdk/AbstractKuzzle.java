@@ -1,5 +1,6 @@
 package io.kuzzle.sdk;
 
+import io.kuzzle.sdk.API.Controllers.AuthController;
 import io.kuzzle.sdk.CoreClasses.Json.IJObject;
 import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Events.EventListener;
@@ -31,6 +32,8 @@ public abstract class AbstractKuzzle<T> {
 
     public final String version;
     public final String instanceId;
+
+    public final AuthController<T> auth;
 
     /**
      * Authentication token
@@ -116,6 +119,8 @@ public abstract class AbstractKuzzle<T> {
 
         this.tokenExpiredEvent = new EventListener();
         this.unhandledResponseEvent = new EventListener<>();
+
+        this.auth = new AuthController<>(this);
     }
 
     /** Establish a network connection
@@ -258,14 +263,14 @@ public abstract class AbstractKuzzle<T> {
             || queryJObject.isNull("volatile")
         ) {
             queryJObject.put("volatile", IJObjectHelper.newIJObject());
-        } else if (!queryJObject.isIJObject("volatile")) {
+        } else if (!queryJObject.isJsonObject("volatile")) {
             throw new InternalException("Volatile data must be a JsonObject", 400);
         }
 
-        queryJObject.getIJObject("volatile")
+        queryJObject.getJsonObject("volatile")
              .put("sdkVersion", version);
 
-        queryJObject.getIJObject("volatile")
+        queryJObject.getJsonObject("volatile")
              .put("sdkInstanceId", instanceId);
 
         Task<Response<T>> task = new Task<>();
