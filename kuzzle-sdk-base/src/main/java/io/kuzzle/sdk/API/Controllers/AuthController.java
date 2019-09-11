@@ -82,7 +82,19 @@ public class AuthController<T> extends BaseController<T> {
         IJObject<T> jsonObject = IJObjectHelper.newIJObject();
 
         jsonObject.put("controller", "auth")
-                .put("action", "deleteMyCredentials");
+                .put("action", "getCurrentUser");
+
+
+        return kuzzle.query(jsonObject.toNative())
+                .thenApplyAsync((response) -> response.result.toNative());
+    }
+
+    public CompletableFuture<T> getMyCredentials()
+            throws NotConnectedException, InternalException {
+        IJObject<T> jsonObject = IJObjectHelper.newIJObject();
+
+        jsonObject.put("controller", "auth")
+                .put("action", "getMyCredentials");
 
 
         return kuzzle.query(jsonObject.toNative())

@@ -3,5 +3,5 @@ build
 out
 .idea
 *.iml
-
+bin
 doc/framework
