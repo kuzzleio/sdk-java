@@ -15,7 +15,7 @@ public class Response<T> implements JsonSerializable<T> {
     /**
      * Response payload (depends on the executed API action)
      */
-    public IJObject result;
+    public IJObject<T> result;
 
     /**
      * Error object (null if the request finished successfully)
@@ -55,7 +55,7 @@ public class Response<T> implements JsonSerializable<T> {
     /**
      * Volatile data.
      */
-    public IJObject Volatile;
+    public IJObject<T> Volatile;
 
     // The following properties are specific to real-time notifications
 
@@ -92,9 +92,9 @@ public class Response<T> implements JsonSerializable<T> {
                 IJObjectHelper.newIJObject()
         );
         error = null;
-        if (jsonObject.isIJObject("error")) {
+        if (jsonObject.isJsonObject("error")) {
             error = new ErrorResponse<T>();
-            error.fromIJObject(jsonObject.<T>getIJObject("error"));
+            error.fromIJObject(jsonObject.<T>getJsonObject("error"));
         }
         requestId = jsonObject.getString("requestId");
         status = jsonObject.optInteger("status", 0);

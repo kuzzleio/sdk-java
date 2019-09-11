@@ -258,14 +258,14 @@ public abstract class AbstractKuzzle<T> {
             || queryJObject.isNull("volatile")
         ) {
             queryJObject.put("volatile", IJObjectHelper.newIJObject());
-        } else if (!queryJObject.isIJObject("volatile")) {
+        } else if (!queryJObject.isJsonObject("volatile")) {
             throw new InternalException("Volatile data must be a JsonObject", 400);
         }
 
-        queryJObject.getIJObject("volatile")
+        queryJObject.getJsonObject("volatile")
              .put("sdkVersion", version);
 
-        queryJObject.getIJObject("volatile")
+        queryJObject.getJsonObject("volatile")
              .put("sdkInstanceId", instanceId);
 
         Task<Response<T>> task = new Task<>();
