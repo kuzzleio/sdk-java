@@ -5,6 +5,19 @@ package io.kuzzle.sdk.CoreClasses.Json;
  */
 public interface IJObject<T> {
 
+    enum Type {
+        BOOLEAN,
+        CHARACTER,
+        BYTE,
+        SHORT,
+        INTEGER,
+        LONG,
+        FLOAT,
+        DOUBLE,
+        STRING,
+        JSON,
+    }
+
     /**
      * Associate an object to the specified property key.
      */
@@ -33,8 +46,36 @@ public interface IJObject<T> {
     public String  getString(String property);
     public Boolean getBoolean(String property);
     public Character getCharacter(String property);
-    public IJObject<T> getIJObject(String property);
+    public IJObject<T> getAsIJObject(String property);
+    public IJObject<T> getJsonObject(String property);
     public Object get(String property);
+
+    /**
+     * Convert the IJObject to the specified object.
+     */
+    public Byte toByte();
+    public Short toShort();
+    public Integer toInteger();
+    public Long toLong();
+    public Double toDouble();
+    public Float toFloat();
+    public String toString();
+    public Boolean toBoolean();
+    public Character toCharacter();
+
+    /**
+     * Convert the IJObject to the specified object.
+     */
+    public boolean isByte();
+    public boolean isShort();
+    public boolean isInteger();
+    public boolean isLong();
+    public boolean isDouble();
+    public boolean isFloat();
+    public boolean isString();
+    public boolean isBoolean();
+    public boolean isCharacter();
+    public boolean isJsonObject();
 
     /**
      * Return the object at the specified property key.
@@ -75,14 +116,7 @@ public interface IJObject<T> {
      * @param property Property name.
      * @return If the property is an IJObject.
      */
-    public boolean isIJObject(String property);
-
-    /** Check if the property is a JsonArray.
-     * @param property Property name.
-     * @return If the property is an JsonArray.
-     */
-    public boolean isJsonArray(String property);
-
+    public boolean isJsonObject(String property);
 
     /** Convert an IJObject to String.
      * @return A Json String that represent the IJObject.
@@ -104,16 +138,23 @@ public interface IJObject<T> {
      * @return A new instance of IJObject.
      */
     public IJObject<T> newIJObject();
-
-    /** Create a new instance of IJObject from a Json Object of the specified json library
-     * @param json A Json Object of the specified json library.
-     * @return A new instance of IJObject.
-     */
     public IJObject<T> newIJObject(T json);
+
+    public IJObject<T> newIJObject(Byte obj);
+    public IJObject<T> newIJObject(Short obj);
+    public IJObject<T> newIJObject(Integer obj);
+    public IJObject<T> newIJObject(Long obj);
+    public IJObject<T> newIJObject(Float obj);
+    public IJObject<T> newIJObject(Double obj);
+    public IJObject<T> newIJObject(Boolean obj);
+    public IJObject<T> newIJObject(Character obj);
+    public IJObject<T> newIJObject(String obj);
 
     /** Parse a Json String and create a new instance of IJObject.
      * @param jsonString A Json String.
      * @return A new instance of IJObject created from the Json String.
      */
     public IJObject<T> parse(String jsonString);
+
+    public Type getType();
 }
