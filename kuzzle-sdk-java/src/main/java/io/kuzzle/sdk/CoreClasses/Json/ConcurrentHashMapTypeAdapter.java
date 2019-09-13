@@ -51,9 +51,11 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
             while(in.hasNext()) {
                 key = in.nextName();
                 value = readObject(in);
-                replaced = map.put((String)key, value);
-                if (replaced != null) {
-                    throw new JsonSyntaxException("duplicate key: " + key);
+                if (value != null) {
+                    replaced = map.put((String) key, value);
+                    if (replaced != null) {
+                        throw new JsonSyntaxException("duplicate key: " + key);
+                    }
                 }
             }
 
@@ -105,8 +107,6 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
                     out.endObject();
                 }
             }
-        } else {
-            out.nullValue();
         }
     }
 
@@ -137,7 +137,11 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
                 in.beginObject();
 
                 while(in.hasNext()) {
-                    map.put(in.nextName(), readObject(in));
+                    String key = in.nextName();
+                    Object object = readObject(in);
+                    if (object != null) {
+                        map.put(key, object);
+                    }
                 }
 
                 in.endObject();

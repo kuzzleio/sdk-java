@@ -11,10 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.*;
 
-/**
- * @param <T> The json object of the Json library you want to use.
- */
-public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
+public class WebSocket extends AbstractProtocol {
 
     protected BlockingDeque<ConcurrentHashMap<String, Object>> queue;
     protected com.neovisionaries.ws.client.WebSocket socket;
@@ -29,7 +26,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
         return state;
     }
 
-    public AbstractWebSocket(String host)
+    public WebSocket(String host)
             throws URISyntaxException, IllegalArgumentException {
         this(host, new WebSocketOptions());
     }
@@ -40,7 +37,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
      * @throws URISyntaxException
      * @throws IllegalArgumentException
      */
-    public AbstractWebSocket(
+    public WebSocket(
             String host,
             WebSocketOptions options
     ) throws URISyntaxException, IllegalArgumentException {
@@ -132,7 +129,8 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
             while (state == ProtocolState.OPEN) {
                 ConcurrentHashMap<String, Object> payload = queue.poll();
                 if (payload != null) {
-                    socket.sendText(JsonSerializer.serialize(payload));
+                    String rawJson = JsonSerializer.serialize(payload);
+                    socket.sendText(rawJson);
                 }
             }
         });

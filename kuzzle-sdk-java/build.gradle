@@ -16,7 +16,7 @@ allprojects {
 }
 
 group 'io.kuzzle'
-version '1.0'
+version '3.0.0'
 
 sourceCompatibility = 1.8
 

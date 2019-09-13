@@ -123,6 +123,7 @@ public class Kuzzle {
      * @param payload Raw API Response
      */
     protected void onResponseReceived(String payload) {
+
         Response response = new Response();
         response.fromMap(JsonSerializer.deserialize(payload));
 
