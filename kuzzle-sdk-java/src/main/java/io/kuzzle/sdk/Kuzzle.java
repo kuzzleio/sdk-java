@@ -1,15 +1,14 @@
 package io.kuzzle.sdk;
 
-import io.kuzzle.sdk.CoreClasses.Json.IJObject;
+import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
+import io.kuzzle.sdk.CoreClasses.Maps.CustomMap;
 import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Events.EventListener;
 import io.kuzzle.sdk.Exceptions.*;
-import io.kuzzle.sdk.Helpers.IJObjectHelper;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 
-import java.net.URISyntaxException;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,15 +18,12 @@ import io.kuzzle.sdk.CoreClasses.Responses.*;
 
 import static io.kuzzle.sdk.Helpers.Default.notNull;
 
-/**
- * @param <T> The json object of the Json library you want to use.
- */
-public abstract class AbstractKuzzle<T> {
+public class Kuzzle {
 
     protected EventListener tokenExpiredEvent;
     protected EventListener<Response> unhandledResponseEvent;
 
-    protected final AbstractProtocol<T> networkProtocol;
+    protected final AbstractProtocol networkProtocol;
 
     public final String version;
     public final String instanceId;
@@ -63,40 +59,31 @@ public abstract class AbstractKuzzle<T> {
      */
     protected int maxRequestDelay;
 
-    protected ConcurrentHashMap<String, Task<Response<T>>>
+    protected ConcurrentHashMap<String, Task<Response>>
                     requests = new ConcurrentHashMap<>();
 
     /** Initialize a new instance of Kuzzle
-     * @param jobject           An instance of an object implementing IJObject
      * @param networkProtocol   The network protocol
      * @throws IllegalArgumentException
      */
-    public AbstractKuzzle(IJObject<T> jobject, AbstractProtocol<T> networkProtocol)
+    public Kuzzle(AbstractProtocol networkProtocol)
             throws IllegalArgumentException {
-        this(jobject, networkProtocol, new KuzzleOptions());
+        this(networkProtocol, new KuzzleOptions());
     }
 
     /** Initialize a new instance of Kuzzle
-     * @param jobject           An instance of an object implementing IJObject
      * @param networkProtocol   The network protocol
      * @param options           Kuzzle options
      * @throws IllegalArgumentException
      */
-    public AbstractKuzzle(
-            IJObject<T>  jobject,
-            AbstractProtocol<T> networkProtocol,
+    public Kuzzle(
+            AbstractProtocol networkProtocol,
             final KuzzleOptions options
     ) throws IllegalArgumentException {
-
-        if (jobject == null) {
-            throw new IllegalArgumentException("jobject can't be null");
-        }
 
         if (networkProtocol == null) {
             throw new IllegalArgumentException("newtorkProtocol can't be null");
         }
-
-        IJObjectHelper.init(jobject);
 
         KuzzleOptions kOptions = options != null
                 ? options
@@ -136,8 +123,9 @@ public abstract class AbstractKuzzle<T> {
      * @param payload Raw API Response
      */
     protected void onResponseReceived(String payload) {
-        Response<T> response = new Response<>();
-        response.fromIJObject(IJObjectHelper.parse(payload));
+
+        Response response = new Response();
+        response.fromMap(JsonSerializer.deserialize(payload));
 
         if (response.room != null
             && requests.containsKey(notNull(response.room, ""))
@@ -149,7 +137,7 @@ public abstract class AbstractKuzzle<T> {
                     tokenExpiredEvent.trigger();
                 }
 
-                Task<Response<T>> task = requests.get(
+                Task<Response> task = requests.get(
                         notNull(response.requestId, "")
                 );
                 if (task != null) {
@@ -157,7 +145,7 @@ public abstract class AbstractKuzzle<T> {
                 }
 
             } else {
-                Task<Response<T>> task = requests.get(
+                Task<Response> task = requests.get(
                         notNull(response.requestId, "")
                 );
 
@@ -227,7 +215,7 @@ public abstract class AbstractKuzzle<T> {
      * @throws InternalException
      * @throws NotConnectedException
      */
-    public CompletableFuture<Response<T>> query(T query)
+    public CompletableFuture<Response> query(ConcurrentHashMap<String, Object> query)
             throws InternalException, NotConnectedException {
         if (query == null) {
             throw new InternalException("You must provide a query", 400);
@@ -237,42 +225,42 @@ public abstract class AbstractKuzzle<T> {
             throw new NotConnectedException();
         }
 
-        IJObject<T> queryJObject = IJObjectHelper.newIJObject(query);
+        CustomMap queryMap = CustomMap.getCustomMap(query);
 
-        if (queryJObject.has("waitForRefresh")) {
-            if (queryJObject.getBoolean("waitForRefresh")) {
-                queryJObject.put("refresh", "wait_for");
+        if (queryMap.contains("waitForRefresh")) {
+            if (queryMap.optBoolean("waitForRefresh", false).booleanValue()) {
+                queryMap.put("refresh", "wait_for");
             }
-            queryJObject.remove("waitForRefresh");
+            queryMap.remove("waitForRefresh");
         }
 
         if (authenticationToken != null) {
-            queryJObject.put("jwt", authenticationToken);
+            queryMap.put("jwt", authenticationToken);
         }
 
         String requestId = UUID.randomUUID().toString();
 
-        queryJObject.put("requestId", requestId);
+        queryMap.put("requestId", requestId);
 
-        if (!queryJObject.has("volatile")
-            || queryJObject.isNull("volatile")
+        if (!queryMap.contains("volatile")
+            || queryMap.isNull("volatile")
         ) {
-            queryJObject.put("volatile", IJObjectHelper.newIJObject());
-        } else if (!queryJObject.isJsonObject("volatile")) {
+            queryMap.put("volatile", new CustomMap());
+        } else if (!queryMap.isMap("volatile")) {
             throw new InternalException("Volatile data must be a JsonObject", 400);
         }
 
-        queryJObject.getJsonObject("volatile")
+        queryMap.getMap("volatile")
              .put("sdkVersion", version);
 
-        queryJObject.getJsonObject("volatile")
+        queryMap.getMap("volatile")
              .put("sdkInstanceId", instanceId);
 
-        Task<Response<T>> task = new Task<>();
+        Task<Response> task = new Task<>();
         requests.put(requestId, task);
 
         if (networkProtocol.getState() == ProtocolState.OPEN) {
-            networkProtocol.send(queryJObject);
+            networkProtocol.send(queryMap);
         }
 
         return task.getFuture();

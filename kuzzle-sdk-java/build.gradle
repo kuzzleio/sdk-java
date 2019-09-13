@@ -1,24 +1,8 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-}
+import org.gradle.api.JavaVersion
 
 plugins {
-    id "com.jfrog.bintray" version "1.7.3"
     id 'jacoco'
     id 'java'
-}
-
-configurations {
-    childJars
-}
-
-group 'io.kuzzle'
-version '3.0.0'
-
-repositories {
-    mavenCentral()
 }
 
 allprojects {
@@ -31,22 +15,22 @@ allprojects {
     apply plugin: 'java-library'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
+group 'io.kuzzle'
+version '3.0.0'
 
-javadoc.failOnError = false
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+sourceCompatibility = 1.8
 
+repositories {
+    mavenCentral()
+}
 
 dependencies {
+    implementation 'com.neovisionaries:nv-websocket-client:2.9'
     implementation 'com.google.code.gson:gson:2.8.5'
-    compile project(':kuzzle-sdk-base')
-    childJars project(':kuzzle-sdk-base')
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    testImplementation 'org.mockito:mockito-core:1.9.5'
+    testImplementation 'org.skyscreamer:jsonassert:1.5.0'
 }
 
 jacocoTestReport {
@@ -58,15 +42,6 @@ jacocoTestReport {
 
 check.dependsOn jacocoTestReport
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-jar {
-    from { configurations.childJars.collect { zipTree(it) } }
-}
-
 compileJava {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -77,4 +52,3 @@ test {
 
     maxHeapSize = '1G'
 }
-

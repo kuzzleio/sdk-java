@@ -2,7 +2,7 @@ package io.kuzzle.sdk.Protocol;
 
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFactory;
-import io.kuzzle.sdk.CoreClasses.Json.IJObject;
+import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -11,12 +11,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.*;
 
-/**
- * @param <T> The json object of the Json library you want to use.
- */
-public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
+public class WebSocket extends AbstractProtocol {
 
-    protected BlockingDeque<IJObject> queue;
+    protected BlockingDeque<ConcurrentHashMap<String, Object>> queue;
     protected com.neovisionaries.ws.client.WebSocket socket;
     protected ProtocolState state = ProtocolState.CLOSE;
     protected URI uri;
@@ -29,7 +26,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
         return state;
     }
 
-    public AbstractWebSocket(String host)
+    public WebSocket(String host)
             throws URISyntaxException, IllegalArgumentException {
         this(host, new WebSocketOptions());
     }
@@ -40,7 +37,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
      * @throws URISyntaxException
      * @throws IllegalArgumentException
      */
-    public AbstractWebSocket(
+    public WebSocket(
             String host,
             WebSocketOptions options
     ) throws URISyntaxException, IllegalArgumentException {
@@ -63,7 +60,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
     }
 
     @Override
-    public void send(IJObject payload) {
+    public void send(ConcurrentHashMap<String, Object> payload) {
         queue.add(payload);
     }
 
@@ -130,9 +127,10 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
     protected Thread Dequeue() {
         Thread thread = new Thread(() -> {
             while (state == ProtocolState.OPEN) {
-                IJObject payload = queue.poll();
+                ConcurrentHashMap<String, Object> payload = queue.poll();
                 if (payload != null) {
-                    socket.sendText(payload.toJsonString());
+                    String rawJson = JsonSerializer.serialize(payload);
+                    socket.sendText(rawJson);
                 }
             }
         });

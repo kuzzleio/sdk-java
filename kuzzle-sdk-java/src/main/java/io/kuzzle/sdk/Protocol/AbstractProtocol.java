@@ -1,20 +1,16 @@
 package io.kuzzle.sdk.Protocol;
 
-import io.kuzzle.sdk.CoreClasses.Json.IJObject;
 import io.kuzzle.sdk.Events.EventListener;
-
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-/**
- * @param <T> The json object of the Json library you want to use.
- */
-public abstract class AbstractProtocol<T> {
+public abstract class AbstractProtocol {
     protected EventListener<ProtocolState> stateChanged;
     protected EventListener<String> messageReceived;
 
     public AbstractProtocol() {
-        stateChanged = new EventListener<ProtocolState>();
-        messageReceived = new EventListener<String>();
+        stateChanged = new EventListener<>();
+        messageReceived = new EventListener<>();
     }
 
     /** Current connection state.
@@ -35,7 +31,7 @@ public abstract class AbstractProtocol<T> {
     /** Send the specified payload to Kuzzle.
      * @param payload
      */
-    public abstract void send(IJObject<T> payload);
+    public abstract void send(ConcurrentHashMap<String, Object> payload);
 
 
     /**
