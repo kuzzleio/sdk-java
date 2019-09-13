@@ -1,8 +1,7 @@
 package io.kuzzle.sdk.Protocol;
 
-import io.kuzzle.sdk.CoreClasses.Json.IJObject;
 import io.kuzzle.sdk.Events.EventListener;
-
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 /**
@@ -35,7 +34,7 @@ public abstract class AbstractProtocol<T> {
     /** Send the specified payload to Kuzzle.
      * @param payload
      */
-    public abstract void send(IJObject<T> payload);
+    public abstract void send(ConcurrentHashMap<String, Object> payload);
 
 
     /**

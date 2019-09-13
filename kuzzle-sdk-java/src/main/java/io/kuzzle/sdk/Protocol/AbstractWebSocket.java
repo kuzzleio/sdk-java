@@ -2,7 +2,7 @@ package io.kuzzle.sdk.Protocol;
 
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFactory;
-import io.kuzzle.sdk.CoreClasses.Json.IJObject;
+import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -16,7 +16,7 @@ import java.util.concurrent.*;
  */
 public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
 
-    protected BlockingDeque<IJObject> queue;
+    protected BlockingDeque<ConcurrentHashMap<String, Object>> queue;
     protected com.neovisionaries.ws.client.WebSocket socket;
     protected ProtocolState state = ProtocolState.CLOSE;
     protected URI uri;
@@ -63,7 +63,7 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
     }
 
     @Override
-    public void send(IJObject payload) {
+    public void send(ConcurrentHashMap<String, Object> payload) {
         queue.add(payload);
     }
 
@@ -130,9 +130,9 @@ public abstract class AbstractWebSocket<T> extends AbstractProtocol<T> {
     protected Thread Dequeue() {
         Thread thread = new Thread(() -> {
             while (state == ProtocolState.OPEN) {
-                IJObject payload = queue.poll();
+                ConcurrentHashMap<String, Object> payload = queue.poll();
                 if (payload != null) {
-                    socket.sendText(payload.toJsonString());
+                    socket.sendText(JsonSerializer.serialize(payload));
                 }
             }
         });
