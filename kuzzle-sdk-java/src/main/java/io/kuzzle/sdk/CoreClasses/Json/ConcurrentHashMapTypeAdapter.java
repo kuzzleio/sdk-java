@@ -6,6 +6,7 @@ import com.google.gson.internal.LazilyParsedNumber;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import io.kuzzle.sdk.CoreClasses.Maps.Serializable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
                     }
 
                     out.endArray();
-                } else if (value instanceof ConcurrentHashMap){
+                } else if (value instanceof ConcurrentHashMap) {
                     out.beginObject();
                     Iterator<Map.Entry<String, Object>>
                             iterator = ((ConcurrentHashMap<String, Object>)value)
@@ -105,6 +106,8 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
                     }
 
                     out.endObject();
+                } else if (value instanceof Serializable) {
+                    writeObject(out, ((Serializable)value).toMap());
                 }
             }
         }

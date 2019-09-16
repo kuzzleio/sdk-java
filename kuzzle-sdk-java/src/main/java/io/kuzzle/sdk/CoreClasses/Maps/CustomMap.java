@@ -38,6 +38,18 @@ public class CustomMap extends ConcurrentHashMap<String, Object> {
     }
 
     /**
+     * Avoid trying to put null element that would trigger an NullPointerException
+     * @param key a String representing the key.
+     */
+    @Override
+    public Object put(String key, Object value) {
+        if (value != null) {
+            return super.put(key, value);
+        }
+        return null;
+    }
+
+    /**
      * Check whether the key value is null or not.
      * @param key a String representing the key.
      * @return true if the key is null.
