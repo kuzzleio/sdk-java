@@ -45,8 +45,8 @@ jobs:
             - python-pip
 
       install:
-        - pip install awscli --upgrade --user
-
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - gradle assemble
       script:
         - npm run doc-prepare
         - npm run doc-build
@@ -78,6 +78,7 @@ jobs:
             - python-pip
 
       install:
+<<<<<<< Updated upstream
         - pip install awscli --upgrade --user
 
       script:
@@ -102,6 +103,12 @@ jobs:
       jdk:
         - openjdk8
 
+=======
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - gradle assemble
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - gradle assemble
+>>>>>>> Stashed changes
       script:
         bash gradlew test jacocoTestReport
 
