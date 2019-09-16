@@ -6,6 +6,7 @@ import com.google.gson.internal.LazilyParsedNumber;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import io.kuzzle.sdk.CoreClasses.Maps.CustomMap;
 import io.kuzzle.sdk.CoreClasses.Maps.Serializable;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
             in.nextNull();
             return null;
         } else if (peek == JsonToken.BEGIN_OBJECT) {
-            ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+            CustomMap map = new CustomMap();
             Object key;
             Object value;
             Object replaced;
@@ -136,7 +137,7 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
                 in.endArray();
                 return array;
             case BEGIN_OBJECT:
-                ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+                CustomMap map = new CustomMap();
                 in.beginObject();
 
                 while(in.hasNext()) {
