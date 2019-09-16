@@ -1,13 +1,11 @@
 package io.kuzzle.sdk.Options;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 import static io.kuzzle.sdk.Helpers.Default.notNull;
 
-/**
- * @param <T> The json object of the Json library you want to use.
- */
-public class KuzzleOptions<T> {
+public class KuzzleOptions {
 
     /**
      * The maximum amount of elements that the queue can contains.
@@ -32,7 +30,7 @@ public class KuzzleOptions<T> {
      */
     private int maxRequestDelay = 1000;
 
-    private Predicate<T> filter = (T obj) -> true;
+    private Predicate<ConcurrentHashMap<String, Object>> filter = (ConcurrentHashMap<String, Object> obj) -> true;
 
     /**
      * Initialize a new KuzzleOptions instance.
@@ -131,12 +129,12 @@ public class KuzzleOptions<T> {
         return this;
     }
 
-    public Predicate<T> getFilter() {
+    public Predicate<ConcurrentHashMap<String, Object>> getFilter() {
         return filter;
     }
 
-    public KuzzleOptions withFilter(Predicate<T> filter) {
-        this.filter = notNull(filter, (T obj) -> true);
+    public KuzzleOptions withFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
+        this.filter = notNull(filter, (ConcurrentHashMap<String, Object> obj) -> true);
         return this;
     }
 }
