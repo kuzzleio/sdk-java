@@ -242,7 +242,7 @@ public class Kuzzle {
 
         queryMap.put("requestId", requestId);
 
-        if (!queryMap.contains("volatile")
+        if (!queryMap.containsKey("volatile")
             || queryMap.isNull("volatile")
         ) {
             queryMap.put("volatile", new CustomMap());
