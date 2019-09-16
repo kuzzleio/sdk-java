@@ -113,7 +113,7 @@ public class Response implements Serializable {
 
     @Override
     public ConcurrentHashMap<String, Object> toMap() {
-        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Object> map = new CustomMap();
 
         map.put("room", room);
         map.put("result", result);
