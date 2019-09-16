@@ -39,7 +39,7 @@ public class ErrorResponse implements Serializable {
 
     @Override
     public ConcurrentHashMap<String, Object> toMap() {
-        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Object> map = new CustomMap();
 
         map.put("status", status);
         map.put("message", message);
