@@ -78,37 +78,10 @@ jobs:
             - python-pip
 
       install:
-<<<<<<< Updated upstream
-        - pip install awscli --upgrade --user
-
-      script:
-        - npm run doc-prepare
-        - npm run doc-build
-
-      deploy:
-        provider: script
-        script:
-          - npm run doc-upload
-        skip_cleanup: true
-
-      after_deploy:
-        - npm run doc-cloudfront
-
-
-    - stage: Deployment
-      name: Deploy to Bintray
-      if: branch = master AND tag IS present AND type != cron
-      language: java
-
-      jdk:
-        - openjdk8
-
-=======
         - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
         - gradle assemble
         - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
         - gradle assemble
->>>>>>> Stashed changes
       script:
         bash gradlew test jacocoTestReport
 
