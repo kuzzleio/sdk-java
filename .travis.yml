@@ -15,8 +15,8 @@ jobs:
       node_js: 10
 
       before_script:
-        - npm run doc-prepare
-        - npm run --prefix doc/framework clone-repos
+        - cd kuzzle-sdk-java && npm run doc-prepare
+        - npm run --prefix doc/framework clone-repos && cd -
       script:
         - gem install typhoeus
         - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
@@ -97,7 +97,7 @@ jobs:
           - $HOME/.gradle/caches/
           - $HOME/.gradle/wrapper/
       install:
-        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-base
+        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
         - gradle assemble
         - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
         - gradle assemble
