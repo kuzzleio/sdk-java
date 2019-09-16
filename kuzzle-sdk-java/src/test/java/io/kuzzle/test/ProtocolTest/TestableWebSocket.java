@@ -1,15 +1,13 @@
 package io.kuzzle.test.ProtocolTest;
 
-import io.kuzzle.runner.Protocol.WebSocket;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Protocol.ProtocolState;
-
-import java.io.IOException;
+import io.kuzzle.sdk.Protocol.WebSocket;
 import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.mock;
 
-public class TestableWebSocket<T> extends WebSocket<T> {
+public class TestableWebSocket extends WebSocket {
     public int stateChangedCount = 0;
     public ProtocolState lastStateDispatched = ProtocolState.CLOSE;
     public com.neovisionaries.ws.client.WebSocket

@@ -10,9 +10,9 @@ import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.*;
 
-public class WebSocketTests<T> {
+public class WebSocketTests {
 
-    private TestableWebSocket<T> socket;
+    private TestableWebSocket socket;
     private String host;
     private WebSocketOptions options;
 
@@ -22,12 +22,12 @@ public class WebSocketTests<T> {
         options = new WebSocketOptions()
                       .withPort(1234)
                       .withSsl(true);
-        socket = new TestableWebSocket<>(host, options);
+        socket = new TestableWebSocket(host, options);
     }
 
     @Test
     public void constructorNotConnected() throws URISyntaxException {
-        TestableWebSocket<T> ws = new TestableWebSocket<>(host, options);
+        TestableWebSocket ws = new TestableWebSocket(host, options);
 
         Assert.assertEquals(ProtocolState.CLOSE, ws.getState());
         Assert.assertNull(ws.getSocket());
@@ -35,7 +35,7 @@ public class WebSocketTests<T> {
 
     @Test(expected = IllegalArgumentException.class)
     public void constructorRejectsNullHost() throws URISyntaxException {
-        TestableWebSocket<T> ws = new TestableWebSocket<>(null, options);
+        TestableWebSocket ws = new TestableWebSocket(null, options);
     }
 
     @Test

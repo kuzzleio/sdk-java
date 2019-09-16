@@ -1,23 +1,23 @@
 package io.kuzzle.test;
 
-import io.kuzzle.runner.Kuzzle;
+import io.kuzzle.sdk.CoreClasses.Responses.Response;
 import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Events.EventListener;
+import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
-import io.kuzzle.sdk.CoreClasses.Responses.Response;
 
 import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TestableKuzzle<T> extends Kuzzle<T> {
+public class TestableKuzzle extends Kuzzle {
 
-    public TestableKuzzle(AbstractProtocol<T> networkProtocol) throws URISyntaxException, IllegalArgumentException {
+    public TestableKuzzle(AbstractProtocol networkProtocol) throws URISyntaxException, IllegalArgumentException {
         super(networkProtocol);
     }
 
-    public TestableKuzzle(AbstractProtocol<T> networkProtocol, KuzzleOptions options) throws IllegalArgumentException {
+    public TestableKuzzle(AbstractProtocol networkProtocol, KuzzleOptions options) throws IllegalArgumentException {
         super(networkProtocol, options);
     }
 
@@ -45,7 +45,7 @@ public class TestableKuzzle<T> extends Kuzzle<T> {
         super.onResponseReceived(payload);
     }
 
-    public ConcurrentHashMap<String, Task<Response<T>>> getRequests() {
+    public ConcurrentHashMap<String, Task<Response>> getRequests() {
         return super.requests;
     }
 }

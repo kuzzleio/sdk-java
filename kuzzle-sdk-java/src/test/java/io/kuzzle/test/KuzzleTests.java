@@ -1,8 +1,6 @@
 package io.kuzzle.test;
 
-import io.kuzzle.runner.Helpers.IJObjectHelper;
-import io.kuzzle.runner.Protocol.WebSocket;
-import io.kuzzle.sdk.CoreClasses.Json.IJObject;
+import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Events.EventListener;
 import io.kuzzle.sdk.Exceptions.InternalException;
@@ -11,6 +9,7 @@ import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 import io.kuzzle.sdk.CoreClasses.Responses.ErrorResponse;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
+import io.kuzzle.sdk.Protocol.WebSocket;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,13 +22,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class KuzzleTests <T> {
-    private AbstractProtocol<T> networkProtocol = Mockito.mock(WebSocket.class);
+public class KuzzleTests {
+    private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
     private EventListener
             tokenExpiredEventListener = Mockito.mock(EventListener.class);
-    private EventListener<Response<T>>
+    private EventListener<Response>
             unhandledResponseEventListener = Mockito.mock(EventListener.class);
-    private TestableKuzzle<T> kuzzle;
+    private TestableKuzzle kuzzle;
 
     @Before
     public void setup() throws URISyntaxException {
@@ -76,10 +75,10 @@ public class KuzzleTests <T> {
 
     @Test
     public void onStateChanged() {
-        ConcurrentHashMap<String, Task<Response<T>>>
+        ConcurrentHashMap<String, Task<Response>>
                 requests = kuzzle.getRequests();
 
-        Task<Response<T>> response = new Task<>();
+        Task<Response> response = new Task<>();
         requests.put("foobar", response);
         kuzzle.onStateChanged(ProtocolState.CLOSE);
         Assert.assertEquals(0, requests.size());
@@ -94,7 +93,7 @@ public class KuzzleTests <T> {
                 (Answer<ProtocolState>) invocation -> ProtocolState.CLOSE
             );
 
-        kuzzle.query(IJObjectHelper.<T>newIJObject().toNative());
+        kuzzle.query(new ConcurrentHashMap<>());
     }
 
     @Test
@@ -104,48 +103,48 @@ public class KuzzleTests <T> {
                 (Answer<ProtocolState>) invocation -> ProtocolState.OPEN
             );
 
-        CompletableFuture<Response<T>>
+        CompletableFuture<Response>
                 response = kuzzle.query(
-                        IJObjectHelper.<T>newIJObject().toNative()
+                        new ConcurrentHashMap<>()
                 );
 
         Assert.assertNotNull(response);
         Mockito.verify(
                 networkProtocol,
                 Mockito.times(1)
-        ).send(Matchers.any(IJObject.class));
+        ).send(Matchers.any(ConcurrentHashMap.class));
     }
 
     @Test(expected = InternalException.class)
-    public void queryShouldThrowWhenVolatileIsNotIJObject()
+    public void queryShouldThrowWhenVolatileIsNotConcurrentHashMap()
             throws NotConnectedException, InternalException {
         Mockito.when(networkProtocol.getState())
             .thenAnswer(
                 (Answer<ProtocolState>) invocation -> ProtocolState.OPEN
             );
 
-        IJObject<T> payload = IJObjectHelper.<T>newIJObject();
+        ConcurrentHashMap<String, Object> payload = new ConcurrentHashMap<>();
         payload.put("volatile", "foobar");
 
-        kuzzle.query(payload.toNative());
+        kuzzle.query(payload);
     }
 
     @Test
     public void onResponseReceivedAndTokenIsExpired() {
-        ConcurrentHashMap<String, Task<Response<T>>>
+        ConcurrentHashMap<String, Task<Response>>
                 requests = kuzzle.getRequests();
 
-        Response<T> response = new Response<T>();
+        Response response = new Response();
         response.error = new ErrorResponse();
         response.error.message = "Token expired";
         response.error.status = 42;
         response.room = "room-id";
 
-        Task<Response<T>> task = new Task<Response<T>>();
+        Task<Response> task = new Task<>();
 
         requests.put("room-id", task);
 
-        kuzzle.onResponseReceived(response.toIJObject().toJsonString());
+        kuzzle.onResponseReceived(JsonSerializer.serialize(response.toMap()));
 
         Mockito.verify(
                 tokenExpiredEventListener,
@@ -155,18 +154,18 @@ public class KuzzleTests <T> {
 
     @Test
     public void onResponseReceivedAndResponseIsUnhandled() {
-        ConcurrentHashMap<String, Task<Response<T>>>
+        ConcurrentHashMap<String, Task<Response>>
                 requests = kuzzle.getRequests();
 
         AtomicBoolean success = new AtomicBoolean(false);
         Response response = new Response();
         response.requestId = "foobar";
 
-        Task<Response<T>> task = new Task<Response<T>>();
+        Task<Response> task = new Task<>();
 
         requests.put("request-id", task);
 
-        kuzzle.onResponseReceived(response.toIJObject().toJsonString());
+        kuzzle.onResponseReceived(JsonSerializer.serialize(response.toMap()));
 
         Mockito.verify(
                 unhandledResponseEventListener,
