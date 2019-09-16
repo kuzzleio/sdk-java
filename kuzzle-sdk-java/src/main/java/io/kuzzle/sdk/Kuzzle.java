@@ -1,5 +1,6 @@
 package io.kuzzle.sdk;
 
+import io.kuzzle.sdk.API.Controllers.AuthController;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Maps.CustomMap;
 import io.kuzzle.sdk.CoreClasses.Task;
@@ -28,7 +29,7 @@ public class Kuzzle {
     public final String version;
     public final String instanceId;
 
-    public final AuthController<T> auth;
+    public final AuthController auth;
 
     /**
      * Authentication token
@@ -106,7 +107,7 @@ public class Kuzzle {
         this.tokenExpiredEvent = new EventListener();
         this.unhandledResponseEvent = new EventListener<>();
 
-        this.auth = new AuthController<>(this);
+        this.auth = new AuthController(this);
     }
 
     /** Establish a network connection
