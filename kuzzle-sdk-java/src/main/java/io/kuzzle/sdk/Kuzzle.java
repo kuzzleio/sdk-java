@@ -247,7 +247,7 @@ public class Kuzzle {
         ) {
             queryMap.put("volatile", new CustomMap());
         } else if (!queryMap.isMap("volatile")) {
-            throw new InternalException("Volatile data must be a JsonObject", 400);
+            throw new InternalException("Volatile data must be a ConcurrentHashMap<String, Object>", 400);
         }
 
         queryMap.getMap("volatile")
