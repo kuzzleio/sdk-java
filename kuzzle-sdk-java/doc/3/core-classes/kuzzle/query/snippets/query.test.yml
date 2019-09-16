@@ -4,4 +4,4 @@ hooks:
   before:
   after:
 template: default
-expected: \{\"room\":\".*\",\"result\":\{\"now\":[0-9]+\},.*\}
+expected: Success

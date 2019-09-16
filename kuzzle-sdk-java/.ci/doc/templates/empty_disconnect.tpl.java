@@ -1,6 +1,7 @@
 import java.lang.System;
-import io.kuzzle.sdk_java.Kuzzle;
-import io.kuzzle.sdk_java.Protocol.WebSocket;
+import io.kuzzle.sdk.Kuzzle;
+import io.kuzzle.sdk.Protocol.WebSocket;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
 

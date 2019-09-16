@@ -1,9 +1,9 @@
 import java.lang.System;
-import io.kuzzle.sdk_java.Kuzzle;
-import io.kuzzle.sdk_java.Protocol.WebSocket;
+import io.kuzzle.sdk.Kuzzle;
+import io.kuzzle.sdk.Protocol.WebSocket;
 import io.kuzzle.sdk.CoreClasses.Responses.*;
 import io.kuzzle.sdk.Exceptions.*;
-import com.google.gson.JsonObject;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
 

@@ -1,35 +1,29 @@
 
-JsonObject query = new JsonObject();
+ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<String, Object>();
 
-query.addProperty("controller", "server");
-query.addProperty("action", "now");
+query.put("controller", "server");
+query.put("action", "now");
 
 try {
-    Response<JsonObject> response = kuzzle.query(query).get();
-    System.out.println(response);
+    Response response = kuzzle.query(query).get();
+    System.out.println(response.toMap());
     /*
         {
-            "room":"66dc8c4e-5377-41c3-950c-2afa475b28ee",
-            "result":{
-                "now":1567778067734
+            result={
+                now=1568631977992
             },
-            "error":null,
-            "requestId":"66dc8c4e-5377-41c3-950c-2afa475b28ee",
-            "status":200,
-            "controller":"server",
-            "action":"now",
-            "index":null,
-            "collection":null,
-            "volatile":{
-                "sdkVersion":"2.0",
-                "sdkInstanceId":"2ab9e8bd-0946-42fe-aa93-808954f210a2"
+            controller=server,
+            requestId=241a1d6a-fe76-44c6-8440-f4b6a49d7a22,
+            action=now,
+            volatile={
+                sdkInstanceId=33c41a1d-ac3f-4661-a161-8a585ca4acd8,
+                sdkVersion=2.0
             },
-            "protocol":null,
-            "scope":null,
-            "timestamp":null,
-            "type":null
+            room=241a1d6a-fe76-44c6-8440-f4b6a49d7a22,
+            status=200
         }
      */
-} catch(KuzzleException e) {
+    System.out.println("Success");
+} catch(Exception e) {
     e.printStackTrace();
 }

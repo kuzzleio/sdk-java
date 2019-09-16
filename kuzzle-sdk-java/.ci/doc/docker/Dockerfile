@@ -9,5 +9,6 @@ RUN apt-get update && apt-get install -y \
       curl
 
 RUN curl https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar --output gson2.8.5.jar
+RUN curl https://repo1.maven.org/maven2/com/neovisionaries/nv-websocket-client/2.9/nv-websocket-client-2.9.jar --output nv-websocket-client2.9.jar
 
 WORKDIR /app
