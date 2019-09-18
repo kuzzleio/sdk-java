@@ -4,5 +4,9 @@ out
 .idea
 *.iml
 *.class
+bin
+.classpath
+.project
+.settings
 
 doc/framework
