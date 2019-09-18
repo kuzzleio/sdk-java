@@ -82,7 +82,7 @@ public class Kuzzle {
     ) throws IllegalArgumentException {
 
         if (networkProtocol == null) {
-            throw new IllegalArgumentException("newtorkProtocol can't be null");
+            throw new IllegalArgumentException("networkProtocol can't be null");
         }
 
         KuzzleOptions kOptions = options != null
@@ -98,7 +98,7 @@ public class Kuzzle {
         this.refreshedTokenDuration = kOptions.getRefreshedTokenDuration();
         this.maxRequestDelay = kOptions.getMaxRequestDelay();
 
-        this.version = "2.0";
+        this.version = "3.0.0";
         this.instanceId = UUID.randomUUID().toString();
 
         this.tokenExpiredEvent = new EventListener();
@@ -138,16 +138,14 @@ public class Kuzzle {
                 }
 
                 Task<Response> task = requests.get(
-                        notNull(response.requestId, "")
-                );
+                        notNull(response.requestId, ""));
                 if (task != null) {
                     task.setException(new ApiErrorException(response));
                 }
 
             } else {
                 Task<Response> task = requests.get(
-                        notNull(response.requestId, "")
-                );
+                        notNull(response.requestId, ""));
 
                 if (task != null) {
                     task.trigger(response);
@@ -247,7 +245,9 @@ public class Kuzzle {
         ) {
             queryMap.put("volatile", new CustomMap());
         } else if (!queryMap.isMap("volatile")) {
-            throw new InternalException("Volatile data must be a ConcurrentHashMap<String, Object>", 400);
+            throw new InternalException(
+                    "Volatile data must be a ConcurrentHashMap<String, Object>",
+                    400);
         }
 
         queryMap.getMap("volatile")
