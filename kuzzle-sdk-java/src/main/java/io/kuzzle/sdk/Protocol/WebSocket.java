@@ -64,7 +64,9 @@ public class WebSocket extends AbstractProtocol {
         queue.add(payload);
     }
 
-    protected com.neovisionaries.ws.client.WebSocket createClientSocket() throws IOException {
+    protected com.neovisionaries.ws.client.WebSocket createClientSocket()
+            throws IOException
+    {
         WebSocketFactory wsFactory = new WebSocketFactory();
 
         if (connectionTimeout > -1) {
