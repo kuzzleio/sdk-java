@@ -5,5 +5,9 @@ out
 bin
 *.iml
 *.class
+bin
+.classpath
+.project
+.settings
 
 doc/framework
