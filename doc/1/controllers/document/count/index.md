@@ -52,7 +52,7 @@ Returns the number of documents matching the given query.
 
 ## Exceptions
 
-Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle errors](/sdk/java/1/essentials/error-handling/).
+Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle errors](/sdk/java/1/essentials/error-handling).
 
 ## Usage
 

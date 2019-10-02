@@ -9,7 +9,7 @@ description: Force refresh of Kuzzle internal index
 
 When writing or deleting security and internal documents (users, roles, profiles, configuration, etc.) in Kuzzle, the update needs to be indexed before being reflected in the search index.
 
-The `refreshInternal` action forces a [refresh](/sdk/java/1/controllers/index/refresh/), on the internal index, making the documents available to search immediately.
+The `refreshInternal` action forces a [refresh](/sdk/java/1/controllers/index/refresh), on the internal index, making the documents available to search immediately.
 
 :::info
 A refresh operation comes with some performance costs.
@@ -42,7 +42,7 @@ The `options` arguments can contain the following option properties:
 
 ## Exceptions
 
-Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle error](/sdk/java/1/essentials/error-handling/).
+Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle error](/sdk/java/1/essentials/error-handling).
 
 ## Usage
 

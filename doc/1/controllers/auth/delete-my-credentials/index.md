@@ -38,7 +38,7 @@ Additional query options
 
 ## Exceptions
 
-Throws a `KuzzleException` if there is an error. See how to [handle error](/sdk/java/1/essentials/error-handling/).
+Throws a `KuzzleException` if there is an error. See how to [handle error](/sdk/java/1/essentials/error-handling).
 
 ## Usage
 

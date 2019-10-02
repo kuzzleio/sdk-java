@@ -13,7 +13,7 @@ There is a limit to how many documents can be returned by a single search query.
 That limit is by default set at 10000 documents, and you can't get over it even with the from and size pagination options.
 
 :::info
-When processing a large number of documents (i.e. more than 1000), it is advised to paginate the results using [SearchResult.next](/sdk/java/1/core-classes/search-result/#methods) rather than increasing the size parameter.
+When processing a large number of documents (i.e. more than 1000), it is advised to paginate the results using [SearchResult.next](/sdk/java/1/core-classes/search-result#methods) rather than increasing the size parameter.
 :::
 
 ## Arguments
@@ -68,7 +68,7 @@ Returns a [io.kuzzle.sdk.SearchResult](/sdk/java/1/core-classes/search-result) o
 
 ## Exceptions
 
-Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle error](/sdk/java/1/essentials/error-handling/).
+Throws a `io.kuzzle.sdk.KuzzleException` if there is an error. See how to [handle error](/sdk/java/1/essentials/error-handling).
 
 ## Usage
 
