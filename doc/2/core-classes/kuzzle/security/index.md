@@ -7,4 +7,4 @@ description: Kuzzle:security
 
 # security
 
-A [Security](/sdk/java/2/core-classes/security/) singleton.
+A [Security](/sdk/java/2/core-classes/security) singleton.

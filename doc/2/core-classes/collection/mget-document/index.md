@@ -7,7 +7,7 @@ description: Collection:mgetDocument
 
 # mGetDocument
 
-Get multiple [Documents](/sdk/java/2/core-classes/document/) according to the input document IDs.
+Get multiple [Documents](/sdk/java/2/core-classes/document) according to the input document IDs.
 
 ---
 

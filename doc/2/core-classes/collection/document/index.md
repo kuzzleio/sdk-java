@@ -7,7 +7,7 @@ description: Collection:document
 
 # document
 
-Creates a new [Document](/sdk/java/2/core-classes/document/) object, using its constructor.
+Creates a new [Document](/sdk/java/2/core-classes/document) object, using its constructor.
 
 ---
 
@@ -22,7 +22,7 @@ Creates a new [Document](/sdk/java/2/core-classes/document/) object, using its c
 
 ## Return Value
 
-Returns the newly created [Document](/sdk/java/2/core-classes/document/) object.
+Returns the newly created [Document](/sdk/java/2/core-classes/document) object.
 
 ## Usage
 

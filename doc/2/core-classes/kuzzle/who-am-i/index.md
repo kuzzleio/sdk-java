@@ -21,7 +21,7 @@ Returns informations about the user who is currently loggedin.
 
 ## Callback Response
 
-Returns an instantiated [User](/sdk/java/2/core-classes/user/) object.
+Returns an instantiated [User](/sdk/java/2/core-classes/user) object.
 
 ## Usage
 

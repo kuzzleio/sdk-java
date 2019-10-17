@@ -7,7 +7,7 @@ description: Collection:room
 
 # room
 
-Creates a new [Room](/sdk/java/2/core-classes/room/) object, using its constructor.
+Creates a new [Room](/sdk/java/2/core-classes/room) object, using its constructor.
 
 ---
 
@@ -19,13 +19,13 @@ Creates a new [Room](/sdk/java/2/core-classes/room/) object, using its construct
 
 ## Options
 
-Provided options are passed directly to the [Room](/sdk/java/2/core-classes/room/) object constructor.
+Provided options are passed directly to the [Room](/sdk/java/2/core-classes/room) object constructor.
 
 ---
 
 ## Return Value
 
-Returns the newly created [Room](/sdk/java/2/core-classes/room/) object.
+Returns the newly created [Room](/sdk/java/2/core-classes/room) object.
 
 ## Usage
 
