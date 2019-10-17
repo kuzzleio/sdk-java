@@ -1,6 +1,6 @@
 
 import io.kuzzle.sdk.core.Kuzzle;
-import io.kuzzle.sdk.core.Options; 
+import io.kuzzle.sdk.core.Options;
 
 Kuzzle kuzzle = new Kuzzle("localhost");
 
@@ -26,7 +26,7 @@ JSONObject body = new JSONObject()
           )
         )
         .put(
-          new JSONObject().put("geo_distance",
+          new JSONObject().put("geoDistance",
             new JSONObject()
               .put("distance", "10km")
               .put("pos",
@@ -42,7 +42,7 @@ JSONObject body = new JSONObject()
   .put("sort", new JSONArray()
     .put("status")
     .put(new JSONObject()
-      .put("_geo_distance", new JSONObject()
+      .put("_geoDistance", new JSONObject()
         .put("pos", new JSONObject()
           .put("lat", "48.8566140")
           .put("lon", "2.352222")

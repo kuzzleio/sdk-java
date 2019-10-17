@@ -19,7 +19,7 @@ JSONObject filter = new JSONObject()
       )
     )
     .put(
-      new JSONObject().put("geo_distance",
+      new JSONObject().put("geoDistance",
         new JSONObject()
           .put("distance", "10km")
           .put("pos",
