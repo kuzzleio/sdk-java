@@ -58,7 +58,7 @@ public class Documentdefs {
             k.getDocument().create(world.index, world.collection, id, "{\"foo\":\"bar\"}", options);
             this.documentId = id;
         } catch (BadRequestException e) {
-            if (!e.getMessage().equals("Document already exists")) {
+            if (!e.getMessage().equals("Document already exists.")) {
                 throw e;
             }
         }
