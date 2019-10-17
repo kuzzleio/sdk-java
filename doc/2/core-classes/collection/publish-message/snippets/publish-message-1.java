@@ -5,4 +5,4 @@ Options opts = new Options().setVolatile(volatile);
 
 kuzzle
   .collection("collection", "index")
-  .publish(message, opts);
+  .publishMessage(message, opts);

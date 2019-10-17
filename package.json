@@ -1,4 +1,5 @@
 {
+  "name": "sdk-java",
   "scripts": {
     "doc-prepare": "cd doc && bash doc.sh prepare",
     "doc-dev": "cd doc && bash doc.sh dev",
