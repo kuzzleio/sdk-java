@@ -10,7 +10,6 @@ import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -231,7 +230,7 @@ public class Kuzzle {
             throw new NotConnectedException();
         }
 
-        KuzzleMap queryMap = KuzzleMap.getCustomMap(query);
+        KuzzleMap queryMap = KuzzleMap.getKuzzleMap(query);
 
         if (queryMap.contains("waitForRefresh")) {
             if (queryMap.optBoolean("waitForRefresh", false).booleanValue()) {
