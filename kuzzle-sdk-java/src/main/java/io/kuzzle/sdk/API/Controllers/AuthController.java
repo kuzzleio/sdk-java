@@ -73,7 +73,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) ->
-                        KuzzleMap.getCustomMap(
+                        KuzzleMap.getKuzzleMap(
                                 (ConcurrentHashMap<String, Object>) response.result)
                 );
     }
@@ -100,7 +100,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) ->
-                        KuzzleMap.getCustomMap(
+                        KuzzleMap.getKuzzleMap(
                                 (ConcurrentHashMap<String, Object>) response.result)
                 );
     }
@@ -151,7 +151,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) ->
-                        KuzzleMap.getCustomMap(
+                        KuzzleMap.getKuzzleMap(
                                 (ConcurrentHashMap<String, Object>) response.result)
                 );
     }
@@ -166,7 +166,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) ->
-                        KuzzleMap.getCustomMap(
+                        KuzzleMap.getKuzzleMap(
                                 (ConcurrentHashMap<String, Object>) response.result)
                 );
     }
@@ -181,7 +181,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) -> {
-                    KuzzleMap map = KuzzleMap.getCustomMap(
+                    KuzzleMap map = KuzzleMap.getKuzzleMap(
                             (ConcurrentHashMap<String, Object>) response.result);
                     return map.getArrayList("hits");
                 });
@@ -217,7 +217,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) -> {
-                    KuzzleMap map = KuzzleMap.getCustomMap(
+                    KuzzleMap map = KuzzleMap.getKuzzleMap(
                             (ConcurrentHashMap<String, Object>) response.result);
                     kuzzle.setAuthenticationToken(map.getString("jwt"));
                     if (!map.isNull("_id")) {
@@ -260,7 +260,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) -> {
-                    KuzzleMap map = KuzzleMap.getCustomMap(
+                    KuzzleMap map = KuzzleMap.getKuzzleMap(
                             (ConcurrentHashMap<String, Object>) response.result);
                     kuzzle.setAuthenticationToken(map.getString("jwt"));
 
@@ -287,7 +287,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) -> {
-                    KuzzleMap map = KuzzleMap.getCustomMap(
+                    KuzzleMap map = KuzzleMap.getKuzzleMap(
                             (ConcurrentHashMap<String, Object>) response.result);
 
                     return map;
@@ -306,7 +306,7 @@ public class AuthController extends BaseController {
 
         return kuzzle.query(query)
                 .thenApplyAsync((response) -> {
-                    KuzzleMap map = KuzzleMap.getCustomMap(
+                    KuzzleMap map = KuzzleMap.getKuzzleMap(
                             (ConcurrentHashMap<String, Object>) response.result);
 
                     return map;
