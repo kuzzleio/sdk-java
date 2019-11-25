@@ -1,6 +1,6 @@
 package io.kuzzle.sdk.CoreClasses.Responses;
 
-import io.kuzzle.sdk.CoreClasses.Maps.CustomMap;
+import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.CoreClasses.Maps.Serializable;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -85,35 +85,35 @@ public class Response implements Serializable {
     public void fromMap(ConcurrentHashMap<String, Object> map) {
         if (map == null) return;
 
-        CustomMap customMap = CustomMap.getCustomMap(map);
+        KuzzleMap kuzzleMap = KuzzleMap.getCustomMap(map);
 
-        room = customMap.getString("room");
-        result = customMap.get("result");
+        room = kuzzleMap.getString("room");
+        result = kuzzleMap.get("result");
         error = null;
-        if (customMap.isMap("error")) {
+        if (kuzzleMap.isMap("error")) {
             error = new ErrorResponse();
-            error.fromMap(customMap.getMap("error"));
+            error.fromMap(kuzzleMap.getMap("error"));
         }
-        requestId = customMap.getString("requestId");
-        status = customMap.optNumber("status", 0).intValue();
-        controller = customMap.getString("controller");
-        action = customMap.getString("action");
-        index = customMap.getString("index");
-        collection = customMap.getString("collection");
-        Volatile = customMap.optMap(
+        requestId = kuzzleMap.getString("requestId");
+        status = kuzzleMap.optNumber("status", 0).intValue();
+        controller = kuzzleMap.getString("controller");
+        action = kuzzleMap.getString("action");
+        index = kuzzleMap.getString("index");
+        collection = kuzzleMap.getString("collection");
+        Volatile = kuzzleMap.optMap(
                 "volatile",
                 new ConcurrentHashMap<>()
         );
-        protocol = customMap.getString("protocol");
-        scope = customMap.getString("scope");
-        state = customMap.getString("state");
-        timestamp = (Long)customMap.getNumber("timestamp");
-        type = customMap.getString("type");
+        protocol = kuzzleMap.getString("protocol");
+        scope = kuzzleMap.getString("scope");
+        state = kuzzleMap.getString("state");
+        timestamp = (Long) kuzzleMap.getNumber("timestamp");
+        type = kuzzleMap.getString("type");
     }
 
     @Override
     public ConcurrentHashMap<String, Object> toMap() {
-        ConcurrentHashMap<String, Object> map = new CustomMap();
+        ConcurrentHashMap<String, Object> map = new KuzzleMap();
 
         map.put("room", room);
         map.put("result", result);

@@ -98,7 +98,7 @@ public class WebSocketOptions {
     /**
      * @return If the websocket auto reconnects.
      */
-    public boolean isAutoReconnected() {
+    public boolean isAutoReconnect() {
         return autoReconnect;
     }
 
