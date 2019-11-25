@@ -30,7 +30,7 @@ public class ErrorResponse implements Serializable {
     public void fromMap(ConcurrentHashMap<String, Object> map) {
         if (map == null) return;
 
-        KuzzleMap kuzzleMap = KuzzleMap.getCustomMap(map);
+        KuzzleMap kuzzleMap = KuzzleMap.getKuzzleMap(map);
 
         status = kuzzleMap.optNumber("status", 0).intValue();
         message = kuzzleMap.getString("message");

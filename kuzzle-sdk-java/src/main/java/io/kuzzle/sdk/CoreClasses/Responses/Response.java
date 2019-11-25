@@ -85,7 +85,7 @@ public class Response implements Serializable {
     public void fromMap(ConcurrentHashMap<String, Object> map) {
         if (map == null) return;
 
-        KuzzleMap kuzzleMap = KuzzleMap.getCustomMap(map);
+        KuzzleMap kuzzleMap = KuzzleMap.getKuzzleMap(map);
 
         room = kuzzleMap.getString("room");
         result = kuzzleMap.get("result");
