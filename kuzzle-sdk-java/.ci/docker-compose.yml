@@ -23,9 +23,6 @@ services:
     image: kuzzleio/elasticsearch:7.4.0
     ulimits:
       nofile: 65536
-    environment:
-      - cluster.name=kuzzle
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
 
 volumes:
   snippets:
