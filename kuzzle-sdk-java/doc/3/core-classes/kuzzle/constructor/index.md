@@ -7,7 +7,7 @@ description: This constructor create a new instance of the SDK. Each instance re
 
 # constructor
 
-This constructor create a new instance of the SDK. Each instance represent a different connection to a Kuzzle server with specific options.
+This constructor creates a new instance of the SDK. Each instance represents a different connection to a Kuzzle server with specific options.
 
 ## Arguments
 
@@ -31,7 +31,7 @@ public Kuzzle(
 
 | Argument                 | Type<br>(default)                                                                                              | Description                                                           |
 |--------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| `maxQueueSize`           | <pre>int</pre><br>(`-1`)                                                                                       | The maximum amount of elements that the queue can contains.           |
+| `maxQueueSize`           | <pre>int</pre><br>(`-1`)                                                                                       | The maximum amount of elements that the queue can contain.           |
 | `minTokenDuration`       | <pre>int</pre><br>(`3600000`)                                                                                  | The minimum duration of a Token before being automatically refreshed. |
 | `refreshedTokenDuration` | <pre>int</pre><br>(`3600000`)                                                                                  | The minimum duration of a Token after refresh.                        |
 | `maxRequestDelay`        | <pre>int</pre><br>(`1000`)                                                                                     | The maximum delay between two requests to be replayed.                |

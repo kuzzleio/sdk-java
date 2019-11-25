@@ -7,7 +7,7 @@ description: Connects to Kuzzle using the `host` property provided in the [webso
 
 # connect
 
-Connects to Kuzzle using the `host` property provided in the [websocket parameters](/sdk/java/3/protocols/websocket/constructor#arguments). Subsequent call have no effect if the SDK is already connected.
+Connects to Kuzzle using the `host` property provided in the [websocket parameters](/sdk/java/3/protocols/websocket/constructor#arguments). Subsequent calls have no effect if the SDK is already connected.
 
 ## Arguments
 
@@ -17,7 +17,7 @@ public void connect() throws Exception;
 
 ## Exceptions
 
-Throw an `Exception` when an error occur during the connection.
+Throws an `Exception` when an error occurs during the connection.
 
 ## Usage
 

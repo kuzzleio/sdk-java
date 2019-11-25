@@ -10,7 +10,7 @@ order: 0
 
 Inherits from the standard `Exception` class.
 
-All other SDK exceptions inherits from this base class.
+All other SDK exceptions inherit from this base class.
 
 ## Properties
 
