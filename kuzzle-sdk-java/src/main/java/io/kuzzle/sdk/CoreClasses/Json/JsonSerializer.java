@@ -12,6 +12,7 @@ public class JsonSerializer {
         gson = new GsonBuilder()
                 .disableHtmlEscaping()
                 .disableInnerClassSerialization()
+                .serializeNulls()
                 .registerTypeAdapter(
                         ConcurrentHashMap.class,
                         new ConcurrentHashMapTypeAdapter()

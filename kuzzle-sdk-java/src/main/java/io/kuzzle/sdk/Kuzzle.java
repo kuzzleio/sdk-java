@@ -1,7 +1,7 @@
 package io.kuzzle.sdk;
 
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
-import io.kuzzle.sdk.CoreClasses.Maps.CustomMap;
+import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Events.EventListener;
 import io.kuzzle.sdk.Exceptions.*;
@@ -9,9 +9,12 @@ import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import io.kuzzle.sdk.CoreClasses.Responses.*;
@@ -31,33 +34,33 @@ public class Kuzzle {
     /**
      * Authentication token
      */
-    protected String authenticationToken;
+    protected AtomicReference<String> authenticationToken;
 
 
     /**
      * The maximum amount of elements that the queue can contains.
      * If set to -1, the size is unlimited.
      */
-    protected int maxQueueSize;
+    protected AtomicInteger maxQueueSize;
 
 
     /**
      * The minimum duration of a Token before being automatically refreshed.
      * If set to -1 the SDK does not refresh the token automatically.
      */
-    protected int minTokenDuration;
+    protected AtomicInteger minTokenDuration;
 
 
     /**
      * The minimum duration of a Token after refresh.
      * If set to -1 the SDK does not refresh the token automatically.
      */
-    protected int refreshedTokenDuration;
+    protected AtomicInteger refreshedTokenDuration;
 
     /**
      * The maximum delay between two requests to be replayed
      */
-    protected int maxRequestDelay;
+    protected AtomicInteger maxRequestDelay;
 
     protected ConcurrentHashMap<String, Task<Response>>
                     requests = new ConcurrentHashMap<>();
@@ -93,10 +96,10 @@ public class Kuzzle {
         this.networkProtocol.registerResponseEvent(this::onResponseReceived);
         this.networkProtocol.registerStateChangeEvent(this::onStateChanged);
 
-        this.maxQueueSize = kOptions.getMaxQueueSize();
-        this.minTokenDuration = kOptions.getMinTokenDuration();
-        this.refreshedTokenDuration = kOptions.getRefreshedTokenDuration();
-        this.maxRequestDelay = kOptions.getMaxRequestDelay();
+        this.maxQueueSize = new AtomicInteger(kOptions.getMaxQueueSize());
+        this.minTokenDuration = new AtomicInteger(kOptions.getMinTokenDuration());
+        this.refreshedTokenDuration = new AtomicInteger(kOptions.getRefreshedTokenDuration());
+        this.maxRequestDelay = new AtomicInteger(kOptions.getMaxRequestDelay());
 
         this.version = "3.0.0";
         this.instanceId = UUID.randomUUID().toString();
@@ -223,7 +226,7 @@ public class Kuzzle {
             throw new NotConnectedException();
         }
 
-        CustomMap queryMap = CustomMap.getCustomMap(query);
+        KuzzleMap queryMap = KuzzleMap.getCustomMap(query);
 
         if (queryMap.contains("waitForRefresh")) {
             if (queryMap.optBoolean("waitForRefresh", false).booleanValue()) {
@@ -243,7 +246,7 @@ public class Kuzzle {
         if (!queryMap.containsKey("volatile")
             || queryMap.isNull("volatile")
         ) {
-            queryMap.put("volatile", new CustomMap());
+            queryMap.put("volatile", new KuzzleMap());
         } else if (!queryMap.isMap("volatile")) {
             throw new InternalException(
                     "Volatile data must be a ConcurrentHashMap<String, Object>",
@@ -270,13 +273,13 @@ public class Kuzzle {
      * @return The authentication token
      */
     public String getAuthenticationToken() {
-        return authenticationToken;
+        return authenticationToken.get();
     }
 
     /** Set the authentication token
      * @param token Authentication token
      */
     public void setAuthenticationToken(String token) {
-        authenticationToken = token;
+        authenticationToken.set(token);
     }
 }

@@ -6,7 +6,7 @@ import com.google.gson.internal.LazilyParsedNumber;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import io.kuzzle.sdk.CoreClasses.Maps.CustomMap;
+import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.CoreClasses.Maps.Serializable;
 
 import java.io.IOException;
@@ -43,21 +43,19 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
             in.nextNull();
             return null;
         } else if (peek == JsonToken.BEGIN_OBJECT) {
-            CustomMap map = new CustomMap();
+            KuzzleMap map = new KuzzleMap();
             Object key;
             Object value;
-            Object replaced;
 
             in.beginObject();
 
             while(in.hasNext()) {
                 key = in.nextName();
                 value = readObject(in);
-                if (value != null) {
-                    replaced = map.put((String) key, value);
-                    if (replaced != null) {
-                        throw new JsonSyntaxException("duplicate key: " + key);
-                    }
+                if (!map.containsKey(key)) {
+                    map.put((String) key, value);
+                } else {
+                    throw new JsonSyntaxException("duplicate key: " + key);
                 }
             }
 
@@ -69,48 +67,40 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
     }
 
     private void writeObject(JsonWriter out, Object value) throws IOException {
-        if (value != null) {
-            if (value instanceof Number
-                || value instanceof Boolean
-                || value instanceof String
-            ) {
-                if (value instanceof Number) {
-                    out.value((Number)value);
-                } else if (value instanceof Boolean) {
-                    out.value((Boolean)value);
-                } else {
-                    out.value((String)value);
-                }
-            } else {
+        if (value instanceof Number) {
+            out.value((Number)value);
+        } else if (value instanceof Boolean) {
+            out.value((Boolean)value);
+        } else if (value instanceof String) {
+            out.value((String)value);
+        } else if (value instanceof ArrayList) {
+            out.beginArray();
+            Iterator<Object>
+                    iterator = ((ArrayList<Object>)value).iterator();
 
-                if (value instanceof ArrayList) {
-                    out.beginArray();
-                    Iterator<Object>
-                            iterator = ((ArrayList<Object>)value).iterator();
-
-                    while(iterator.hasNext()) {
-                        writeObject(out, iterator.next());
-                    }
-
-                    out.endArray();
-                } else if (value instanceof ConcurrentHashMap) {
-                    out.beginObject();
-                    Iterator<Map.Entry<String, Object>>
-                            iterator = ((ConcurrentHashMap<String, Object>)value)
-                                            .entrySet()
-                                            .iterator();
-
-                    while(iterator.hasNext()) {
-                        Map.Entry<String, Object> e = iterator.next();
-                        out.name(e.getKey());
-                        writeObject(out, e.getValue());
-                    }
-
-                    out.endObject();
-                } else if (value instanceof Serializable) {
-                    writeObject(out, ((Serializable)value).toMap());
-                }
+            while(iterator.hasNext()) {
+                writeObject(out, iterator.next());
             }
+
+            out.endArray();
+        } else if (value instanceof ConcurrentHashMap) {
+            out.beginObject();
+            Iterator<Map.Entry<String, Object>>
+                    iterator = ((ConcurrentHashMap<String, Object>)value)
+                    .entrySet()
+                    .iterator();
+
+            while(iterator.hasNext()) {
+                Map.Entry<String, Object> e = iterator.next();
+                out.name(e.getKey());
+                writeObject(out, e.getValue());
+            }
+
+            out.endObject();
+        } else if (value instanceof Serializable) {
+            writeObject(out, ((Serializable)value).toMap());
+        } else if (value == null) {
+            out.nullValue();
         }
     }
 
@@ -137,7 +127,7 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
                 in.endArray();
                 return array;
             case BEGIN_OBJECT:
-                CustomMap map = new CustomMap();
+                KuzzleMap map = new KuzzleMap();
                 in.beginObject();
 
                 while(in.hasNext()) {

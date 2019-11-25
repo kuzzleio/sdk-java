@@ -1,31 +1,37 @@
 package io.kuzzle.sdk.CoreClasses.Maps;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * CustomMap is a Class that extends ConcurrentHashMap to be ThreadSafe
  * and that has the purpose of giving a wrapper on top of ConcurrentHashMap to easily
  * manipulate them.
  */
-public class CustomMap extends ConcurrentHashMap<String, Object> {
+public class KuzzleMap extends ConcurrentHashMap<String, Object> {
 
     /**
      * Convert à ConcurrentHashMap<String, Object> to a CustomMap
      * @param map ConcurrentHashMap<String, Object> representing JSON.
      * @return a CustomMap instance
      */
-    public static CustomMap getCustomMap(ConcurrentHashMap<String, Object> map) {
-        if (map instanceof CustomMap) {
-            return (CustomMap)map;
+    public static KuzzleMap getCustomMap(ConcurrentHashMap<String, Object> map) {
+        if (map != null) {
+            if (map instanceof KuzzleMap) {
+                return (KuzzleMap) map;
+            }
+            return new KuzzleMap(map);
         }
-        return new CustomMap(map);
+        return null;
     }
 
     /**
      * Create a new instance of CustomMap
      */
-    public CustomMap() {
+    public KuzzleMap() {
         super();
     }
 
@@ -33,29 +39,57 @@ public class CustomMap extends ConcurrentHashMap<String, Object> {
      * Create a new instance of CustomMap from a ConcurrentHashMap<String, Object>.
      * @param map ConcurrentHashMap<String, Object> representing JSON.
      */
-    public CustomMap(ConcurrentHashMap<String, Object> map) {
-        super(map);
+    public KuzzleMap(ConcurrentHashMap<String, Object> map) {
+        super();
+        Iterator<Entry<String, Object>> it = map.entrySet().iterator();
+
+        while(it.hasNext()) {
+            Entry<String, Object> var3 = it.next();
+            this.put(var3.getKey(), var3.getValue());
+        }
     }
 
-    /**
-     * Avoid trying to put null element that would trigger an NullPointerException
-     * @param key a String representing the key.
-     */
     @Override
-    public Object put(String key, Object value) {
-        if (value != null) {
-            return super.put(key, value);
+    public Object put(String s, Object o) {
+        Object obj = null;
+        if (o != null) {
+            obj = super.put(s, o);
+        } else {
+            obj = super.put(s, new Null());
         }
-        return null;
+        if (obj instanceof Null) {
+            return null;
+        }
+        return obj;
+    }
+
+    @Override
+    public Object get(Object key) {
+        Object value = super.get(key);
+        if (value instanceof Null) {
+            return null;
+        }
+        return value;
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        Set<Entry<String, Object>> entrySet = super.entrySet();
+        return entrySet.parallelStream().map((Entry<String, Object> entry) -> {
+            if (entry.getValue() instanceof Null) {
+                return new KuzzleMapEntry(entry.getKey(), entry.getValue(), this);
+            }
+            return entry;
+        }).collect(Collectors.toSet());
     }
 
     /**
      * Check whether the key value is null or not.
      * @param key a String representing the key.
-     * @return true if the key is null.
+     * @return true if the value is null.
      */
     public boolean isNull(String key) {
-        return super.get(key) == null;
+        return super.get(key) instanceof Null;
     }
     /**
      * Check whether the key value is a String or not.
@@ -109,7 +143,7 @@ public class CustomMap extends ConcurrentHashMap<String, Object> {
      */
     public String getString(String key) {
         return isString(key)
-                ? (String)super.get(key)
+                ? (String) super.get(key)
                 : null;
     }
 
@@ -153,7 +187,7 @@ public class CustomMap extends ConcurrentHashMap<String, Object> {
      */
     public ConcurrentHashMap<String, Object> getMap(String key) {
         return isMap(key)
-                ? (ConcurrentHashMap<String, Object>)super.get(key)
+                ? (ConcurrentHashMap<String, Object>) super.get(key)
                 : null;
     }
 
@@ -164,7 +198,7 @@ public class CustomMap extends ConcurrentHashMap<String, Object> {
      */
     public String optString(String key, String def) {
         return isString(key)
-                ? (String)super.get(key)
+                ? (String) super.get(key)
                 : def;
     }
 
@@ -211,7 +245,7 @@ public class CustomMap extends ConcurrentHashMap<String, Object> {
             ConcurrentHashMap<String, Object> def
     ) {
         return isMap(key)
-                ? (ConcurrentHashMap<String, Object>)super.get(key)
+                ? (ConcurrentHashMap<String, Object>) super.get(key)
                 : def;
     }
 }
