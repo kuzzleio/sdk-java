@@ -25,4 +25,8 @@ public class ApiErrorException extends KuzzleException {
             this.stack = response.error.stack;
         }
     }
+
+    public String getStack() {
+        return this.stack;
+    }
 }
