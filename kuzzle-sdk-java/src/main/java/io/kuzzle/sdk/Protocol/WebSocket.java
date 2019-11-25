@@ -9,6 +9,7 @@ import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.concurrent.*;
 
 public class WebSocket extends AbstractProtocol {
@@ -24,6 +25,38 @@ public class WebSocket extends AbstractProtocol {
 
     public ProtocolState getState() {
         return state;
+    }
+
+    public WebSocket(URI uri)
+            throws Exception {
+        WebSocketOptions options = new WebSocketOptions();
+        if (uri.getPort() > -1) {
+            options.withPort(uri.getPort());
+        }
+        if (uri.getHost() == null || uri.getHost().isEmpty()) {
+            throw new URISyntaxException("Missing host", "Could not find host part");
+        }
+        if (uri.getScheme() != null) {
+            options.withSsl(uri.getScheme().equals("wss"));
+        }
+        WebSocketOptions wsOptions =
+                options != null
+                        ? new WebSocketOptions(options)
+                        : new WebSocketOptions();
+
+        ssl = wsOptions.isSsl();
+        port = wsOptions.getPort();
+        connectionTimeout = wsOptions.getConnectionTimeout();
+
+        this.uri = new URI((ssl ? "wss" : "ws") + "://" + uri.getHost() + ":" + port + "/");
+        this.queue = new LinkedBlockingDeque<>();
+    }
+
+    public WebSocket(
+            URI uri,
+            WebSocketOptions options
+    ) throws URISyntaxException, IllegalArgumentException {
+        this(uri.getHost(), options);
     }
 
     public WebSocket(String host)
