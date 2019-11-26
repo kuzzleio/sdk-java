@@ -29,6 +29,7 @@ public class Kuzzle {
 
     public final String version;
     public final String instanceId;
+    public final String sdkName;
 
     /**
      * Authentication token
@@ -102,6 +103,7 @@ public class Kuzzle {
 
         this.version = "3.0.0";
         this.instanceId = UUID.randomUUID().toString();
+        this.sdkName = "java@"+version;
 
         this.tokenExpiredEvent = new EventListener();
         this.unhandledResponseEvent = new EventListener<>();
@@ -257,6 +259,9 @@ public class Kuzzle {
 
         queryMap.getMap("volatile")
              .put("sdkInstanceId", instanceId);
+
+        queryMap.getMap("volatile")
+                .put("sdkName", sdkName);
 
         Task<Response> task = new Task<>();
         requests.put(requestId, task);
