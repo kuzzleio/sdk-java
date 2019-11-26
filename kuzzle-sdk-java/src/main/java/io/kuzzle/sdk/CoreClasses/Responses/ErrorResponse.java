@@ -22,6 +22,11 @@ public class ErrorResponse implements Serializable {
     public String message;
 
     /**
+     * Error ID
+     */
+    public String id;
+
+    /**
      * Error stack
      */
     public String stack;
@@ -35,6 +40,7 @@ public class ErrorResponse implements Serializable {
         status = kuzzleMap.optNumber("status", 0).intValue();
         message = kuzzleMap.getString("message");
         stack = kuzzleMap.getString("stack");
+        id = kuzzleMap.getString("id");
     }
 
     @Override
@@ -44,6 +50,7 @@ public class ErrorResponse implements Serializable {
         map.put("status", status);
         map.put("message", message);
         map.put("stack", stack);
+        map.put("id", id);
         return map;
     }
 }
