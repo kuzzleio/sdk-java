@@ -132,7 +132,7 @@ public class Kuzzle {
         response.fromMap(JsonSerializer.deserialize(payload));
 
         if (response.room != null
-            && requests.containsKey(notNull(response.room, ""))
+            && requests.containsKey(response.room)
         ) {
             if (response.error != null) {
                 if (response.error.message != null
