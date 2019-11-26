@@ -225,7 +225,7 @@ public class Kuzzle {
             throw new NotConnectedException();
         }
 
-        KuzzleMap queryMap = KuzzleMap.getKuzzleMap(query);
+        KuzzleMap queryMap = KuzzleMap.from(query);
 
         if (queryMap.contains("waitForRefresh")) {
             if (queryMap.optBoolean("waitForRefresh", false).booleanValue()) {

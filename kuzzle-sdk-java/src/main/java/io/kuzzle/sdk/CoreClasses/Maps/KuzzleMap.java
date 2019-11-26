@@ -18,7 +18,7 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
      * @param map ConcurrentHashMap<String, Object> representing JSON.
      * @return a CustomMap instance
      */
-    public static KuzzleMap getKuzzleMap(ConcurrentHashMap<String, Object> map) {
+    public static KuzzleMap from(ConcurrentHashMap<String, Object> map) {
         if (map != null) {
             if (map instanceof KuzzleMap) {
                 return (KuzzleMap) map;
