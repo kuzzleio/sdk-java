@@ -2,7 +2,6 @@
 build
 out
 .idea
-bin
 *.iml
 *.class
 bin
