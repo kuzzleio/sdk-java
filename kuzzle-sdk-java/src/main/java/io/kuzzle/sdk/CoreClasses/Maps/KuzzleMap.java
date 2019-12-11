@@ -19,13 +19,13 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
      * @return a CustomMap instance
      */
     public static KuzzleMap from(ConcurrentHashMap<String, Object> map) {
-        if (map != null) {
-            if (map instanceof KuzzleMap) {
-                return (KuzzleMap) map;
-            }
-            return new KuzzleMap(map);
+        if (map == null) {
+            return null;
         }
-        return null;
+        if (map instanceof KuzzleMap) {
+            return (KuzzleMap) map;
+        }
+        return new KuzzleMap(map);
     }
 
     /**
@@ -44,8 +44,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
         Iterator<Entry<String, Object>> it = map.entrySet().iterator();
 
         while(it.hasNext()) {
-            Entry<String, Object> var3 = it.next();
-            this.put(var3.getKey(), var3.getValue());
+            Entry<String, Object> entry = it.next();
+            this.put(entry.getKey(), entry.getValue());
         }
     }
 

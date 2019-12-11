@@ -37,17 +37,15 @@ public class KuzzleMapEntry implements Map.Entry<String, Object> {
         Object key;
         Object value;
         Map.Entry entry;
-        if (object instanceof Map.Entry) {
-            entry = (Map.Entry) object;
-            key = entry.getKey();
-            value = entry.getValue();
-            if (key != null) {
-                if (value == this.value || (value != null && value.equals(this.value))) {
-                    return true;
-                }
-            }
+
+        if (!(object instanceof Map.Entry)) {
+            return false;
         }
-        return false;
+
+        entry = (Map.Entry) object;
+        key = entry.getKey();
+        value = entry.getValue();
+        return key != null && (value == this.value || (value != null && value.equals(this.value)));
     }
 
     public Object setValue(Object value) {

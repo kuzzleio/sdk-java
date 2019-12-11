@@ -131,34 +131,35 @@ public class Kuzzle {
         Response response = new Response();
         response.fromMap(JsonSerializer.deserialize(payload));
 
-        if (response.room != null
-            && requests.containsKey(response.room)
+        if (response.room == null
+            || !requests.containsKey((response.room))
         ) {
-            if (response.error != null) {
-                if (response.error.message != null
-                    && response.error.message.equals("Token expired")
-                ) {
-                    tokenExpiredEvent.trigger();
-                }
-
-                Task<Response> task = requests.get(
-                        notNull(response.requestId, ""));
-                if (task != null) {
-                    task.setException(new ApiErrorException(response));
-                }
-
-            } else {
-                Task<Response> task = requests.get(
-                        notNull(response.requestId, ""));
-
-                if (task != null) {
-                    task.trigger(response);
-                }
-
-                requests.remove(notNull(response.requestId, ""));
-            }
-        } else {
             unhandledResponseEvent.trigger(response);
+            return;
+        }
+
+        if (response.error != null) {
+            if (response.error.id != null
+                    && response.error.id.equals("security.token.expired")
+            ) {
+                tokenExpiredEvent.trigger();
+            }
+
+            Task<Response> task = requests.get(
+                    notNull(response.requestId, ""));
+            if (task != null) {
+                task.setException(new ApiErrorException(response));
+            }
+
+        } else {
+            Task<Response> task = requests.get(
+                    notNull(response.requestId, ""));
+
+            if (task != null) {
+                task.trigger(response);
+            }
+
+            requests.remove(notNull(response.requestId, ""));
         }
     }
 
