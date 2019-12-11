@@ -3,7 +3,7 @@ package io.kuzzle.sdk.Options;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
-import static io.kuzzle.sdk.Helpers.Default.notNull;
+import static io.kuzzle.sdk.Helpers.Default.defaultValue;
 
 public class KuzzleOptions {
 
@@ -134,7 +134,7 @@ public class KuzzleOptions {
     }
 
     public KuzzleOptions withFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
-        this.filter = notNull(filter, (ConcurrentHashMap<String, Object> obj) -> true);
+        this.filter = defaultValue(filter, (ConcurrentHashMap<String, Object> obj) -> true);
         return this;
     }
 }

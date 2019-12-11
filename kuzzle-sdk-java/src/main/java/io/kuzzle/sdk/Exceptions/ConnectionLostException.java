@@ -9,6 +9,7 @@ public class ConnectionLostException extends KuzzleException {
      * Initializes a new instance of the ConnectionLostException.
      */
     public ConnectionLostException() {
-        super("Connection lost", 500);
+        super(KuzzleExceptionCode.CONNECTION_LOST);
     }
+
 }

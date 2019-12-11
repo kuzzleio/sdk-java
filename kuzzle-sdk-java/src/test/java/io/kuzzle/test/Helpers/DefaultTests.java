@@ -8,11 +8,11 @@ public class DefaultTests {
 
     @Test
     public void notNullTest() {
-        String str1 = Default.notNull(null, "foobar");
-        String str2 = Default.notNull("SomeString", "foobar");
+        String str1 = Default.defaultValue(null, "foobar");
+        String str2 = Default.defaultValue("SomeString", "foobar");
 
-        Integer int1 = Default.notNull(null, 42);
-        Integer int2 = Default.notNull(10, 42);
+        Integer int1 = Default.defaultValue(null, 42);
+        Integer int2 = Default.defaultValue(10, 42);
 
         Assert.assertEquals("foobar", str1);
         Assert.assertEquals("SomeString", str2);

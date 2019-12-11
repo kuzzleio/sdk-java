@@ -8,7 +8,7 @@ public class Default {
      * @param <T> Object class.
      * @return The object or the specified default value in case the object is null.
      */
-    public static <T> T notNull(T obj, T defaultValue) {
+    public static <T> T defaultValue(T obj, T defaultValue) {
         return obj != null ? obj : defaultValue;
     }
 }

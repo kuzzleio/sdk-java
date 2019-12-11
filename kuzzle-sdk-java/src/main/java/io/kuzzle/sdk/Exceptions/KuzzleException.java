@@ -19,6 +19,16 @@ public class KuzzleException extends Exception {
         this.status = status;
     }
 
+    protected KuzzleException(String message, KuzzleExceptionCode status) {
+        super(message);
+        this.status = status.getCode();
+    }
+
+    protected KuzzleException(KuzzleExceptionCode status) {
+        super(status.getMessage());
+        this.status = status.getCode();
+    }
+
     /**
      * @return The status code of the exception.
      */

@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 
 import io.kuzzle.sdk.CoreClasses.Responses.*;
 
-import static io.kuzzle.sdk.Helpers.Default.notNull;
+import static io.kuzzle.sdk.Helpers.Default.defaultValue;
 
 public class Kuzzle {
 
@@ -129,38 +129,42 @@ public class Kuzzle {
     protected void onResponseReceived(String payload) {
 
         Response response = new Response();
-        response.fromMap(JsonSerializer.deserialize(payload));
+        try {
+            response.fromMap(JsonSerializer.deserialize(payload));
+        } catch (InternalException e) {
+            e.printStackTrace();
+            return;
+        }
 
         if (response.room == null
-            || !requests.containsKey((response.room))
+            || !requests.containsKey(response.room)
         ) {
             unhandledResponseEvent.trigger(response);
             return;
         }
 
-        if (response.error != null) {
-            if (response.error.id != null
-                    && response.error.id.equals("security.token.expired")
-            ) {
-                tokenExpiredEvent.trigger();
-            }
-
-            Task<Response> task = requests.get(
-                    notNull(response.requestId, ""));
-            if (task != null) {
-                task.setException(new ApiErrorException(response));
-            }
-
-        } else {
-            Task<Response> task = requests.get(
-                    notNull(response.requestId, ""));
+        if (response.error == null) {
+            Task<Response> task = requests.get(response.requestId);
 
             if (task != null) {
                 task.trigger(response);
             }
 
-            requests.remove(notNull(response.requestId, ""));
+            requests.remove(response.requestId);
+            return;
         }
+
+        if (response.error.id == null
+                || !response.error.id.equals("security.token.expired")
+        ) {
+            Task<Response> task = requests.get(response.requestId);
+            if (task != null) {
+                task.setException(new ApiErrorException(response));
+            }
+            return;
+        }
+
+        tokenExpiredEvent.trigger();
     }
 
     protected void onStateChanged(ProtocolState state) {
@@ -221,7 +225,7 @@ public class Kuzzle {
     public CompletableFuture<Response> query(ConcurrentHashMap<String, Object> query)
             throws InternalException, NotConnectedException {
         if (query == null) {
-            throw new InternalException("You must provide a query", 400);
+            throw new InternalException(KuzzleExceptionCode.MSSING_QUERY);
         }
 
         if (networkProtocol.getState() == ProtocolState.CLOSE) {
@@ -250,9 +254,7 @@ public class Kuzzle {
         ) {
             queryMap.put("volatile", new KuzzleMap());
         } else if (!queryMap.isMap("volatile")) {
-            throw new InternalException(
-                    "Volatile data must be a ConcurrentHashMap<String, Object>",
-                    400);
+            throw new InternalException(KuzzleExceptionCode.WRONG_VOLATILE_TYPE);
         }
 
         queryMap.getMap("volatile")

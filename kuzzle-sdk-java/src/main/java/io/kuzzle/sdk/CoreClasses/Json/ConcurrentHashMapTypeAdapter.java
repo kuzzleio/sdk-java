@@ -98,7 +98,11 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
 
             out.endObject();
         } else if (value instanceof Serializable) {
-            writeObject(out, ((Serializable)value).toMap());
+            try {
+                writeObject(out, ((Serializable)value).toMap());
+            } catch (Exception e) {
+                throw new IOException(e);
+            }
         } else if (value == null) {
             out.nullValue();
         }

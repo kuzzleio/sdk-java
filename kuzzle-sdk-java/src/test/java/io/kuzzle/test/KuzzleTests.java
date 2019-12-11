@@ -135,8 +135,9 @@ public class KuzzleTests {
                 requests = kuzzle.getRequests();
 
         Response response = new Response();
+        response.requestId = "foobar";
         response.error = new ErrorResponse();
-        response.error.message = "Token expired";
+        response.error.id = "security.token.expired";
         response.error.status = 42;
         response.room = "room-id";
 

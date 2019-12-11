@@ -2,6 +2,9 @@ package io.kuzzle.sdk.CoreClasses.Responses;
 
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.CoreClasses.Maps.Serializable;
+import io.kuzzle.sdk.Exceptions.InternalException;
+import io.kuzzle.sdk.Exceptions.KuzzleException;
+import io.kuzzle.sdk.Exceptions.KuzzleExceptionCode;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -82,7 +85,7 @@ public class Response implements Serializable {
     public String type;
 
     @Override
-    public void fromMap(ConcurrentHashMap<String, Object> map) {
+    public void fromMap(ConcurrentHashMap<String, Object> map) throws InternalException {
         if (map == null) return;
 
         KuzzleMap kuzzleMap = KuzzleMap.from(map);
@@ -95,6 +98,9 @@ public class Response implements Serializable {
             error.fromMap(kuzzleMap.getMap("error"));
         }
         requestId = kuzzleMap.getString("requestId");
+        if (requestId == null) {
+            throw new InternalException(KuzzleExceptionCode.MISSING_REQUESTID);
+        }
         status = kuzzleMap.optNumber("status", 0).intValue();
         controller = kuzzleMap.getString("controller");
         action = kuzzleMap.getString("action");

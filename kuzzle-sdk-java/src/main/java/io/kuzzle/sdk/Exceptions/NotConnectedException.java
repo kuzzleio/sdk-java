@@ -9,6 +9,6 @@ public class NotConnectedException extends KuzzleException {
      * Initializes a new instance of the NotConnectedException.
      */
     public NotConnectedException() {
-        super("Not connected.", 500);
+        super(KuzzleExceptionCode.NOT_CONNECTED);
     }
 }
