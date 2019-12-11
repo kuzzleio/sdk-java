@@ -170,4 +170,70 @@ public class KuzzleMapTest {
         Assert.assertTrue(kuzzleMap.get("Null") == null);
         Assert.assertTrue(kuzzleMap.get("UnknownKey") == null);
     }
+
+    @Test
+    public void optString() {
+        Assert.assertTrue(kuzzleMap.optString("String", "foo").equals("String"));
+        Assert.assertTrue(kuzzleMap.optString("Number", "foo").equals("foo"));
+        Assert.assertTrue(kuzzleMap.optString("Boolean", "foo").equals("foo"));
+        Assert.assertTrue(kuzzleMap.optString("ArrayList", "foo").equals("foo"));
+        Assert.assertTrue(kuzzleMap.optString("Map", "foo").equals("foo"));
+        Assert.assertTrue(kuzzleMap.optString("KuzzleMap", "foo").equals("foo"));
+        Assert.assertTrue(kuzzleMap.optString("Null", "foo").equals("foo"));
+        Assert.assertTrue(kuzzleMap.optString("UnknownKey", "foo").equals("foo"));
+    }
+
+    @Test
+    public void optNumber() {
+        Assert.assertTrue(kuzzleMap.optNumber("String", 42).equals(42));
+        Assert.assertTrue(kuzzleMap.optNumber("Number", 42).equals(0));
+        Assert.assertTrue(kuzzleMap.optNumber("Boolean", 42).equals(42));
+        Assert.assertTrue(kuzzleMap.optNumber("ArrayList", 42).equals(42));
+        Assert.assertTrue(kuzzleMap.optNumber("Map", 42).equals(42));
+        Assert.assertTrue(kuzzleMap.optNumber("KuzzleMap", 42).equals(42));
+        Assert.assertTrue(kuzzleMap.optNumber("Null", 42).equals(42));
+        Assert.assertTrue(kuzzleMap.optNumber("UnknownKey", 42).equals(42));
+    }
+
+    @Test
+    public void optBoolean() {
+        Assert.assertTrue(kuzzleMap.optBoolean("String", true).equals(true));
+        Assert.assertTrue(kuzzleMap.optBoolean("Number", true).equals(true));
+        Assert.assertTrue(kuzzleMap.optBoolean("Boolean", true).equals(false));
+        Assert.assertTrue(kuzzleMap.optBoolean("ArrayList", true).equals(true));
+        Assert.assertTrue(kuzzleMap.optBoolean("Map", true).equals(true));
+        Assert.assertTrue(kuzzleMap.optBoolean("KuzzleMap", true).equals(true));
+        Assert.assertTrue(kuzzleMap.optBoolean("Null", true).equals(true));
+        Assert.assertTrue(kuzzleMap.optBoolean("UnknownKey", true).equals(true));
+    }
+
+    @Test
+    public void optArrayList() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+
+        Assert.assertEquals(kuzzleMap.optArrayList("String", list).hashCode(), list.hashCode());
+        Assert.assertEquals(kuzzleMap.optArrayList("Number", list).hashCode(), list.hashCode());
+        Assert.assertEquals(kuzzleMap.optArrayList("Boolean", list).hashCode(), list.hashCode());
+        Assert.assertNotEquals(kuzzleMap.optArrayList("ArrayList", list).hashCode(), list.hashCode());
+        Assert.assertEquals(kuzzleMap.optArrayList("Map", list).hashCode(), list.hashCode());
+        Assert.assertEquals(kuzzleMap.optArrayList("KuzzleMap", list).hashCode(), list.hashCode());
+        Assert.assertEquals(kuzzleMap.optArrayList("Null", list).hashCode(), list.hashCode());
+        Assert.assertEquals(kuzzleMap.optArrayList("UnknownKey", list).hashCode(), list.hashCode());
+    }
+
+    @Test
+    public void optMap() {
+        KuzzleMap map = new KuzzleMap();
+        map.put("Data", 1);
+
+        Assert.assertEquals(kuzzleMap.optMap("String", map).hashCode(), map.hashCode());
+        Assert.assertEquals(kuzzleMap.optMap("Number", map).hashCode(), map.hashCode());
+        Assert.assertEquals(kuzzleMap.optMap("Boolean", map).hashCode(), map.hashCode());
+        Assert.assertEquals(kuzzleMap.optMap("ArrayList", map).hashCode(), map.hashCode());
+        Assert.assertNotEquals(kuzzleMap.optMap("Map", map).hashCode(), map.hashCode());
+        Assert.assertNotEquals(kuzzleMap.optMap("KuzzleMap", map).hashCode(), map.hashCode());
+        Assert.assertEquals(kuzzleMap.optMap("Null", map).hashCode(), map.hashCode());
+        Assert.assertEquals(kuzzleMap.optMap("UnknownKey", map).hashCode(), map.hashCode());
+    }
 }

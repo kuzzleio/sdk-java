@@ -185,9 +185,9 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
      * @param key a String representing the key.
      * @return The ConcurrentHashMap at the key or null
      */
-    public ConcurrentHashMap<String, Object> getMap(String key) {
+    public KuzzleMap getMap(String key) {
         return isMap(key)
-                ? (ConcurrentHashMap<String, Object>) super.get(key)
+                ? KuzzleMap.from((ConcurrentHashMap<String, Object>) super.get(key))
                 : null;
     }
 
@@ -240,12 +240,12 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
      * @param key a String representing the key.
      * @return The ConcurrentHashMap at the key or def value
      */
-    public ConcurrentHashMap<String, Object> optMap(
+    public KuzzleMap optMap(
             String key,
             ConcurrentHashMap<String, Object> def
     ) {
         return isMap(key)
-                ? (ConcurrentHashMap<String, Object>) super.get(key)
-                : def;
+                ? KuzzleMap.from((ConcurrentHashMap<String, Object>) super.get(key))
+                : KuzzleMap.from(def);
     }
 }
