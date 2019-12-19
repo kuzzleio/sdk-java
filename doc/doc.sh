@@ -2,8 +2,8 @@
 
 set -eu
 
-DOC_VERSION=2
-DOC_PATH=/sdk/java/2
+DOC_VERSION=3
+DOC_PATH=/sdk/java/3
 
 # Used by vuepress
 export DOC_DIR=$DOC_VERSION
