@@ -1,0 +1,7 @@
+name: kuzzle#constructor
+description: This constructor creates a new instance of the SDK. Each instance represents a different connection to a Kuzzle server with specific options.
+hooks:
+  before:
+  after:
+template: empty
+expected: Success

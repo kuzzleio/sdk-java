@@ -1,0 +1,7 @@
+name: kuzzle#query
+description: Send a now query to the server
+hooks:
+  before:
+  after:
+template: default
+expected: Success

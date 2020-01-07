@@ -18,8 +18,8 @@ jobs:
         - cd kuzzle-sdk-java && npm run doc-prepare
         - npm run --prefix doc/framework clone-repos && cd -
       script:
-        - gem install typhoeus
-        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
+        - cd kuzzle-sdk-java && gem install typhoeus
+        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links && cd -
 
     - stage: Deployment Doc Dev
       name: Deploy next-docs.kuzzle.io

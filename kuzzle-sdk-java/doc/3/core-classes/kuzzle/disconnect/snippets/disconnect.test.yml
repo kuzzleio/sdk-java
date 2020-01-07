@@ -1,0 +1,7 @@
+name: kuzzle#disconnect
+description: Disconnect kuzzle.
+hooks:
+  before:
+  after:
+template: kuzzle
+expected: Success
