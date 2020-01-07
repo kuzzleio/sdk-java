@@ -1,52 +1,55 @@
 #!/bin/bash
 
-set -eu
+set -eux
 
 DOC_VERSION=3
 DOC_PATH=/sdk/java/3
+FMWKDIR="$(dirname $0)/framework"
+FMWKTARGET="$FMWKDIR/src$DOC_PATH"
+VUEPRESS="$FMWKDIR/node_modules/.bin/vuepress"
 
 # Used by vuepress
-export DOC_DIR=$DOC_VERSION
+export DOC_DIR="$(dirname $0)/${DOC_VERSION}"
 export SITE_BASE=$DOC_PATH/
 
 # Used to specify --no-cache for example
 ARGS=${2:-""}
 
-if [ ! -d "./$DOC_DIR" ]
+if [ ! -d "$DOC_DIR" ]
 then
-  echo "Cannot find $DOC_DIR/. You must run this script from doc/ directory."
+  echo "Cannot find documentation directory: $DOC_DIR"
   exit 1
 fi
 
 case $1 in
   prepare)
     echo "Clone documentation framework"
-    rm -rf framework/
-    git clone --depth 10 --single-branch --branch master https://github.com/kuzzleio/documentation.git framework/
+    rm -rf $FMWKDIR
+    git clone --depth 10 --single-branch --branch master https://github.com/kuzzleio/documentation.git $FMWKDIR
 
     echo "Link local doc for dead links checking"
-    rm framework/src$DOC_PATH
-    ln -s ../../../../$DOC_VERSION framework/src$DOC_PATH
+    rm $FMWKTARGET
+    ln -s ${DOC_DIR} $FMWKTARGET
 
     echo "Install dependencies"
-    npm --prefix framework/ install
+    npm --prefix $FMWKDIR install
   ;;
 
   dev)
-    ./framework/node_modules/.bin/vuepress dev $DOC_VERSION/ $ARGS
+    $VUEPRESS dev $DOC_DIR/ $ARGS
   ;;
 
   build)
-    ./framework/node_modules/.bin/vuepress build $DOC_VERSION/ $ARGS
+    $VUEPRESS build $DOC_DIR/ $ARGS
   ;;
 
   build-netlify)
     export SITE_BASE="/"
-    ./framework/node_modules/.bin/vuepress build $DOC_VERSION/ $ARGS
+    $VUEPRESS build $DOC_DIR/ $ARGS
   ;;
 
   upload)
-    aws s3 sync $DOC_VERSION/.vuepress/dist s3://$S3_BUCKET$SITE_BASE
+    aws s3 sync $DOC_DIR/.vuepress/dist s3://$S3_BUCKET$SITE_BASE
   ;;
 
   cloudfront)
