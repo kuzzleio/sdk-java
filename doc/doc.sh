@@ -4,12 +4,13 @@ set -eu
 
 DOC_VERSION=3
 DOC_PATH=/sdk/java/3
-FMWKDIR="$(dirname $0)/framework"
+PWD=$(dirname $(readlink -f $0))
+FMWKDIR="$PWD/framework"
 FMWKTARGET="$FMWKDIR/src$DOC_PATH"
 VUEPRESS="$FMWKDIR/node_modules/.bin/vuepress"
 
 # Used by vuepress
-export DOC_DIR="$(dirname $0)/${DOC_VERSION}"
+export DOC_DIR="$PWD/${DOC_VERSION}"
 export SITE_BASE=$DOC_PATH/
 
 # Used to specify --no-cache for example
@@ -32,7 +33,7 @@ case $1 in
     ln -s ${DOC_DIR} $FMWKTARGET
 
     echo "Install dependencies"
-    npm --prefix $FMWKDIR install
+    npm --prefix $FMWKDIR ci
   ;;
 
   dev)
