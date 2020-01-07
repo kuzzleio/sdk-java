@@ -15,11 +15,11 @@ jobs:
       node_js: 12
 
       before_script:
-        - cd kuzzle-sdk-java && npm run doc-prepare && cd -
-        - npm run --prefix doc/framework clone-repos && cd -
+        - bash -c "cd kuzzle-sdk-java && npm run doc-prepare"
+        - npm run --prefix $TRAVIS_BUILD_DIR/doc/framework clone-repos
       script:
         - gem install typhoeus
-        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
+        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix $TRAVIS_BUILD_DIR/doc/framework dead-links
 
     - stage: Deployment Doc Dev
       name: Deploy next-docs.kuzzle.io
