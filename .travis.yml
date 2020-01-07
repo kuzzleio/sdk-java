@@ -15,7 +15,7 @@ jobs:
       node_js: 12
 
       before_script:
-        - cd kuzzle-sdk-java && npm run doc-prepare
+        - cd kuzzle-sdk-java && npm run doc-prepare && cd -
         - npm run --prefix doc/framework clone-repos && cd -
       script:
         - gem install typhoeus
