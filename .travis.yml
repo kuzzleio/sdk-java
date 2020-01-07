@@ -12,7 +12,7 @@ jobs:
       name: Dead link check
       if: type = pull_request OR type = push AND branch =~ /^master|[0-9]+-(dev|stable)$/ OR type = cron
       language: node_js
-      node_js: 10
+      node_js: 12
 
       before_script:
         - cd kuzzle-sdk-java && npm run doc-prepare
@@ -25,7 +25,7 @@ jobs:
       name: Deploy next-docs.kuzzle.io
       if: type = push AND branch =~ .*-dev
       language: node_js
-      node_js: 10
+      node_js: 12
       env:
         - NODE_ENV=production
         - S3_BUCKET=docs-next.kuzzle.io
@@ -58,7 +58,7 @@ jobs:
       name: Deploy docs.kuzzle.io
       if: type = push AND branch =~ /^master|[0-9]+-stable$/
       language: node_js
-      node_js: 10
+      node_js: 12
       env:
         - NODE_ENV=production
         - S3_BUCKET=docs.kuzzle.io
@@ -87,7 +87,7 @@ jobs:
     - stage: Builds
       name: Build SDK Java
       language: java
-      jdk: oraclejdk8
+      jdk: openjdk8
       sudo: false
       before_cache:
         - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
