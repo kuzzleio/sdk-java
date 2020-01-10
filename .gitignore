@@ -5,3 +5,4 @@ features/java/build
 *.gradle*
 
 doc/framework
+node_modules
