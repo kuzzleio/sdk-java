@@ -1,4 +1,3 @@
-
 env:
   global:
     # BINTRAY_USER
@@ -8,7 +7,6 @@ env:
     - AWS_ACCESS_KEY_ID=AKIAIYAXFUAHXOWP2MJA
     # AWS_SECRET_ACCESS_KEY
     - secure: "dIcQzFpHKRf92cAiMA+SYsudtHWNcbYadVDb7zlJayWGUGy0i4CGwwOoOOrUcWgHxYhdN9XGwvFJTSswjHLRiHEyPFBwW8x/VfaCRS+jAcblMXyWNajvm0930S/3fRv5LA+4UKNmeXMuCGSf35ZqyEIEeuThkIomYvB/tBD1wcMpBUtQfmilLm3sUTaGUnFB651jBHshlYOZ8BAGLLmX1PAfT1wCrpVcrjq5kayNOIilJkwKGSr6q9C0p7+ULNZ4bHsATKLlYNs7Xcs+9a66p1EtKetP72DQsHrr8x3wB2Hhk3U425kmjIoE3gYnF7x3h3EpO5m0rGessbgdRF1SF7XK7Bsj4ukLb4HoktA8G7734ox4848RpH60aKUHRCsiebX7JKgJe1eEwU5BZK8+PFPGH6bI1YG1HQNqthzotTHFXu058uMHnyLv2PmDWWEYMM79fCyuRo8gJJ8GJhDgaGLgtizzEb6grcNW+QwunjA6nP4o7F9o+9b3lfGlsgL595V/CeWLNnHvENkSr67RN2NkDZm6q6EHbOk8AWtQc24mVawCwCbcJjp0sPkbQdCHUXSBNXjdwrvJLA3h94A2uVEmrV7mzMdfj+i9X3IS/HXRLeQk6Ivq2s/b1W6c7rBfz4zZUO7Uu5iYpVzT71yNFra13JkW3REFgHgETEvGkko="
-
 
 sudo: true
 
@@ -21,11 +19,13 @@ jobs:
       node_js: 10
 
       before_script:
+        - npm ci
         - npm run doc-prepare
-        - npm run --prefix doc/framework clone-repos
+        - $(npm bin)/kuzdoc iterate-repos:install --repos_path doc/framework/.repos/
+        - $(npm bin)/kuzdoc framework:link -d /sdk/java/3/ -v 3
       script:
         - gem install typhoeus
-        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
+        - cd doc/framework/ && HYDRA_MAX_CONCURRENCY=20 ruby .ci/dead-links.rb -p src/sdk/java/3/
 
     - stage: Deployment Doc Dev
       name: Deploy next-docs.kuzzle.io
@@ -33,6 +33,7 @@ jobs:
       language: node_js
       node_js: 10
       env:
+        - BRANCH=dev
         - NODE_ENV=production
         - S3_BUCKET=docs-next.kuzzle.io
         - CLOUDFRONT_DISTRIBUTION_ID=E2ZCCEK9GRB49U
@@ -46,6 +47,7 @@ jobs:
 
       install:
         - pip install awscli --upgrade --user
+        - npm ci
 
       script:
         - npm run doc-prepare
@@ -79,6 +81,7 @@ jobs:
 
       install:
         - pip install awscli --upgrade --user
+        - npm ci
 
       script:
         - npm run doc-prepare
@@ -93,7 +96,6 @@ jobs:
       after_deploy:
         - npm run doc-cloudfront
 
-
     - stage: Deployment
       name: Deploy to Bintray
       if: branch = master AND tag IS present AND type != cron
@@ -102,8 +104,7 @@ jobs:
       jdk:
         - openjdk8
 
-      script:
-        bash gradlew test jacocoTestReport
+      script: bash gradlew test jacocoTestReport
 
       notifications:
         email: false
