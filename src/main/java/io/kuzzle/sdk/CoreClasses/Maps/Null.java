@@ -6,4 +6,8 @@ public class Null {
   public int hashCode() {
     return hashCode;
   }
+
+  public String toString() {
+    return "null";
+  }
 }

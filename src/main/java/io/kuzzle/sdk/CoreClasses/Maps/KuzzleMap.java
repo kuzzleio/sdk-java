@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 public class KuzzleMap extends ConcurrentHashMap<String, Object> {
 
   /**
+   * serialVersionUID
+   */
+  private static final long serialVersionUID = -3027862451021177820L;
+
+  /**
    * Convert à ConcurrentHashMap<String, Object> to a CustomMap
    * 
    * @param map ConcurrentHashMap<String, Object> representing JSON.
@@ -52,17 +57,14 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   @Override
-  public Object put(String s, Object o) {
-    Object obj = null;
+  public KuzzleMap put(String s, Object o) {
     if (o != null) {
-      obj = super.put(s, o);
+      super.put(s, o);
     } else {
-      obj = super.put(s, new Null());
+      super.put(s, new Null());
     }
-    if (obj instanceof Null) {
-      return null;
-    }
-    return obj;
+    
+    return this;
   }
 
   @Override

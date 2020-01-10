@@ -2,8 +2,8 @@ package io.kuzzle.sdk;
 
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
+import io.kuzzle.sdk.API.Controllers.AuthController;
 import io.kuzzle.sdk.CoreClasses.Task;
-import io.kuzzle.sdk.Events.EventListener;
 import io.kuzzle.sdk.Exceptions.*;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
@@ -14,22 +14,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 import io.kuzzle.sdk.CoreClasses.Responses.*;
+import io.kuzzle.sdk.Events.Event;
+import io.kuzzle.sdk.Events.EventManager;
 
-import static io.kuzzle.sdk.Helpers.Default.defaultValue;
-
-public class Kuzzle {
-
-  protected EventListener tokenExpiredEvent;
-  protected EventListener<Response> unhandledResponseEvent;
-
+public class Kuzzle extends EventManager {
   protected final AbstractProtocol networkProtocol;
 
   public final String version;
   public final String instanceId;
   public final String sdkName;
+
+  private AuthController auth;
 
   /**
    * Authentication token
@@ -67,8 +64,15 @@ public class Kuzzle {
    * @param networkProtocol The network protocol
    * @throws IllegalArgumentException
    */
-  public Kuzzle(AbstractProtocol networkProtocol) throws IllegalArgumentException {
+  public Kuzzle(final AbstractProtocol networkProtocol) throws IllegalArgumentException {
     this(networkProtocol, new KuzzleOptions());
+  }
+
+  public AuthController getAuthController() {
+    if (auth == null) {
+      auth = new AuthController(this);
+    }
+    return auth;
   }
 
   /**
@@ -78,29 +82,26 @@ public class Kuzzle {
    * @param options         Kuzzle options
    * @throws IllegalArgumentException
    */
-  public Kuzzle(AbstractProtocol networkProtocol, final KuzzleOptions options) throws IllegalArgumentException {
+  public Kuzzle(final AbstractProtocol networkProtocol, final KuzzleOptions options) throws IllegalArgumentException {
 
     if (networkProtocol == null) {
       throw new IllegalArgumentException("networkProtocol can't be null");
     }
 
-    KuzzleOptions kOptions = options != null ? options : new KuzzleOptions();
+    final KuzzleOptions kOptions = options != null ? options : new KuzzleOptions();
 
     this.networkProtocol = networkProtocol;
-    this.networkProtocol.registerResponseEvent(this::onResponseReceived);
-    this.networkProtocol.registerStateChangeEvent(this::onStateChanged);
+    this.networkProtocol.register(Event.networkResponseReceived, this::onResponseReceived);
+    this.networkProtocol.register(Event.networkStateChange, this::onStateChanged);
 
     this.maxQueueSize = new AtomicInteger(kOptions.getMaxQueueSize());
     this.minTokenDuration = new AtomicInteger(kOptions.getMinTokenDuration());
     this.refreshedTokenDuration = new AtomicInteger(kOptions.getRefreshedTokenDuration());
     this.maxRequestDelay = new AtomicInteger(kOptions.getMaxRequestDelay());
 
-    this.version = "3.0.0";
+    this.version = "3";
     this.instanceId = UUID.randomUUID().toString();
     this.sdkName = "java@" + version;
-
-    this.tokenExpiredEvent = new EventListener();
-    this.unhandledResponseEvent = new EventListener<>();
   }
 
   /**
@@ -124,23 +125,23 @@ public class Kuzzle {
    * 
    * @param payload Raw API Response
    */
-  protected void onResponseReceived(String payload) {
+  protected void onResponseReceived(final Object... payload) {
 
-    Response response = new Response();
+    final Response response = new Response();
     try {
-      response.fromMap(JsonSerializer.deserialize(payload));
-    } catch (InternalException e) {
+      response.fromMap(JsonSerializer.deserialize(payload[0].toString()));
+    } catch (final InternalException e) {
       e.printStackTrace();
       return;
     }
 
     if (response.room == null || !requests.containsKey(response.room)) {
-      unhandledResponseEvent.trigger(response);
+      super.trigger(Event.unhandledResponse, response);
       return;
     }
 
     if (response.error == null) {
-      Task<Response> task = requests.get(response.requestId);
+      final Task<Response> task = requests.get(response.requestId);
 
       if (task != null) {
         task.trigger(response);
@@ -151,70 +152,24 @@ public class Kuzzle {
     }
 
     if (response.error.id == null || !response.error.id.equals("security.token.expired")) {
-      Task<Response> task = requests.get(response.requestId);
+      final Task<Response> task = requests.get(response.requestId);
       if (task != null) {
         task.setException(new ApiErrorException(response));
       }
       return;
     }
 
-    tokenExpiredEvent.trigger();
+    super.trigger(Event.tokenExpired);
   }
 
-  protected void onStateChanged(ProtocolState state) {
+  protected void onStateChanged(final Object... args) {
     // If not connected anymore: close tasks and clean up the requests buffer
-    if (state == ProtocolState.CLOSE) {
-      for (Task task : requests.values()) {
+    if ((ProtocolState) args[0] == ProtocolState.CLOSE) {
+      for (final Task task : requests.values()) {
         task.setException(new ConnectionLostException());
       }
       requests.clear();
     }
-  }
-
-  /**
-   * Registers a callback to be called when the token expires
-   * 
-   * @param callback A callback
-   * @return true if success
-   */
-  public boolean registerTokenExpiredEvent(Runnable callback) {
-    return tokenExpiredEvent.register(callback);
-  }
-
-  /**
-   * Unregisters a previously registered callback for the TokenExpired event
-   * 
-   * @param callback A callback
-   * @return true if success
-   */
-  public boolean unregisterTokenExpiredEvent(Runnable callback) {
-    return tokenExpiredEvent.unregister(callback);
-  }
-
-  /**
-   * Registers a callback to be called when a response is unhandled
-   * 
-   * @param callback A callback
-   * @return true if success
-   */
-  public boolean registerUnhandledResponseEvent(Consumer<Response> callback) {
-    return unhandledResponseEvent.register(callback);
-  }
-
-  /**
-   * @param callback Unregisters a previously registered callback for the
-   *                 UnhandledResponse event
-   * @return true if success
-   */
-  public boolean unregisterUnhandledResponseEvent(Consumer<Response> callback) {
-    return unhandledResponseEvent.unregister(callback);
-  }
-
-  /**
-   * Triggers the TokenExpired event
-   */
-  public void dispatchTokenExpired() {
-    tokenExpiredEvent.trigger();
   }
 
   /**
@@ -225,7 +180,7 @@ public class Kuzzle {
    * @throws InternalException
    * @throws NotConnectedException
    */
-  public CompletableFuture<Response> query(ConcurrentHashMap<String, Object> query)
+  public CompletableFuture<Response> query(final ConcurrentHashMap<String, Object> query)
       throws InternalException, NotConnectedException {
     if (query == null) {
       throw new InternalException(KuzzleExceptionCode.MSSING_QUERY);
@@ -235,7 +190,7 @@ public class Kuzzle {
       throw new NotConnectedException();
     }
 
-    KuzzleMap queryMap = KuzzleMap.from(query);
+    final KuzzleMap queryMap = KuzzleMap.from(query);
 
     if (queryMap.contains("waitForRefresh")) {
       if (queryMap.optBoolean("waitForRefresh", false).booleanValue()) {
@@ -248,7 +203,7 @@ public class Kuzzle {
       queryMap.put("jwt", authenticationToken);
     }
 
-    String requestId = UUID.randomUUID().toString();
+    final String requestId = UUID.randomUUID().toString();
 
     queryMap.put("requestId", requestId);
 
@@ -258,13 +213,11 @@ public class Kuzzle {
       throw new InternalException(KuzzleExceptionCode.WRONG_VOLATILE_TYPE);
     }
 
-    queryMap.getMap("volatile").put("sdkVersion", version);
-
     queryMap.getMap("volatile").put("sdkInstanceId", instanceId);
 
     queryMap.getMap("volatile").put("sdkName", sdkName);
 
-    Task<Response> task = new Task<>();
+    final Task<Response> task = new Task<>();
     requests.put(requestId, task);
 
     if (networkProtocol.getState() == ProtocolState.OPEN) {
@@ -286,7 +239,7 @@ public class Kuzzle {
    * 
    * @param token Authentication token
    */
-  public void setAuthenticationToken(String token) {
+  public void setAuthenticationToken(final String token) {
     authenticationToken.set(token);
   }
 }

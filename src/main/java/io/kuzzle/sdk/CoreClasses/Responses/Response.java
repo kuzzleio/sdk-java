@@ -3,7 +3,6 @@ package io.kuzzle.sdk.CoreClasses.Responses;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.CoreClasses.Maps.Serializable;
 import io.kuzzle.sdk.Exceptions.InternalException;
-import io.kuzzle.sdk.Exceptions.KuzzleException;
 import io.kuzzle.sdk.Exceptions.KuzzleExceptionCode;
 
 import java.util.concurrent.ConcurrentHashMap;

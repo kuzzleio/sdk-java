@@ -1,15 +1,17 @@
 package io.kuzzle.sdk.Protocol;
 
 import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
+import io.kuzzle.sdk.Events.Event;
+import io.kuzzle.sdk.Events.EventManager;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.concurrent.*;
 
 public class WebSocket extends AbstractProtocol {
@@ -52,7 +54,7 @@ public class WebSocket extends AbstractProtocol {
     this(uri.getHost(), options);
   }
 
-  public WebSocket(String host) throws URISyntaxException, IllegalArgumentException {
+  public WebSocket(String host) throws IllegalArgumentException, URISyntaxException {
     this(host, new WebSocketOptions());
   }
 
@@ -101,10 +103,13 @@ public class WebSocket extends AbstractProtocol {
   /**
    * Connects to a Kuzzle server.
    * 
+   * @throws IOException
+   * @throws WebSocketException
+   * 
    * @throws Exception
    */
   @Override
-  public void connect() throws Exception {
+  public void connect() throws IOException, WebSocketException {
     if (socket != null) {
       return;
     }
@@ -113,14 +118,14 @@ public class WebSocket extends AbstractProtocol {
 
     socket.connect();
     state = ProtocolState.OPEN;
-    dispatchStateChangeEvent(state);
+    super.trigger(Event.networkStateChange, state);
     Dequeue();
 
     socket.addListener(new WebSocketAdapter() {
       @Override
       public void onTextMessage(com.neovisionaries.ws.client.WebSocket websocket, String text) throws Exception {
         super.onTextMessage(websocket, text);
-        dispatchResponseEvent(text);
+        WebSocket.super.trigger(Event.networkResponseReceived, text);
       }
     });
   }
@@ -138,7 +143,7 @@ public class WebSocket extends AbstractProtocol {
       socket.disconnect();
       state = ProtocolState.CLOSE;
       socket = null;
-      dispatchStateChangeEvent(state);
+      super.trigger(Event.networkStateChange, state);
     }
   }
 
