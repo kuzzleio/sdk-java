@@ -40,7 +40,7 @@ The `Kuzzle` SDK instance.
 
 ## Throws
 
-Can throw a [IllegalArgumentException](/sdk/java/3/exceptions/IllegalArgumentException)
+Can throw a [IllegalArgumentException](/sdk/java/3/exceptions/illegal-argument-exception)
 
 ## Usage
 

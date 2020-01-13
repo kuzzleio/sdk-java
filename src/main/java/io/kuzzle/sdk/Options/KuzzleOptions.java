@@ -30,7 +30,7 @@ public class KuzzleOptions {
    */
   private int maxRequestDelay = 1000;
 
-  private Predicate<ConcurrentHashMap<String, Object>> filter = (ConcurrentHashMap<String, Object> obj) -> true;
+  private Predicate<ConcurrentHashMap<String, Object>> queueFilter = (ConcurrentHashMap<String, Object> obj) -> true;
 
   /**
    * Initialize a new KuzzleOptions instance.
@@ -50,7 +50,7 @@ public class KuzzleOptions {
 
     this.maxRequestDelay = options.maxRequestDelay;
 
-    this.filter = options.filter;
+    this.queueFilter = options.queueFilter;
   }
 
   /**
@@ -134,12 +134,12 @@ public class KuzzleOptions {
     return this;
   }
 
-  public Predicate<ConcurrentHashMap<String, Object>> getFilter() {
-    return filter;
+  public Predicate<ConcurrentHashMap<String, Object>> getQueueFilter() {
+    return queueFilter;
   }
 
-  public KuzzleOptions setFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
-    this.filter = defaultValue(filter, (ConcurrentHashMap<String, Object> obj) -> true);
+  public KuzzleOptions setQueueFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
+    this.queueFilter = defaultValue(filter, (ConcurrentHashMap<String, Object> obj) -> true);
     return this;
   }
 }

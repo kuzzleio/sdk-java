@@ -13,15 +13,55 @@ This class represents the options usable with the Kuzzle class.
 It can be used with the following methods:
  - [Kuzzle.Kuzzle](/sdk/java/3/core-classes/kuzzle)
 
-# Consutructor
+# Constructor
 
 This class has a constructor and a constructor by copy.
 
 ## Getters and setters
 
-| Property | Type | Description |
-|--- |--- |--- |
-| `From` | <pre>int</pre> | Offset of the first document to fetch |
-| `Scroll` | <pre>string</pre> |  When set, gets a forward-only cursor having its ttl set to the given value (ie `30s`; cf [elasticsearch time limits](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/common-options.html#time-units)) |
-| `Size` | <pre>int</pre> | Maximum number of documents to retrieve per page |
-| `Sort` | <pre>string</pre> | Field to sort the result on |
+### queueMaxSize
+
+The maximum amount of elements that the queue can contains. If set to -1, the size is unlimited.
+
+```java
+public int getMaxQueueSize();
+public KuzzleOptions setMaxQueueSize(int maxQueueSize)
+```
+
+### minTokenDuration
+
+The minimum duration of a Token before being automatically refreshed. If set to -1 the SDK does not refresh the token automatically.
+
+```java
+public int getMinTokenDuration()
+public KuzzleOptions setMinTokenDuration(int minTokenDuration)
+```
+
+### refreshedTokenDuration
+
+The minimum duration of a Token after refresh. If set to -1 the SDK does not refresh the token automatically.
+
+```java
+public int getRefreshedTokenDuration()
+public KuzzleOptions setRefreshedTokenDuration(int refreshedTokenDuration)
+```
+
+### maxRequestDelay
+
+The maximum delay between two requests to be replayed.
+
+```java
+public int getMaxRequestDelay()
+public KuzzleOptions setMaxRequestDelay(int maxRequestDelay)
+```
+
+### queueFilter
+
+Function to filter the request queue before replaying requests.
+
+```java
+public Predicate<ConcurrentHashMap<String, Object>> getQueueFilter()
+public KuzzleOptions setQueueFilter(
+  Predicate<ConcurrentHashMap<String, Object>> filter
+)
+```
