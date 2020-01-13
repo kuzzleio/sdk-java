@@ -68,7 +68,7 @@ public class KuzzleOptions {
    * @param maxQueueSize
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withMaxQueueSize(int maxQueueSize) {
+  public KuzzleOptions setMaxQueueSize(int maxQueueSize) {
     this.maxQueueSize = maxQueueSize < 0 ? -1 : maxQueueSize;
 
     return this;
@@ -89,7 +89,7 @@ public class KuzzleOptions {
    * @param minTokenDuration
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withMinTokenDuration(int minTokenDuration) {
+  public KuzzleOptions setMinTokenDuration(int minTokenDuration) {
     this.minTokenDuration = minTokenDuration < 0 ? -1 : minTokenDuration;
 
     return this;
@@ -110,7 +110,7 @@ public class KuzzleOptions {
    * @param refreshedTokenDuration
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withRefreshedTokenDuration(int refreshedTokenDuration) {
+  public KuzzleOptions setRefreshedTokenDuration(int refreshedTokenDuration) {
     this.refreshedTokenDuration = refreshedTokenDuration < 0 ? -1 : refreshedTokenDuration;
 
     return this;
@@ -129,7 +129,7 @@ public class KuzzleOptions {
    * @param maxRequestDelay
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withMaxRequestDelay(int maxRequestDelay) {
+  public KuzzleOptions setMaxRequestDelay(int maxRequestDelay) {
     this.maxRequestDelay = maxRequestDelay;
     return this;
   }
@@ -138,7 +138,7 @@ public class KuzzleOptions {
     return filter;
   }
 
-  public KuzzleOptions withFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
+  public KuzzleOptions setFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
     this.filter = defaultValue(filter, (ConcurrentHashMap<String, Object> obj) -> true);
     return this;
   }
