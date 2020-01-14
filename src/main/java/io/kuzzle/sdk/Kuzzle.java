@@ -165,7 +165,7 @@ public class Kuzzle extends EventManager {
   protected void onStateChanged(final Object... args) {
     // If not connected anymore: close tasks and clean up the requests buffer
     if ((ProtocolState) args[0] == ProtocolState.CLOSE) {
-      for (final Task task : requests.values()) {
+      for (final Task<Response> task : requests.values()) {
         task.setException(new ConnectionLostException());
       }
       requests.clear();

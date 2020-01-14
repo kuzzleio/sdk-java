@@ -5,7 +5,6 @@ import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.Events.Event;
-import io.kuzzle.sdk.Events.EventManager;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -32,13 +31,13 @@ public class WebSocket extends AbstractProtocol {
   public WebSocket(URI uri) throws Exception {
     WebSocketOptions options = new WebSocketOptions();
     if (uri.getPort() > -1) {
-      options.withPort(uri.getPort());
+      options.setPort(uri.getPort());
     }
     if (uri.getHost() == null || uri.getHost().isEmpty()) {
       throw new URISyntaxException("Missing host", "Could not find host part");
     }
     if (uri.getScheme() != null) {
-      options.withSsl(uri.getScheme().equals("wss"));
+      options.setSsl(uri.getScheme().equals("wss"));
     }
     WebSocketOptions wsOptions = options != null ? new WebSocketOptions(options) : new WebSocketOptions();
 

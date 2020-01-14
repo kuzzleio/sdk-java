@@ -1,0 +1,10 @@
+---
+name: kuzzle#constructor
+description: Creates a new Kuzzle instance
+hooks:
+  before:
+  after:
+template: empty
+expected: Success
+sdk: java
+version: 3

@@ -6,6 +6,10 @@ package io.kuzzle.sdk.Exceptions;
 public class KuzzleException extends Exception {
 
   /**
+   *
+   */
+  private static final long serialVersionUID = 4446507573441857492L;
+  /**
    * Kuzzle API error code.
    */
   protected int status;
