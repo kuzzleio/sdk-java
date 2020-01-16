@@ -7,5 +7,5 @@ hooks:
     curl -X PUT kuzzle:7512/nyc-open-data/yellow-taxi
     curl -X DELETE kuzzle:7512/nyc-open-data/yellow-taxi/my-custom-document-id
   after:
-template: default
+template: empty
 expected: Success
