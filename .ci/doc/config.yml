@@ -1,0 +1,18 @@
+---
+
+snippets:
+  mount: /mnt
+  path: 'doc/**/snippets/*.test.yml'
+  templates: /mnt/.ci/doc/templates
+
+runners:
+  default: java
+
+  java:
+    service: doc-runner-java
+    path: /var/snippets/java
+    build:
+      cmd: cd /mnt && ./gradlew jar
+    run:
+      before: timeout 600 bash -c 'until stat /tmp/runner_is_ready && curl -f -s -o /dev/null http://kuzzle:7512/_now; do sleep 1; done'
+      cmd: "cp {{ snippet.source }} SnippetTest.java && javac -classpath /mnt/build/libs/sdk-java-[0-9+].[0-9+].[0-9+].jar SnippetTest.java && java -classpath /mnt/build/libs/sdk-java-[0-9+].[0-9+].[0-9+].jar: SnippetTest"
