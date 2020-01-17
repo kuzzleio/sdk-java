@@ -42,7 +42,7 @@ services:
     image: adoptopenjdk/openjdk8
     command: >
       bash -c '
-        mkdir -p /var/snippets/go;
+        mkdir -p /var/snippets/java;
         touch /tmp/runner_is_ready;
         tail -f /dev/null
       '
