@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'test.example.java'
+version '1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir {
+      dirs 'libs'
+    }
+}
+
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'test.example.java.SnippetTest'
+    )
+  }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation name: 'sdk-java-3.0.0'
+    implementation 'com.neovisionaries:nv-websocket-client:2.9'
+    implementation 'com.google.code.gson:gson:2.8.5'
+}

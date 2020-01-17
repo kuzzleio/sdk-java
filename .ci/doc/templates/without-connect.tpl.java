@@ -1,3 +1,5 @@
+package test.example.java;
+
 import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Protocol.WebSocket;
 

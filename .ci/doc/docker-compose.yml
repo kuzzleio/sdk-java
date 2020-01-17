@@ -40,7 +40,7 @@ services:
 
   doc-runner-java:
     image: adoptopenjdk/openjdk8
-    command: tail -f /dev/null
+    command: touch /tmp/runner_is_ready && tail -f /dev/null
     volumes:
       - ../..:/mnt
       - snippets:/var/snippets
