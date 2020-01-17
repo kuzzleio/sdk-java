@@ -4,3 +4,4 @@ out
 .idea
 
 doc/framework
+node_modules
