@@ -42,7 +42,7 @@ https://bintray.com/kuzzle/maven
 ```xml
 <dependency>
   <groupId>io.kuzzle</groupId>
-  <artifactId>kuzzle-sdk-java</artifactId>
+  <artifactId>sdk-java</artifactId>
   <version>2.0.0</version>
   <type>pom</type>
 </dependency>
@@ -52,11 +52,11 @@ https://bintray.com/kuzzle/maven
 ### Gradle
 
 ```groovy
-compile 'io.kuzzle:kuzzle-sdk-java:2.0.0'
+compile 'io.kuzzle:sdk-java:2.0.0'
 ```
 
 For amd64:
 
 ```groovy
-compile 'io.kuzzle:kuzzle-sdk-java:2.0.0'
+compile 'io.kuzzle:sdk-java:2.0.0'
 ```
