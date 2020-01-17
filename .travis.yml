@@ -21,8 +21,8 @@ env:
 addons:
   apt:
     packages:
-    - python
-    - python-pip
+      - python
+      - python-pip
 
 install:
   - pip install awscli --upgrade --user
@@ -34,11 +34,11 @@ stages:
 
 jobs:
   include:
-# ---------------------------------------------
-# OpenJDK 8: Build, test and deploy (only on master)
-# ---------------------------------------------
-# AMD64
-# ---------------------------------------------
+    # ---------------------------------------------
+    # OpenJDK 8: Build, test and deploy (only on master)
+    # ---------------------------------------------
+    # AMD64
+    # ---------------------------------------------
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 8 - AMD64"
 
@@ -52,9 +52,9 @@ jobs:
       after_success:
         - cd build && aws s3 cp . s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --recursive --exclude "*" --include "*.jar" --exclude "*/*"
 
-# ---------------------------------------------
-# I386
-# ---------------------------------------------
+    # ---------------------------------------------
+    # I386
+    # ---------------------------------------------
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 8 - i386"
 
@@ -68,12 +68,12 @@ jobs:
       after_success:
         - cd build && aws s3 cp . s3://$TRAVIS_S3_BUCKET/sdk-java/$TRAVIS_BUILD_NUMBER --recursive --exclude "*" --include "*.jar" --exclude "*/*"
 
-# ---------------------------------------------
-# OpenJDK 9: Build & test
-# ---------------------------------------------
-# ---------------------------------------------
-# AMD64
-# ---------------------------------------------
+    # ---------------------------------------------
+    # OpenJDK 9: Build & test
+    # ---------------------------------------------
+    # ---------------------------------------------
+    # AMD64
+    # ---------------------------------------------
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 9 - AMD64"
 
@@ -84,9 +84,9 @@ jobs:
       script:
         - docker run --rm -it -e ARCH="amd64" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk9 bash -c "make clean all && make test"
 
-# ---------------------------------------------
-# I386
-# ---------------------------------------------
+    # ---------------------------------------------
+    # I386
+    # ---------------------------------------------
     - stage: Build & Tests
       name: "Build & Tests with OpenJDK 9 - i386"
 
@@ -97,11 +97,11 @@ jobs:
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:openjdk9-i386 bash -c "make clean all && make test"
 
-# ---------------------------------------------
-# Oracle JDK 8: Build & test
-# ---------------------------------------------
-# AMD64
-# ---------------------------------------------
+    # ---------------------------------------------
+    # Oracle JDK 8: Build & test
+    # ---------------------------------------------
+    # AMD64
+    # ---------------------------------------------
     - stage: Build & Tests
       name: "Build & Tests with Oracle JDK 8 - AMD64"
 
@@ -112,9 +112,9 @@ jobs:
       script:
         - docker run --rm -it -e ARCH="amd64" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:oracle8 bash -c "make clean all && make test"
 
-# ---------------------------------------------
-# I386
-# ---------------------------------------------
+    # ---------------------------------------------
+    # I386
+    # ---------------------------------------------
     - stage: Build & Tests
       name: "Build & Tests with Oracle JDK 8 - i386"
 
@@ -125,9 +125,9 @@ jobs:
       script:
         - docker run --rm -it -e ARCH="x86" --network ci_default --link kuzzle -v "$(pwd)":/mnt kuzzleio/sdk-cross:oracle8-i386 bash -c "make clean all && make test"
 
-# ---------------------------------------------
-# Deploy on S3
-# ---------------------------------------------
+    # ---------------------------------------------
+    # Deploy on S3
+    # ---------------------------------------------
     - stage: deploy
       name: "Deploy on S3"
 
@@ -163,11 +163,9 @@ jobs:
       after_deploy:
         - aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
 
-
-
-# ---------------------------------------------
-# Deploy on Bintray
-# ---------------------------------------------
+    # ---------------------------------------------
+    # Deploy on Bintray
+    # ---------------------------------------------
     - stage: deploy
       name: "Deploy on Bintray"
 
@@ -185,9 +183,9 @@ jobs:
         skip_cleanup: true
         on:
           branch: master
-# ---------------------------------------------
-# Documentation
-# ---------------------------------------------
+    # ---------------------------------------------
+    # Documentation
+    # ---------------------------------------------
     - stage: Tests
       name: Dead link check
       if: type = pull_request OR type = push AND branch =~ /^master|[0-9]+-(dev|stable)$/ OR type = cron
@@ -195,11 +193,13 @@ jobs:
       node_js: 10
 
       before_script:
+        - npm ci
         - npm run doc-prepare
-        - npm run --prefix doc/framework clone-repos
+        - $(npm bin)/kuzdoc iterate-repos:install --repos_path doc/framework/.repos/
+        - $(npm bin)/kuzdoc framework:link -d /sdk/java/1/ -v 1
       script:
         - gem install typhoeus
-        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix doc/framework dead-links
+        - cd doc/framework/ && HYDRA_MAX_CONCURRENCY=20 ruby .ci/dead-links.rb -p src/sdk/java/1/
 
     - stage: Deployment Doc Dev
       name: Deploy next-docs.kuzzle.io
@@ -207,6 +207,7 @@ jobs:
       language: node_js
       node_js: 10
       env:
+        - BRANCH=dev
         - NODE_ENV=production
         - S3_BUCKET=docs-next.kuzzle.io
         - CLOUDFRONT_DISTRIBUTION_ID=E2ZCCEK9GRB49U
@@ -220,6 +221,7 @@ jobs:
 
       install:
         - pip install awscli --upgrade --user
+        - npm ci
 
       script:
         - npm run doc-prepare
@@ -253,6 +255,7 @@ jobs:
 
       install:
         - pip install awscli --upgrade --user
+        - npm ci
 
       script:
         - npm run doc-prepare
