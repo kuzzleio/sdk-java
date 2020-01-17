@@ -6,11 +6,6 @@ package io.kuzzle.sdk.Exceptions;
  */
 public class ConnectionLostException extends KuzzleException {
   /**
-   *
-   */
-  private static final long serialVersionUID = 1046624032334173580L;
-
-  /**
    * Initializes a new instance of the ConnectionLostException.
    */
   public ConnectionLostException() {

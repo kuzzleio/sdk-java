@@ -15,4 +15,4 @@ runners:
       cmd: cd /mnt && ./gradlew jar
     run:
       before: timeout 600 bash -c 'until stat /tmp/runner_is_ready && curl -f -s -o /dev/null http://kuzzle:7512/_now; do sleep 1; done'
-      cmd: "cp /mnt/build/libs/sdk-java-[0-9+].[0-9+].[0-9+].jar /mnt/.ci/doc/project/libs/ && cp {{ snippet.source }} /mnt/.ci/doc/project/src/main/java/test/example/java/SnippetTest.java && cd /mnt/.ci/doc/project/ && ./gradlew build && java -classpath libs/sdk-java-3.0.0.jar: -jar build/libs/project-1.jar"
+      cmd: cp /mnt/build/libs/sdk-java-[0-9+].[0-9+].[0-9+].jar /mnt/.ci/doc/project/libs/ && cp {{ snippet.source }} /mnt/.ci/doc/project/src/main/java/test/example/java/SnippetTest.java && cd /mnt/.ci/doc/project/ && ./gradlew build && java -classpath 'libs/sdk-java-3.0.0.jar:' -jar build/libs/project-1.jar
