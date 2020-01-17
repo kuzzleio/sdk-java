@@ -28,6 +28,8 @@ services:
   doc-tests:
     image: kuzzleio/snippets-tests
     privileged: true
+    ports:
+      - '9229:9229'
     depends_on:
       - kuzzle
       - doc-runner-java
