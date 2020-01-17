@@ -9,23 +9,28 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    flatDir {
-      dirs 'libs'
-    }
+}
+
+task copyDependencies(type: Copy) {
+   from configurations.compile
+   into 'dependencies'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.neovisionaries:nv-websocket-client:2.9'
+    compile 'com.google.code.gson:gson:2.8.5'
 }
 
 jar {
   manifest {
     attributes(
       'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-      'Main-Class': 'test.example.java.SnippetTest'
+      'Main-Class': 'SnippetTest'
     )
   }
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation name: 'sdk-java-3.0.0'
-    implementation 'com.neovisionaries:nv-websocket-client:2.9'
-    implementation 'com.google.code.gson:gson:2.8.5'
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
 }

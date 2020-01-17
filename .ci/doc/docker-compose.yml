@@ -40,7 +40,12 @@ services:
 
   doc-runner-java:
     image: adoptopenjdk/openjdk8
-    command: touch /tmp/runner_is_ready && tail -f /dev/null
+    command: >
+      bash -c '
+        mkdir -p /var/snippets/go;
+        touch /tmp/runner_is_ready;
+        tail -f /dev/null
+      '
     volumes:
       - ../..:/mnt
       - snippets:/var/snippets

@@ -4,5 +4,5 @@ description: Disconnects the SDK to Kuzzle
 hooks:
   before:
   after:
-template: empty
-expected: Successfully disconnected
+template: default
+expected: Success

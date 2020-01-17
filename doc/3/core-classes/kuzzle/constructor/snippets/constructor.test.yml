@@ -4,7 +4,5 @@ description: Creates a new Kuzzle instance
 hooks:
   before:
   after:
-template: empty
+template: without-ctor
 expected: Success
-sdk: java
-version: 3
