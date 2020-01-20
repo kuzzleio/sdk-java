@@ -32,7 +32,7 @@ Use `wss://<host>:<ip>` to initiate a secure SSL connection.
 ## options
 
 The options used to connect to the Kuzzle instance.
-[WebSocketOptions](/sdk/java/3/core-classes/websocket-options)
+[WebSocketOptions](/sdk/java/3/protocols/websocket-options)
 
 ## Return
 
@@ -60,7 +60,7 @@ Use `wss://<host>:<ip>` to initiate a secure SSL connection.
 ## options
 
 The options used to connect to the Kuzzle instance.
-[WebSocketOptions](/sdk/java/3/protocols/websocket/websocket-options)
+[WebSocketOptions](/sdk/java/3/protocols/websocket-options)
 
 ## Return
 
