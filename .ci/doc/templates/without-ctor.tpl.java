@@ -1,5 +1,6 @@
 import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Protocol.WebSocket;
+import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 
 public class SnippetTest {

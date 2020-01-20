@@ -4,5 +4,5 @@ description: Creates a new WebSocket instance
 hooks:
   before:
   after:
-template: empty
+template: without-ctor
 expected: Success

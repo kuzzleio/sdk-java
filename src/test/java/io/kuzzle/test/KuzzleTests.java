@@ -2,6 +2,7 @@ package io.kuzzle.test;
 
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Task;
+import io.kuzzle.sdk.Events.Event;
 import io.kuzzle.sdk.Events.EventListener;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
@@ -17,6 +18,8 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 
+import static org.mockito.Mockito.mock;
+
 import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,15 +27,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KuzzleTests {
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
-  private EventListener tokenExpiredEventListener = Mockito.mock(EventListener.class);
-  private EventListener<Response> unhandledResponseEventListener = Mockito.mock(EventListener.class);
   private TestableKuzzle kuzzle;
 
   @Before
   public void setup() throws URISyntaxException {
     kuzzle = new TestableKuzzle(networkProtocol);
-    kuzzle.setTokenExpiredEventListener(tokenExpiredEventListener);
-    kuzzle.setUnhandledResponseEventListener(unhandledResponseEventListener);
   }
 
   @Test
@@ -45,20 +44,6 @@ public class KuzzleTests {
   public void disconnect() throws Exception {
     kuzzle.disconnect();
     Mockito.verify(networkProtocol, Mockito.times(1)).disconnect();
-  }
-
-  @Test
-  public void registerTokenExpiredEvent() throws Exception {
-    kuzzle.registerTokenExpiredEvent(() -> {
-    });
-    Mockito.verify(tokenExpiredEventListener, Mockito.times(1)).register(Matchers.any(Runnable.class));
-  }
-
-  @Test
-  public void unregisterTokenExpiredEvent() throws Exception {
-    kuzzle.unregisterTokenExpiredEvent(() -> {
-    });
-    Mockito.verify(tokenExpiredEventListener, Mockito.times(1)).unregister(Matchers.any(Runnable.class));
   }
 
   @Test
@@ -102,6 +87,7 @@ public class KuzzleTests {
   @Test
   public void onResponseReceivedAndTokenIsExpired() {
     ConcurrentHashMap<String, Task<Response>> requests = kuzzle.getRequests();
+    EventListener listener = mock(EventListener.class);
 
     Response response = new Response();
     response.requestId = "foobar";
@@ -114,16 +100,17 @@ public class KuzzleTests {
 
     requests.put("room-id", task);
 
+    kuzzle.register(Event.tokenExpired, listener);
     kuzzle.onResponseReceived(JsonSerializer.serialize(response.toMap()));
 
-    Mockito.verify(tokenExpiredEventListener, Mockito.times(1)).trigger();
+    Mockito.verify(listener, Mockito.times(1)).trigger();
   }
 
   @Test
   public void onResponseReceivedAndResponseIsUnhandled() {
     ConcurrentHashMap<String, Task<Response>> requests = kuzzle.getRequests();
+    EventListener listener = mock(EventListener.class);
 
-    AtomicBoolean success = new AtomicBoolean(false);
     Response response = new Response();
     response.requestId = "foobar";
 
@@ -131,9 +118,10 @@ public class KuzzleTests {
 
     requests.put("request-id", task);
 
+    kuzzle.register(Event.unhandledResponse, listener);
     kuzzle.onResponseReceived(JsonSerializer.serialize(response.toMap()));
 
-    Mockito.verify(unhandledResponseEventListener, Mockito.times(1)).trigger(Matchers.any(Response.class));
+    Mockito.verify(listener, Mockito.times(1)).trigger(Matchers.any(Response.class));
   }
 
 }

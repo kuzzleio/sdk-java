@@ -11,11 +11,6 @@ repositories {
     mavenCentral()
 }
 
-task copyDependencies(type: Copy) {
-   from configurations.compile
-   into 'dependencies'
-}
-
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile fileTree(dir: 'libs', include: ['*.jar'])

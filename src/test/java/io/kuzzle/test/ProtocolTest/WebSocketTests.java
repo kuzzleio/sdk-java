@@ -19,7 +19,7 @@ public class WebSocketTests {
   @Before
   public void setup() throws URISyntaxException {
     host = "foo";
-    options = new WebSocketOptions().withPort(1234).withSsl(true);
+    options = new WebSocketOptions().setPort(1234).setSsl(true);
     socket = new TestableWebSocket(host, options);
   }
 

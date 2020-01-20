@@ -1,5 +1,6 @@
 package io.kuzzle.test.ProtocolTest;
 
+import io.kuzzle.sdk.Events.Event;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 import io.kuzzle.sdk.Protocol.WebSocket;
@@ -18,7 +19,7 @@ public class TestableWebSocket extends WebSocket {
 
   public TestableWebSocket(String host, WebSocketOptions options) throws URISyntaxException, IllegalArgumentException {
     super(host, options);
-    super.stateChanged.register((ProtocolState state) -> {
+    super.register(Event.networkStateChange, (Object... args) -> {
       stateChangedCount += 1;
       lastStateDispatched = state;
     });

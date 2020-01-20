@@ -1,6 +1,3 @@
-import io.kuzzle.sdk.Protocol.WebSocket;
-import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
-
 WebSocketOptions options = new WebSocketOptions();
 options.setAutoReconnect(true)
         .setConnectionTimeout(42000)
