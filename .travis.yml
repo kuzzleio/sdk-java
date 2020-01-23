@@ -16,7 +16,8 @@ jobs:
 
       before_script:
         - bash -c "npm run doc-prepare"
-        - npm run --prefix doc/framework repositories -- clone
+        - $(npm bin)/kuzdoc iterate-repos:install --repos_path doc/framework/.repos/
+        - $(npm bin)/kuzdoc framework:link -d /sdk/java/3/ -v 3
 
       script:
         - gem install typhoeus
