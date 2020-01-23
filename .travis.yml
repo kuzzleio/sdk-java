@@ -19,6 +19,7 @@ jobs:
       node_js: 12
 
       before_script:
+
         - npm ci
         - npm run doc-prepare
         - $(npm bin)/kuzdoc iterate-repos:install --repos_path doc/framework/.repos/
@@ -46,23 +47,23 @@ jobs:
             - python-pip
 
       install:
-        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - cd $TRAVIS_BUILD_DIR/
         - gradle assemble
         - pip install awscli --upgrade --user
         - npm ci
 
       script:
-        - cd kuzzle-sdk-java && npm run doc-prepare
+        - npm run doc-prepare
         - npm run doc-build && cd -
 
       deploy:
         provider: script
         script:
-          - cd kuzzle-sdk-java && npm run doc-upload && cd -
+          -  npm run doc-upload && cd -
         skip_cleanup: true
 
       after_deploy:
-        - cd kuzzle-sdk-java && npm run doc-cloudfront && cd -
+        - npm run doc-cloudfront && cd -
 
     - stage: Deployment Doc Prod
       name: Deploy docs.kuzzle.io
@@ -82,27 +83,12 @@ jobs:
             - python-pip
 
       install:
-        provider: script
-        script:
-          - npm run doc-upload
-        skip_cleanup: true
-
-      after_deploy:
-        - npm run doc-cloudfront
-
-    - stage: Deployment
-      name: Deploy to Bintray
-      if: branch = master AND tag IS present AND type != cron
-      language: java
-
-      jdk:
-        - openjdk8
-
-      script: bash gradlew test jacocoTestReport
-
-      notifications:
-        email: false
-
+        - cd $TRAVIS_BUILD_DIR/
+        - gradle assemble
+        - cd $TRAVIS_BUILD_DIR/
+        - gradle assemble
+      script:
+        - gradle check
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
@@ -121,9 +107,9 @@ jobs:
           - $HOME/.gradle/caches/
           - $HOME/.gradle/wrapper/
       install:
-        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - cd $TRAVIS_BUILD_DIR/
         - gradle assemble
-        - cd $TRAVIS_BUILD_DIR/kuzzle-sdk-java
+        - cd $TRAVIS_BUILD_DIR/
         - gradle assemble
       script:
         - gradle build
