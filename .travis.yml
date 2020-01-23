@@ -45,18 +45,18 @@ jobs:
 
       script:
         - npm run doc-prepare
-        - npm run doc-build && cd -
+        - npm run doc-build
 
       deploy:
         provider: script
         script:
-          - npm run doc-upload && cd -
+          - npm run doc-upload
         skip_cleanup: true
         on:
           all_branches: true
 
       after_deploy:
-        - npm run doc-cloudfront && cd -
+        - npm run doc-cloudfront
 
     - stage: Deployment Doc Prod
       name: Deploy docs.kuzzle.io
@@ -80,18 +80,18 @@ jobs:
 
       script:
         - npm run doc-prepare
-        - npm run doc-build && cd -
+        - npm run doc-build
 
       deploy:
         provider: script
         script:
-          - npm run doc-upload && cd -
+          - npm run doc-upload
         skip_cleanup: true
         on:
           all_branches: true
 
       after_deploy:
-        - npm run doc-cloudfront && cd -
+        - npm run doc-cloudfront
 
     # ---------------------------------------
     # Builds
