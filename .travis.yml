@@ -58,6 +58,8 @@ jobs:
         script:
           - npm run doc-upload
         skip_cleanup: true
+        on:
+          all_branches: true
 
       after_deploy:
         - npm run doc-cloudfront
@@ -92,6 +94,8 @@ jobs:
         script:
           - npm run doc-upload
         skip_cleanup: true
+        on:
+          all_branches: true
 
       after_deploy:
         - npm run doc-cloudfront
