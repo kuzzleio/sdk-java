@@ -39,8 +39,8 @@ jobs:
             - python-pip
 
       install:
-        - cd $TRAVIS_BUILD_DIR/
-        - gradle assemble
+        - npm ci
+
       script:
         - npm run doc-prepare
         - npm run doc-build && cd -
@@ -48,8 +48,10 @@ jobs:
       deploy:
         provider: script
         script:
-          -  npm run doc-upload && cd -
+          - npm run doc-upload && cd -
         skip_cleanup: true
+        on:
+          all_branches: true
 
       after_deploy:
         - npm run doc-cloudfront && cd -
@@ -72,14 +74,22 @@ jobs:
             - python-pip
 
       install:
-        - cd $TRAVIS_BUILD_DIR/
-        - gradle assemble
-        - cd $TRAVIS_BUILD_DIR/
-        - gradle assemble
+        - npm ci
+
       script:
-        - gradle check
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - npm run doc-prepare
+        - npm run doc-build && cd -
+
+      deploy:
+        provider: script
+        script:
+          - npm run doc-upload && cd -
+        skip_cleanup: true
+        on:
+          all_branches: true
+
+      after_deploy:
+        - npm run doc-cloudfront && cd -
 
     # ---------------------------------------
     # Builds
