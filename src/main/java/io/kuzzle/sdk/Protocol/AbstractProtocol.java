@@ -1,6 +1,6 @@
 package io.kuzzle.sdk.Protocol;
-import io.kuzzle.sdk.Events.EventManager;
 
+import io.kuzzle.sdk.Events.EventManager;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractProtocol extends EventManager {

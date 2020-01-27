@@ -39,34 +39,42 @@ public class WebSocket extends AbstractProtocol {
     if (uri.getScheme() != null) {
       options.setSsl(uri.getScheme().equals("wss"));
     }
-    WebSocketOptions wsOptions = options != null ? new WebSocketOptions(options) : new WebSocketOptions();
+    WebSocketOptions wsOptions = options != null ? new WebSocketOptions(options)
+        : new WebSocketOptions();
 
     ssl = wsOptions.isSsl();
     port = wsOptions.getPort();
     connectionTimeout = wsOptions.getConnectionTimeout();
 
-    this.uri = new URI((ssl ? "wss" : "ws") + "://" + uri.getHost() + ":" + port + "/");
+    this.uri = new URI(
+        (ssl ? "wss" : "ws") + "://" + uri.getHost() + ":" + port + "/");
     this.queue = new LinkedBlockingDeque<>();
   }
 
-  public WebSocket(URI uri, WebSocketOptions options) throws URISyntaxException, IllegalArgumentException {
+  public WebSocket(URI uri, WebSocketOptions options)
+      throws URISyntaxException, IllegalArgumentException {
     this(uri.getHost(), options);
   }
 
-  public WebSocket(String host) throws IllegalArgumentException, URISyntaxException {
+  public WebSocket(String host)
+      throws IllegalArgumentException, URISyntaxException {
     this(host, new WebSocketOptions());
   }
 
   /**
-   * @param host    Kuzzle host address
-   * @param options WebSocket options
+   * @param host
+   *                  Kuzzle host address
+   * @param options
+   *                  WebSocket options
    * @throws URISyntaxException
    * @throws IllegalArgumentException
    */
-  public WebSocket(String host, WebSocketOptions options) throws URISyntaxException, IllegalArgumentException {
+  public WebSocket(String host, WebSocketOptions options)
+      throws URISyntaxException, IllegalArgumentException {
     super();
 
-    WebSocketOptions wsOptions = options != null ? new WebSocketOptions(options) : new WebSocketOptions();
+    WebSocketOptions wsOptions = options != null ? new WebSocketOptions(options)
+        : new WebSocketOptions();
 
     ssl = wsOptions.isSsl();
     port = wsOptions.getPort();
@@ -84,7 +92,8 @@ public class WebSocket extends AbstractProtocol {
     queue.add(payload);
   }
 
-  protected com.neovisionaries.ws.client.WebSocket createClientSocket() throws IOException {
+  protected com.neovisionaries.ws.client.WebSocket createClientSocket()
+      throws IOException {
     WebSocketFactory wsFactory = new WebSocketFactory();
 
     if (connectionTimeout > -1) {
@@ -101,10 +110,9 @@ public class WebSocket extends AbstractProtocol {
 
   /**
    * Connects to a Kuzzle server.
-   * 
+   *
    * @throws IOException
    * @throws WebSocketException
-   * 
    * @throws Exception
    */
   @Override
@@ -122,7 +130,9 @@ public class WebSocket extends AbstractProtocol {
 
     socket.addListener(new WebSocketAdapter() {
       @Override
-      public void onTextMessage(com.neovisionaries.ws.client.WebSocket websocket, String text) throws Exception {
+      public void onTextMessage(
+          com.neovisionaries.ws.client.WebSocket websocket, String text)
+          throws Exception {
         super.onTextMessage(websocket, text);
         WebSocket.super.trigger(Event.networkResponseReceived, text);
       }

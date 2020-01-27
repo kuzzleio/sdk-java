@@ -6,15 +6,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
 
 public class SnippetTest {
+  private static Kuzzle kuzzle;
+
   public static void main(String[] argv) {
     try {
-      Kuzzle kuzzle = new Kuzzle(new WebSocket("kuzzle"));
+      kuzzle = new Kuzzle(new WebSocket("kuzzle"));
       kuzzle.connect();
       [snippet-code]
       System.out.println("Success");
-      kuzzle.disconnect();
     } catch (Exception e) {
-      System.err.println((e.getMessage()));
+      e.printStackTrace();
+    } finally {
+      if (kuzzle != null) {
+        kuzzle.disconnect();
+      }
     }
   }
 }

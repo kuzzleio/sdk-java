@@ -1,7 +1,6 @@
 package io.kuzzle.sdk.Events;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,12 +12,13 @@ public class EventManager {
 
   /**
    * Register a listener.
-   * 
+   *
    * @param event
    * @param listener
    * @return If successfully registered.
    */
-  public synchronized boolean register(final Event event, final EventListener listener) {
+  public synchronized boolean register(final Event event,
+      final EventListener listener) {
     listeners.computeIfAbsent(event, l -> new ArrayList<>());
 
     List<EventListener> eventListener = listeners.get(event);
@@ -30,12 +30,13 @@ public class EventManager {
 
   /**
    * Unregister a listener.
-   * 
+   *
    * @param event
    * @param listener
    * @return If successfully unregistered.
    */
-  public synchronized boolean unregister(final Event event, final EventListener listener) {
+  public synchronized boolean unregister(final Event event,
+      final EventListener listener) {
     if (!listeners.containsKey(event)) {
       return false;
     }
@@ -44,12 +45,18 @@ public class EventManager {
 
   /**
    * Triggers every listener of the same event type.
-   * 
-   * @param args An array of Object.
+   *
+   * @param args
+   *               An array of Object.
    */
   public void trigger(final Event event, Object... args) {
-    for (final EventListener listener : listeners.get(event)) {
-      listener.trigger(args);
+    List<EventListener> eventListener = listeners.get(event);
+    if (eventListener != null) {
+      for (final EventListener listener : eventListener) {
+        if (listener != null) {
+          listener.trigger(args);
+        }
+      }
     }
   }
 }

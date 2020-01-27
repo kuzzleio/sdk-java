@@ -2,14 +2,19 @@ import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Protocol.WebSocket;
 
 public class SnippetTest {
+  private static Kuzzle kuzzle;
+
   public static void main(String[] argv) {
     try {
-      Kuzzle kuzzle = new Kuzzle(new WebSocket("kuzzle"));
+      kuzzle = new Kuzzle(new WebSocket("kuzzle"));
       [snippet-code]
       System.out.println("Success");
-      kuzzle.disconnect();
     } catch (Exception e) {
       System.err.println(e.getMessage());
+    } finally {
+      if (kuzzle != null) {
+        kuzzle.disconnect();
+      }
     }
   }
 }

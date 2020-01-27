@@ -84,7 +84,8 @@ public class Response implements Serializable {
   public String type;
 
   @Override
-  public void fromMap(ConcurrentHashMap<String, Object> map) throws InternalException {
+  public void fromMap(ConcurrentHashMap<String, Object> map)
+      throws InternalException {
     if (map == null)
       return;
 

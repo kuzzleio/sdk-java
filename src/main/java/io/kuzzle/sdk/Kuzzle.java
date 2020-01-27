@@ -8,16 +8,15 @@ import io.kuzzle.sdk.Exceptions.*;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
+import io.kuzzle.sdk.CoreClasses.Responses.*;
+import io.kuzzle.sdk.Events.Event;
+import io.kuzzle.sdk.Events.EventManager;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
-import io.kuzzle.sdk.CoreClasses.Responses.*;
-import io.kuzzle.sdk.Events.Event;
-import io.kuzzle.sdk.Events.EventManager;
 
 public class Kuzzle extends EventManager {
   protected final AbstractProtocol networkProtocol;
@@ -26,28 +25,26 @@ public class Kuzzle extends EventManager {
   public final String instanceId;
   public final String sdkName;
 
-  private AuthController auth;
-
   /**
    * Authentication token
    */
   protected AtomicReference<String> authenticationToken;
 
   /**
-   * The maximum amount of elements that the queue can contains. If set to -1, the
-   * size is unlimited.
+   * The maximum amount of elements that the queue can contains. If set to -1,
+   * the size is unlimited.
    */
   protected AtomicInteger maxQueueSize;
 
   /**
-   * The minimum duration of a Token before being automatically refreshed. If set
-   * to -1 the SDK does not refresh the token automatically.
+   * The minimum duration of a Token before being automatically refreshed. If
+   * set to -1 the SDK does not refresh the token automatically.
    */
   protected AtomicInteger minTokenDuration;
 
   /**
-   * The minimum duration of a Token after refresh. If set to -1 the SDK does not
-   * refresh the token automatically.
+   * The minimum duration of a Token after refresh. If set to -1 the SDK does
+   * not refresh the token automatically.
    */
   protected AtomicInteger refreshedTokenDuration;
 
@@ -61,42 +58,47 @@ public class Kuzzle extends EventManager {
   /**
    * Initialize a new instance of Kuzzle
    * 
-   * @param networkProtocol The network protocol
+   * @param networkProtocol
+   *                          The network protocol
    * @throws IllegalArgumentException
    */
-  public Kuzzle(final AbstractProtocol networkProtocol) throws IllegalArgumentException {
+  public Kuzzle(final AbstractProtocol networkProtocol)
+      throws IllegalArgumentException {
     this(networkProtocol, new KuzzleOptions());
   }
 
   public AuthController getAuthController() {
-    if (auth == null) {
-      auth = new AuthController(this);
-    }
-    return auth;
+    return new AuthController(this);
   }
 
   /**
    * Initialize a new instance of Kuzzle
    * 
-   * @param networkProtocol The network protocol
-   * @param options         Kuzzle options
+   * @param networkProtocol
+   *                          The network protocol
+   * @param options
+   *                          Kuzzle options
    * @throws IllegalArgumentException
    */
-  public Kuzzle(final AbstractProtocol networkProtocol, final KuzzleOptions options) throws IllegalArgumentException {
-
+  public Kuzzle(final AbstractProtocol networkProtocol,
+      final KuzzleOptions options) throws IllegalArgumentException {
     if (networkProtocol == null) {
       throw new IllegalArgumentException("networkProtocol can't be null");
     }
 
-    final KuzzleOptions kOptions = options != null ? options : new KuzzleOptions();
+    final KuzzleOptions kOptions = options != null ? options
+        : new KuzzleOptions();
 
     this.networkProtocol = networkProtocol;
-    this.networkProtocol.register(Event.networkResponseReceived, this::onResponseReceived);
-    this.networkProtocol.register(Event.networkStateChange, this::onStateChanged);
+    this.networkProtocol
+        .register(Event.networkResponseReceived, this::onResponseReceived);
+    this.networkProtocol
+        .register(Event.networkStateChange, this::onStateChanged);
 
     this.maxQueueSize = new AtomicInteger(kOptions.getMaxQueueSize());
     this.minTokenDuration = new AtomicInteger(kOptions.getMinTokenDuration());
-    this.refreshedTokenDuration = new AtomicInteger(kOptions.getRefreshedTokenDuration());
+    this.refreshedTokenDuration = new AtomicInteger(
+        kOptions.getRefreshedTokenDuration());
     this.maxRequestDelay = new AtomicInteger(kOptions.getMaxRequestDelay());
 
     this.version = "3";
@@ -123,7 +125,8 @@ public class Kuzzle extends EventManager {
   /**
    * Handles the ResponseReceivedEvent from the network protocol
    * 
-   * @param payload Raw API Response
+   * @param payload
+   *                  Raw API Response
    */
   protected void onResponseReceived(final Object... payload) {
 
@@ -151,7 +154,8 @@ public class Kuzzle extends EventManager {
       return;
     }
 
-    if (response.error.id == null || !response.error.id.equals("security.token.expired")) {
+    if (response.error.id == null
+        || !response.error.id.equals("security.token.expired")) {
       final Task<Response> task = requests.get(response.requestId);
       if (task != null) {
         task.setException(new ApiErrorException(response));
@@ -175,12 +179,14 @@ public class Kuzzle extends EventManager {
   /**
    * Sends an API request to Kuzzle and returns the corresponding API
    * 
-   * @param query Kuzzle API query
+   * @param query
+   *                Kuzzle API query
    * @return A CompletableFuture
    * @throws InternalException
    * @throws NotConnectedException
    */
-  public CompletableFuture<Response> query(final ConcurrentHashMap<String, Object> query)
+  public CompletableFuture<Response> query(
+      final ConcurrentHashMap<String, Object> query)
       throws InternalException, NotConnectedException {
     if (query == null) {
       throw new InternalException(KuzzleExceptionCode.MSSING_QUERY);
@@ -200,7 +206,7 @@ public class Kuzzle extends EventManager {
     }
 
     if (authenticationToken != null) {
-      queryMap.put("jwt", authenticationToken);
+      queryMap.put("jwt", authenticationToken.toString());
     }
 
     final String requestId = UUID.randomUUID().toString();
@@ -237,9 +243,13 @@ public class Kuzzle extends EventManager {
   /**
    * Set the authentication token
    * 
-   * @param token Authentication token
+   * @param token
+   *                Authentication token
    */
   public void setAuthenticationToken(final String token) {
+    if (authenticationToken == null) {
+      authenticationToken = new AtomicReference<>();
+    }
     authenticationToken.set(token);
   }
 }
