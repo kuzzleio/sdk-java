@@ -9,7 +9,7 @@ description: Authenticates a user.
 
 Authenticates a user.
 
-If this action is successful, all further requests emitted by this SDK instance will be in the name of the authenticated user, until either the authenticated token expires, the [logout](/sdk/java/3/controllers/auth/logout) action is called, or the [authentication token](/sdk/java/3/core-classes/kuzzle/introduction#properties) property is manually unset.
+If this action is successful, all further requests emitted by this SDK instance will be in the name of the authenticated user, until either the authenticated token expires, the [logout](/sdk/java/3/controllers/auth/logout) action is called, or the authentication token property is manually unset.
 
 ## Arguments
 
