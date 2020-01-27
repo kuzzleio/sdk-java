@@ -10,3 +10,4 @@ bin
 .project
 
 doc/framework
+node_modules
