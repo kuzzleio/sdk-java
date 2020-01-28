@@ -2,12 +2,12 @@
 code: true
 type: page
 title: UpdateMyCredentials
-description: Update the current user's credentials for the specified strategy.
+description: Updates the current user's credentials for the specified strategy.
 ---
 
 # UpdateMyCredentials
 
-Update the current user's credentials for the specified strategy. The credentials to send will depend on the authentication plugin and the authentication strategy.
+Updates the current user's credentials for the specified strategy. The credentials to send will depend on the authentication plugin and the authentication strategy.
 
 ## Arguments
 

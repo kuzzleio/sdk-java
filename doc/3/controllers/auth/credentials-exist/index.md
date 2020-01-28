@@ -2,7 +2,7 @@
 code: true
 type: page
 title: CredentialsExist
-description: Check that the current user has credentials for the specified strategy.
+description: Checks that the current user has credentials for the specified strategy.
 ---
 
 # CredentialsExist

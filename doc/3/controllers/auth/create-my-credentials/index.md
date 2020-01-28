@@ -7,7 +7,7 @@ description: Create the current user's credentials for the specified strategy.
 
 # CreateMyCredentials
 
-Create the current user's credentials for the specified strategy.
+Creates the current user's credentials for the specified strategy.
 
 ## Arguments
 
