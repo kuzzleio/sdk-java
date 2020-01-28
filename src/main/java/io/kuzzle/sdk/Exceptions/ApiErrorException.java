@@ -7,6 +7,11 @@ import io.kuzzle.sdk.CoreClasses.Responses.Response;
  */
 public class ApiErrorException extends KuzzleException {
   /**
+   *
+   */
+  private static final long serialVersionUID = 666379398727075901L;
+
+  /**
    * Kuzzle API stack trace
    */
   protected String stack;

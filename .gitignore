@@ -8,7 +8,6 @@ bin
 bin
 .classpath
 .project
-.settings
 
 doc/framework
 node_modules

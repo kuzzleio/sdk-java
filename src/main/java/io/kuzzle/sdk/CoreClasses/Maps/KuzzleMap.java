@@ -14,9 +14,15 @@ import java.util.stream.Collectors;
 public class KuzzleMap extends ConcurrentHashMap<String, Object> {
 
   /**
+   * serialVersionUID
+   */
+  private static final long serialVersionUID = -3027862451021177820L;
+
+  /**
    * Convert à ConcurrentHashMap<String, Object> to a CustomMap
    * 
-   * @param map ConcurrentHashMap<String, Object> representing JSON.
+   * @param map
+   *              ConcurrentHashMap<String, Object> representing JSON.
    * @return a CustomMap instance
    */
   public static KuzzleMap from(ConcurrentHashMap<String, Object> map) {
@@ -37,9 +43,11 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   /**
-   * Create a new instance of CustomMap from a ConcurrentHashMap<String, Object>.
+   * Create a new instance of CustomMap from a ConcurrentHashMap<String,
+   * Object>.
    * 
-   * @param map ConcurrentHashMap<String, Object> representing JSON.
+   * @param map
+   *              ConcurrentHashMap<String, Object> representing JSON.
    */
   public KuzzleMap(ConcurrentHashMap<String, Object> map) {
     super();
@@ -52,17 +60,14 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   @Override
-  public Object put(String s, Object o) {
-    Object obj = null;
+  public KuzzleMap put(String s, Object o) {
     if (o != null) {
-      obj = super.put(s, o);
+      super.put(s, o);
     } else {
-      obj = super.put(s, new Null());
+      super.put(s, new Null());
     }
-    if (obj instanceof Null) {
-      return null;
-    }
-    return obj;
+
+    return this;
   }
 
   @Override
@@ -88,7 +93,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Check whether the key value is null or not.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return true if the value is null.
    */
   public boolean isNull(String key) {
@@ -98,7 +104,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Check whether the key value is a String or not.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return true if the key is a String.
    */
   public boolean isString(String key) {
@@ -108,7 +115,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Check whether the key value is a Boolean or not.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return true if the key is a Boolean.
    */
   public boolean isBoolean(String key) {
@@ -118,7 +126,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Check whether the key value is a Number or not.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return true if the key is a Number.
    */
   public boolean isNumber(String key) {
@@ -128,7 +137,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Check whether the key value is an ArrayList or not.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return true if the key is an ArrayList.
    */
   public boolean isArrayList(String key) {
@@ -138,7 +148,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Check whether the key value is a ConcurrentHashMap or not.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return true if the key is a ConcurrentHashMap.
    */
   public boolean isMap(String key) {
@@ -148,7 +159,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Return the specified key value or null if the value is not a String.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The String at the key or null
    */
   public String getString(String key) {
@@ -158,7 +170,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Return the specified key value or null if the value is not a Boolean.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The Boolean at the key or null
    */
   public Boolean getBoolean(String key) {
@@ -168,7 +181,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Return the specified key value or null if the value is not a Number.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The Number at the key or null
    */
   public Number getNumber(String key) {
@@ -178,7 +192,8 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   /**
    * Return the specified key value or null if the value is not an ArrayList.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The ArrayList at the key or null
    */
   public ArrayList getArrayList(String key) {
@@ -189,18 +204,22 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
    * Return the specified key value or null if the value is not a
    * ConcurrentHashMap.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The ConcurrentHashMap at the key or null
    */
   public KuzzleMap getMap(String key) {
-    return isMap(key) ? KuzzleMap.from((ConcurrentHashMap<String, Object>) super.get(key)) : null;
+    return isMap(key)
+        ? KuzzleMap.from((ConcurrentHashMap<String, Object>) super.get(key))
+        : null;
   }
 
   /**
-   * Return the specified key value or the def value if the value is nul or not a
-   * String.
+   * Return the specified key value or the def value if the value is nul or not
+   * a String.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The String at the key or def value
    */
   public String optString(String key, String def) {
@@ -208,10 +227,11 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   /**
-   * Return the specified key value or the def value if the value is nul or not a
-   * Boolean.
+   * Return the specified key value or the def value if the value is nul or not
+   * a Boolean.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The Boolean at the key or def value
    */
   public Boolean optBoolean(String key, Boolean def) {
@@ -219,10 +239,11 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   /**
-   * Return the specified key value or the def value if the value is nul or not a
-   * Number.
+   * Return the specified key value or the def value if the value is nul or not
+   * a Number.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The Number at the key or def value
    */
   public Number optNumber(String key, Number def) {
@@ -230,10 +251,11 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   /**
-   * Return the specified key value or the def value if the value is nul or not an
-   * ArrayList.
+   * Return the specified key value or the def value if the value is nul or not
+   * an ArrayList.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The ArrayList at the key or def value
    */
   public ArrayList optArrayList(String key, ArrayList def) {
@@ -241,13 +263,16 @@ public class KuzzleMap extends ConcurrentHashMap<String, Object> {
   }
 
   /**
-   * Return the specified key value or the def value if the value is nul or not a
-   * ConcurrentHashMap.
+   * Return the specified key value or the def value if the value is nul or not
+   * a ConcurrentHashMap.
    * 
-   * @param key a String representing the key.
+   * @param key
+   *              a String representing the key.
    * @return The ConcurrentHashMap at the key or def value
    */
   public KuzzleMap optMap(String key, ConcurrentHashMap<String, Object> def) {
-    return isMap(key) ? KuzzleMap.from((ConcurrentHashMap<String, Object>) super.get(key)) : KuzzleMap.from(def);
+    return isMap(key)
+        ? KuzzleMap.from((ConcurrentHashMap<String, Object>) super.get(key))
+        : KuzzleMap.from(def);
   }
 }

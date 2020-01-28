@@ -21,22 +21,6 @@ public class TestableKuzzle extends Kuzzle {
     super(networkProtocol, options);
   }
 
-  public void setTokenExpiredEventListener(EventListener eventListener) {
-    super.tokenExpiredEvent = eventListener;
-  }
-
-  public EventListener getTokenExpiredEventListener() {
-    return super.tokenExpiredEvent;
-  }
-
-  public void setUnhandledResponseEventListener(EventListener eventListener) {
-    super.unhandledResponseEvent = eventListener;
-  }
-
-  public EventListener getUnhandledResponseEventListener() {
-    return super.unhandledResponseEvent;
-  }
-
   public void onStateChanged(ProtocolState state) {
     super.onStateChanged(state);
   }

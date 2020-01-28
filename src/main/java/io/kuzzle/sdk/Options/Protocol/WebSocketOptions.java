@@ -1,7 +1,5 @@
 package io.kuzzle.sdk.Options.Protocol;
 
-import io.kuzzle.sdk.Options.KuzzleOptions;
-
 public class WebSocketOptions {
 
   /**
@@ -56,7 +54,7 @@ public class WebSocketOptions {
    * @param port
    * @return This WebSocketOptions instance.
    */
-  public WebSocketOptions withPort(int port) {
+  public WebSocketOptions setPort(int port) {
     this.port = port >= 0 ? port : 7512;
     return this;
   }
@@ -74,7 +72,7 @@ public class WebSocketOptions {
    * @param ssl
    * @return This WebSocketOptions instance.
    */
-  public WebSocketOptions withSsl(boolean ssl) {
+  public WebSocketOptions setSsl(boolean ssl) {
     this.ssl = ssl;
     return this;
   }
@@ -92,7 +90,7 @@ public class WebSocketOptions {
    * @param connectionTimeout
    * @return This WebSocketOptions instance.
    */
-  public WebSocketOptions withConnectionTimeout(int connectionTimeout) {
+  public WebSocketOptions setConnectionTimeout(int connectionTimeout) {
     this.connectionTimeout = connectionTimeout < 0 ? -1 : connectionTimeout;
     return this;
   }
@@ -110,7 +108,7 @@ public class WebSocketOptions {
    * @param autoReconnect
    * @return This WebSocketOptions instance.
    */
-  public WebSocketOptions withAutoReconnect(boolean autoReconnect) {
+  public WebSocketOptions setAutoReconnect(boolean autoReconnect) {
     this.autoReconnect = autoReconnect;
     return this;
   }

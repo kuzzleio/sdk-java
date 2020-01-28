@@ -9,8 +9,13 @@ public class JsonSerializer {
   private static Gson gson;
 
   static {
-    gson = new GsonBuilder().disableHtmlEscaping().disableInnerClassSerialization().serializeNulls()
-        .registerTypeAdapter(ConcurrentHashMap.class, new ConcurrentHashMapTypeAdapter()).create();
+    gson = new GsonBuilder()
+        .disableHtmlEscaping()
+        .disableInnerClassSerialization()
+        .serializeNulls()
+        .registerTypeAdapter(ConcurrentHashMap.class,
+            new ConcurrentHashMapTypeAdapter())
+        .create();
   }
 
   public static ConcurrentHashMap<String, Object> deserialize(String rawJson) {
