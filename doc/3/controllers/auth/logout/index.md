@@ -7,7 +7,7 @@ description: Revokes the user's token & unsubscribe them from registered rooms.
 
 # Logout
 
-Revokes the user's token & unsubscribe them from registered rooms.
+Revokes the user's token & unsubscribes them from registered rooms.
 
 ## Arguments
 
