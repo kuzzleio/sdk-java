@@ -7,7 +7,7 @@ description: Connects the SDK to Kuzzle
 
 # Connect
 
-Connects to Kuzzle using the subsequent protocol `connect` method. 
+Connects to Kuzzle using the underlying protocol `connect` method. 
 
 Subsequent calls have no effect if the SDK is already connected.
 
