@@ -7,7 +7,7 @@ description: Get all authentication strategies registered in Kuzzle.
 
 # GetStrategies
 
-Get all authentication strategies registered in Kuzzle.
+Gets all authentication strategies registered in Kuzzle.
 
 ## Arguments
 
