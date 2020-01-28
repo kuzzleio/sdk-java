@@ -16,7 +16,8 @@ This is a low-level method, exposed to allow advanced SDK users to bypass high-l
 ## Arguments
 
 ```java
-public CompletableFuture<Response> query(final ConcurrentHashMap<String, Object> query)
+public CompletableFuture<Response> query(
+  final ConcurrentHashMap<String, Object> query)
       throws InternalException, NotConnectedException
 ```
 

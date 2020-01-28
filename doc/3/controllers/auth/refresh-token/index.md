@@ -16,7 +16,7 @@ Refreshes an authentication token.
 ## Arguments
 
 ```java
-ompletableFuture<ConcurrentHashMap<String, Object>> refreshToken(
+CompletableFuture<ConcurrentHashMap<String, Object>> refreshToken(
   final String expiresIn) throws NotConnectedException, InternalException
 ```
 
@@ -41,7 +41,7 @@ A ConcurrentHashMap with the following properties:
 
 A `NotConnectedException`, `InternalException` if there is an error.
 
-Once `auth:refreshToken` has been called, the returned authentication token is stored by the SDK and used for all the subsequent API call, ensuring they are properly authenticated.
+Once `auth:refreshToken` has been called, the returned authentication token is stored by the SDK and used for all the subsequent API calls.
 
 ## Usage
 

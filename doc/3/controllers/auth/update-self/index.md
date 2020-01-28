@@ -23,7 +23,7 @@ CompletableFuture<ConcurrentHashMap<String, Object>> updateSelf(
 
 ## Return
 
-Return a JObject with the following properties:
+Returns a ConcurrentHashMap with the following properties:
 
 | Property  | Type               | Description                               |
 |-----------|--------------------|-------------------------------------------|

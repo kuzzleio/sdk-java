@@ -7,4 +7,5 @@ kuzzle.getAuthController().login("local", credentials).get();
 ConcurrentHashMap<String, Object> custom = new ConcurrentHashMap<>();
 custom.put("age", 42);
 
-ConcurrentHashMap<String, Object> result = kuzzle.getAuthController().updateSelf(custom).get();
+ConcurrentHashMap<String, Object> result = 
+  kuzzle.getAuthController().updateSelf(custom).get();

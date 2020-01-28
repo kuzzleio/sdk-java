@@ -41,7 +41,8 @@ A `WebSocket` protocol instance.
 ## Arguments
 
 ```java
-public WebSocket(String host, WebSocketOptions options) throws URISyntaxException, IllegalArgumentException
+public WebSocket(String host, WebSocketOptions options) 
+  throws URISyntaxException, IllegalArgumentException
 ```
 
 <br/>
