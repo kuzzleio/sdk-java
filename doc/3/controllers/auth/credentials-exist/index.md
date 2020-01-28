@@ -22,7 +22,7 @@ public CompletableFuture<Boolean> credentialsExist(final String strategy)
 
 ## Return
 
-A boolean indicating if credentials exists for the strategy.
+A boolean indicating if credentials exist for the strategy.
 
 ## Throws
 
