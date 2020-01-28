@@ -9,7 +9,7 @@ description: Disconnects the SDK from Kuzzle
 
 Closes the current connection to Kuzzle.
 
-Disconnects the SDK from the Kuzzle server using the subsequent protocol `Disconnect` method. 
+Disconnects the SDK from the Kuzzle server using the underlying protocol `Disconnect` method. 
 
 ## Arguments
 
