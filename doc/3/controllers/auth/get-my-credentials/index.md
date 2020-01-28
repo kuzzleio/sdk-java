@@ -7,7 +7,7 @@ description: Returns the current user's credential information for the specified
 
 # GetMyCredentials
 
-Returns the current user's credential information for the specified strategy. The data returned will depend on the specified strategy. The result can be an empty string.
+Returns the current user's credential information for the specified strategy. The data returned will depend on the specified strategy. The result can be empty.
 
 ## Arguments
 
