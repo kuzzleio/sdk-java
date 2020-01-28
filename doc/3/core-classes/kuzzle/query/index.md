@@ -43,7 +43,7 @@ The following properties are the most common.
 
 ## Returns
 
-Returns a [Response](/sdk/java/3/core-classes/response) object which represent a raw Kuzzle API response. See the [API Documentation](/core/2/api).
+Returns a [Response](/sdk/java/3/core-classes/response) object which represents a raw Kuzzle API response. See the [API Documentation](/core/2/api).
 
 ## Usage
 
