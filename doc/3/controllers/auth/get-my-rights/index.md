@@ -20,10 +20,6 @@ public CompletableFuture<ArrayList<Object>> getMyRights()
 
 An ArrayList object.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/get-my-rights.java

@@ -17,10 +17,6 @@ Subsequent calls have no effect if the SDK is already connected.
 public void connect() throws Exception;
 ```
 
-## Throws
-
-Throws an `Exception`.
-
 ## Usage
 
 <<< ./snippets/connect.java

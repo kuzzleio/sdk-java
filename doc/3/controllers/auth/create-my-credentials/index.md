@@ -26,10 +26,6 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> createMyCredentials(
 
 A ConcurrentHashMap representing the new credentials.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/create-my-credentials.java

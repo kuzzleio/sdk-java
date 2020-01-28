@@ -30,10 +30,6 @@ Returns a ConcurrentHashMap with the following properties:
 | `_id`     | <pre>String</pre>  | User's `kuid`                             |
 | `_source` | <pre>ConcurrentHashMap<String, Object></pre> | Additional (and optional) user properties |
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/update-self.java

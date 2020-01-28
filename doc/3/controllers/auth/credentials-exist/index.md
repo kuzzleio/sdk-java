@@ -24,10 +24,6 @@ public CompletableFuture<Boolean> credentialsExist(final String strategy)
 
 A boolean indicating if credentials exist for the strategy.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/credentials-exist.java

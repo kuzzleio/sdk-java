@@ -20,10 +20,6 @@ public CompletableFuture<Void> deleteMyCredentials(final String strategy)
 |------------|-------------------|-----------------|
 | `strategy` | <pre>String</pre> | Strategy to use |
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/delete-my-credentials.java

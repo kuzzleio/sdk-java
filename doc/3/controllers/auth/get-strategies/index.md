@@ -20,10 +20,6 @@ public CompletableFuture<ArrayList<String>> getStrategies()
 
 An ArrayList representing the available authentication strategies.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/get-strategies.java

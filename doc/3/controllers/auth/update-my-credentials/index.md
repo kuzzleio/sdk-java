@@ -23,10 +23,6 @@ CompletableFuture<ConcurrentHashMap<String, Object>> updateMyCredentials(
 | `strategy`    | <pre>String</pre>  | Strategy to use                      |
 | `credentials` | <pre>ConcurrentHashMap<String, Object></pre> | JObject representing the credentials |
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Return
 
 A ConcurrentHashMap representing the updated credentials with the following properties:

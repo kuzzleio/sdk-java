@@ -57,10 +57,6 @@ Returns a Hashmap with the following properties:
 
 Once `auth:login` has been called, the returned authentication token is stored by the SDK and used for all the subsequent API call, ensuring they are properly authenticated.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/login.java

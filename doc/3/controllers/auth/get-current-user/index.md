@@ -26,10 +26,6 @@ A ConcurrentHashMap representing the User.
 | `strategies` | <pre>Array</pre>  | Available authentication strategies for that user |
 | `_source`    | <pre>ConcurrentHashMap</pre> | User information                                  |
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/get-current-user.java

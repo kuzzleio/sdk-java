@@ -26,10 +26,6 @@ CompletableFuture<Boolean> validateMyCredentials(final String strategy,
 
 A boolean indicating if the credentials are valid.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/validate-my-credentials.java

@@ -24,10 +24,6 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> getMyCredentials()
 
 Returns a ConcurrentHashMap representing the credentials for the provided authentication strategy.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/get-my-credentials.java

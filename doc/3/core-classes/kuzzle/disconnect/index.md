@@ -13,7 +13,7 @@ Disconnects the SDK from the Kuzzle server using the underlying protocol `Discon
 
 ## Arguments
 
-```csharp
+```java
 public void disconnect()
 ```
 

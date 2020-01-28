@@ -20,10 +20,6 @@ public CompletableFuture<Response> logout()
 
 A [Response](/sdk/java/3/core-classes/response) object.
 
-## Throws
-
-A `NotConnectedException`, `InternalException` if there is an error.
-
 ## Usage
 
 <<< ./snippets/logout.java

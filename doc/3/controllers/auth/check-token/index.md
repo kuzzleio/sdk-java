@@ -30,11 +30,6 @@ A ConcurrentHashMap which has the following properties:
 | `state`      | <pre>String</pre> | Explain why the token is invalid |
 | `expires_at` | <pre>int</pre>  | Token expiration timestamp       |
 
-## Exceptions
-
-Throws a `NotConnectedException`, `InternalException` if there is an error.
-
-
 ## Usage
 
 <<< ./snippets/check-token.java
