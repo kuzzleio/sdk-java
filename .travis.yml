@@ -52,6 +52,45 @@ jobs:
           all_branches: true
       after_deploy:
         - npm run doc-cloudfront
+
+    - stage: Deployment Doc Dev
+      name: Deploy next-docs.kuzzle.io
+      if: type = push AND branch =~ /^[0-9]+-dev$/
+      language: node_js
+      node_js: 10
+      env:
+        - BRANCH=dev
+        - NODE_ENV=production
+        - S3_BUCKET=docs-next.kuzzle.io
+        - CLOUDFRONT_DISTRIBUTION_ID=E2ZCCEK9GRB49U
+        - AWS_DEFAULT_REGION=us-west-2
+
+      addons:
+        apt:
+          update: true
+          packages:
+            - python
+            - python-pip
+
+      install:
+        - pip install awscli --upgrade --user
+        - npm ci
+
+      script:
+        - npm run doc-prepare
+        - npm run doc-build
+
+      deploy:
+        provider: script
+        script:
+          - npm run doc-upload
+        skip_cleanup: true
+        on:
+          all_branches: true
+
+      after_deploy:
+        - npm run doc-cloudfront
+
     - stage: Deployment Doc Prod
       name: Deploy docs.kuzzle.io
       if: type = push AND branch =~ /^master|[0-9]+-stable$/
@@ -82,6 +121,7 @@ jobs:
           all_branches: true
       after_deploy:
         - npm run doc-cloudfront
+
     - stage: Builds
       name: Build SDK Java
       language: java
@@ -101,11 +141,13 @@ jobs:
         - gradle assemble
       script:
         - gradle build
+
 stages:
   - name: Unit Tests
     if: type =~ /(cron|push|pull_request)/ AND branch =~ /^master|[0-9]+-(dev|stable)$/
   - name: Builds
     if: type =~ /(cron|push|pull_request)/ AND branch =~ /^master|[0-9]+-(dev|stable)$/
+
 notifications:
   slack:
     rooms:
