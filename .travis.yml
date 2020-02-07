@@ -110,8 +110,8 @@ jobs:
       script:
         - ./gradlew build
 
-      - stage: Builds
-        name: Build SDK Java
+      - stage: Unit test
+        name: Unit tests SDK Java
         language: java
         jdk: openjdk8
         sudo: false
