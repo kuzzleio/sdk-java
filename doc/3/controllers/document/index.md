@@ -34,7 +34,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> create(
 
 ## Options
 
-| Option     | Type        | Description                                                                                                |            |             |
+| Option     | Type        | Description                                                                                                
 | ---------- | ----------- | ---------------------------------------------------------------------------------- |
 | `refresh`  | string      | If set to `wait_for`, Kuzzle will wait for the persistence layer to finish indexing|
 
@@ -46,7 +46,7 @@ A ConcurrentHashMap which has the following properties:
 
 | Property     | Type                         | Description                      |
 |------------- |----------------------------- |--------------------------------- |
-| `_source`    | <pre>ConcurrentHashMap</pre> | Created document      |
+| `_source`    | <pre>ConcurrentHashMap</pre> | Created document                 |
 | `_id`        | <pre>String</pre>            | ID of the newly created document                       |
 | `_version`   | <pre>Integer</pre>           | Version of the document in the persistent data storage |
 
