@@ -106,11 +106,9 @@ jobs:
           - "$HOME/.gradle/wrapper/"
       install:
         - cd $TRAVIS_BUILD_DIR/
-        - gradle assemble
-        - cd $TRAVIS_BUILD_DIR/
-        - gradle assemble
+        - ./gradlew assemble
       script:
-        - gradle build
+        - ./gradlew build
 
     - stage: Unit Tests
       name: Run unit tests
@@ -126,9 +124,9 @@ jobs:
           - "$HOME/.gradle/wrapper/"
       install:
         - cd $TRAVIS_BUILD_DIR/
-        - gradle assemble
+        - ./gradlew assemble
       script:
-        - gradle test
+        - ./gradlew test
 
 stages:
   - name: Unit Tests
