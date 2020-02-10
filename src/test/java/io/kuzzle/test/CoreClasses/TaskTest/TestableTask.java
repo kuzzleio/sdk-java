@@ -16,16 +16,7 @@ public class TestableTask<T> extends Task<T> {
     super();
   }
 
-  public void applyMockFuture() {
+  public void applyMocks() {
     super.future = mockedFuture;
   }
-
-  public CountDownLatch getCountDownLatch() {
-    return super.countDownLatch;
-  }
-
-  public AtomicReference<T> getAtomicReference() {
-    return super.atomicReference;
-  }
-
 }

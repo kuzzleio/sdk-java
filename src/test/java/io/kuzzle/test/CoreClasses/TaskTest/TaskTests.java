@@ -5,9 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -16,10 +14,6 @@ public class TaskTests {
   @Test
   public void constructorTest() {
     TestableTask<Object> task = new TestableTask<>();
-    Assert.assertNotNull(task.getAtomicReference());
-    Assert.assertEquals(AtomicReference.class, task.getAtomicReference().getClass());
-    Assert.assertNotNull(task.getCountDownLatch());
-    Assert.assertEquals(CountDownLatch.class, task.getCountDownLatch().getClass());
     Assert.assertNotNull(task.getFuture());
   }
 
@@ -33,7 +27,7 @@ public class TaskTests {
   @Test
   public void setExceptionTest() {
     TestableTask<Object> task = new TestableTask<>();
-    task.applyMockFuture();
+    task.applyMocks();
 
     task.setException(new Exception("foobar"));
 
@@ -43,7 +37,7 @@ public class TaskTests {
   @Test
   public void isCancelledTest() {
     TestableTask<Object> task = new TestableTask<>();
-    task.applyMockFuture();
+    task.applyMocks();
 
     when(task.mockedFuture.isCancelled()).thenReturn(true);
 
@@ -55,7 +49,7 @@ public class TaskTests {
   @Test
   public void isDoneTest() {
     TestableTask<Object> task = new TestableTask<>();
-    task.applyMockFuture();
+    task.applyMocks();
 
     when(task.mockedFuture.isDone()).thenReturn(true);
 
@@ -67,7 +61,7 @@ public class TaskTests {
   @Test
   public void isCompletedExceptionallyTest() {
     TestableTask<Object> task = new TestableTask<>();
-    task.applyMockFuture();
+    task.applyMocks();
 
     when(task.mockedFuture.isCompletedExceptionally()).thenReturn(true);
 
@@ -79,7 +73,7 @@ public class TaskTests {
   @Test
   public void setCancelledTest() {
     TestableTask<Object> task = new TestableTask<>();
-    task.applyMockFuture();
+    task.applyMocks();
 
     task.setCancelled(true);
 
@@ -92,16 +86,13 @@ public class TaskTests {
 
     final AtomicBoolean success = new AtomicBoolean(false);
 
-    CompletableFuture taskChain = task.getFuture().thenRun(() -> {
-      success.set(true);
-    });
+    CompletableFuture taskChain = task.getFuture().thenRun(() -> success.set(true));
 
     task.trigger();
 
     taskChain.join();
 
     Assert.assertTrue(success.get());
-
   }
 
   @Test
@@ -110,9 +101,7 @@ public class TaskTests {
 
     final AtomicBoolean success = new AtomicBoolean(false);
 
-    CompletableFuture taskChain = task.getFuture().thenAccept((str) -> {
-      success.set(str.equals("foobar"));
-    });
+    CompletableFuture taskChain = task.getFuture().thenAccept((str) -> success.set(str.equals("foobar")));
 
     task.trigger("foobar");
 
