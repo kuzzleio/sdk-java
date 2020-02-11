@@ -137,7 +137,7 @@ public class AuthControllerTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "auth");
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "login");
     assertEquals(((KuzzleMap) arg.getValue()).getString("strategy"), "local");
-    assertEquals(((KuzzleMap) arg.getValue()).getString("expiresIn"), "1h");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("expiresIn"), null);
     assertEquals("foo", ((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("username"));
     assertEquals("foobar", ((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("password"));
   }
@@ -199,7 +199,7 @@ public class AuthControllerTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "auth");
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "login");
     assertEquals(((KuzzleMap) arg.getValue()).getString("strategy"), "local");
-    assertEquals(((KuzzleMap) arg.getValue()).getString("expiresIn"), "1h");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("expiresIn"), null);
     assertEquals("foo", ((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("username"));
     assertEquals("foobar", ((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("password"));
   }

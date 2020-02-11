@@ -167,7 +167,7 @@ public class AuthController extends BaseController {
         .put("action", "login")
         .put("strategy", strategy)
         .put("body", credentials)
-        .put("expiresIn", (expiresIn == null ? "1h" : expiresIn));
+        .put("expiresIn", expiresIn);
 
     return kuzzle.query(query).thenApplyAsync((response) -> {
       final KuzzleMap map = KuzzleMap
