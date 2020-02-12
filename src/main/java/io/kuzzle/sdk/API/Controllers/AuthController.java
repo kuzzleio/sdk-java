@@ -19,9 +19,8 @@ public class AuthController extends BaseController {
 
   /**
    * Checks the validity of an authentication token.
-   * 
-   * @param token
-   *                An authentication token
+   *
+   * @param token An authentication token
    * @return a CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
@@ -43,12 +42,10 @@ public class AuthController extends BaseController {
 
   /**
    * Creates new credentials for the current user.
-   * 
-   * @param strategy
-   *                      A String representing the strategy
-   * @param credentials
-   *                      A ConcurrentHashMap<String, Object> representing
-   *                      credentials information
+   *
+   * @param strategy    A String representing the strategy
+   * @param credentials A ConcurrentHashMap<String, Object> representing
+   *                    credentials information
    * @return A CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
@@ -75,9 +72,8 @@ public class AuthController extends BaseController {
   /**
    * Checks that the current authenticated user has credentials for the
    * specified authentication strategy.
-   * 
-   * @param strategy
-   *                   A String representing the strategy
+   *
+   * @param strategy A String representing the strategy
    * @return A CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
@@ -152,7 +148,8 @@ public class AuthController extends BaseController {
       throws NotConnectedException, InternalException {
     final KuzzleMap query = new KuzzleMap();
 
-    query.put("controller", "auth").put("action", "getStrategies");
+    query.put("controller", "auth")
+        .put("action", "getStrategies");
 
     return kuzzle
         .query(query)
@@ -170,13 +167,13 @@ public class AuthController extends BaseController {
         .put("action", "login")
         .put("strategy", strategy)
         .put("body", credentials)
-        .put("expiresIn", (expiresIn == null ? "1h" : expiresIn));
+        .put("expiresIn", expiresIn);
 
     return kuzzle.query(query).thenApplyAsync((response) -> {
       final KuzzleMap map = KuzzleMap
           .from((ConcurrentHashMap<String, Object>) response.result);
       kuzzle.setAuthenticationToken(map.getString("jwt"));
-      if (!map.isNull("_id")) {
+      if (map.getString("_id") != null) {
         kuzzle.trigger(Event.loginAttempt, true);
       } else {
         kuzzle.trigger(Event.loginAttempt, false);
@@ -259,7 +256,7 @@ public class AuthController extends BaseController {
   }
 
   public CompletableFuture<Boolean> validateMyCredentials(final String strategy,
-      final ConcurrentHashMap<String, Object> credentials)
+                                                          final ConcurrentHashMap<String, Object> credentials)
       throws NotConnectedException, InternalException {
     final KuzzleMap query = new KuzzleMap();
 

@@ -23,7 +23,6 @@ import static org.mockito.Mockito.mock;
 import java.net.URISyntaxException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class KuzzleTests {
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
@@ -123,5 +122,4 @@ public class KuzzleTests {
 
     Mockito.verify(listener, Mockito.times(1)).trigger(Matchers.any(Response.class));
   }
-
 }

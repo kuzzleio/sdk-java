@@ -57,9 +57,8 @@ public class Kuzzle extends EventManager {
 
   /**
    * Initialize a new instance of Kuzzle
-   * 
-   * @param networkProtocol
-   *                          The network protocol
+   *
+   * @param networkProtocol The network protocol
    * @throws IllegalArgumentException
    */
   public Kuzzle(final AbstractProtocol networkProtocol)
@@ -73,15 +72,13 @@ public class Kuzzle extends EventManager {
 
   /**
    * Initialize a new instance of Kuzzle
-   * 
-   * @param networkProtocol
-   *                          The network protocol
-   * @param options
-   *                          Kuzzle options
+   *
+   * @param networkProtocol The network protocol
+   * @param options         Kuzzle options
    * @throws IllegalArgumentException
    */
   public Kuzzle(final AbstractProtocol networkProtocol,
-      final KuzzleOptions options) throws IllegalArgumentException {
+                final KuzzleOptions options) throws IllegalArgumentException {
     if (networkProtocol == null) {
       throw new IllegalArgumentException("networkProtocol can't be null");
     }
@@ -108,7 +105,7 @@ public class Kuzzle extends EventManager {
 
   /**
    * Establish a network connection
-   * 
+   *
    * @throws Exception
    */
   public void connect() throws Exception {
@@ -124,9 +121,8 @@ public class Kuzzle extends EventManager {
 
   /**
    * Handles the ResponseReceivedEvent from the network protocol
-   * 
-   * @param payload
-   *                  Raw API Response
+   *
+   * @param payload Raw API Response
    */
   protected void onResponseReceived(final Object... payload) {
 
@@ -178,9 +174,8 @@ public class Kuzzle extends EventManager {
 
   /**
    * Sends an API request to Kuzzle and returns the corresponding API
-   * 
-   * @param query
-   *                Kuzzle API query
+   *
+   * @param query Kuzzle API query
    * @return A CompletableFuture
    * @throws InternalException
    * @throws NotConnectedException
@@ -242,9 +237,8 @@ public class Kuzzle extends EventManager {
 
   /**
    * Set the authentication token
-   * 
-   * @param token
-   *                Authentication token
+   *
+   * @param token Authentication token
    */
   public void setAuthenticationToken(final String token) {
     if (authenticationToken == null) {
