@@ -205,7 +205,7 @@ public class AuthController extends BaseController {
     query
         .put("controller", "auth")
         .put("action", "refreshToken")
-        .put("expiresIn", (expiresIn == null ? "1h" : expiresIn));
+        .put("expiresIn", expiresIn);
 
     return kuzzle.query(query).thenApplyAsync((response) -> {
       final KuzzleMap map = KuzzleMap

@@ -225,7 +225,7 @@ public class AuthControllerTest {
 
     assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "auth");
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "refreshToken");
-    assertEquals(((KuzzleMap) arg.getValue()).getString("expiresIn"), "1h");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("expiresIn"), null);
   }
 
   @Test
