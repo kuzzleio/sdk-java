@@ -42,7 +42,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> create(
 
 ## Return
 
-A ConcurrentHashMap which has the following properties:
+A `ConcurrentHashMap` which has the following properties:
 
 | Property     | Type                         | Description                      |
 |------------- |----------------------------- |--------------------------------- |
