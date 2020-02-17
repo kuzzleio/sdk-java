@@ -2,7 +2,7 @@
 code: true
 type: page
 title: create
-description: document:create
+description: Creates a new document
 ---
 
 # create
@@ -35,7 +35,7 @@ throws NotConnectedException, InternalException
 
 ## Return
 
-A ConcurrentHashMap which has the following properties:
+A `ConcurrentHashMap` which has the following properties:
 
 | Property     | Type                         | Description                      |
 |------------- |----------------------------- |--------------------------------- |
