@@ -18,8 +18,9 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> create(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> document,
-      final String _id,
-      final ConcurrentHashMap<String, Object> options) throws NotConnectedException, InternalException
+      final String _id, // optional
+      final Boolean waitForRefresh) // optional
+throws NotConnectedException, InternalException
 ```
 
 | Arguments          | Type                                         | Description                       |
@@ -27,16 +28,8 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> create(
 | `index`            | <pre>string</pre>                            | Index                             |
 | `collection`       | <pre>string</pre>                            | Collection                        |
 | `content`          | <pre>ConcurrentHashMap<String, Object></pre> | Content of the document to create |
-| `id`               | <pre>string</pre>                            | Document identifier               |
-| `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
-
----
-
-## Options
-
-| Option     | Type        | Description                                                                                                
-| ---------- | ----------- | ---------------------------------------------------------------------------------- |
-| `refresh`  | string      | If set to `wait_for`, Kuzzle will wait for the persistence layer to finish indexing|
+| `id`               | <pre>string</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
+| `waitForRefresh`   | <pre>boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ---
 

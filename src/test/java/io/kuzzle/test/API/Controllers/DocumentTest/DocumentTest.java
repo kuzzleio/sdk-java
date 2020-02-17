@@ -28,18 +28,14 @@ public class DocumentTest {
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
     String collection = "yellow-taxi";
-    String _id = "some_id";
 
     ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
     document.put("name", "Yoann");
     document.put("nickname", "El angel de la muerte que hace el JAVA");
 
-    ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    options.put("refresh", "wait_for");
-
     ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().create(index, collection, document, _id, options);
+    kuzzleMock.getDocumentController().create(index, collection, document, true);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
 
     assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
@@ -57,15 +53,11 @@ public class DocumentTest {
     Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
     String index = "nyc-open-data";
     String collection = "yellow-taxi";
-    String _id = "some_id";
 
     ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
     document.put("name", "Yoann");
     document.put("nickname", "El angel de la muerte que hace el JAVA");
 
-    ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    options.put("refresh", "wait_for");
-
-    kuzzleMock.getDocumentController().create(index, collection, document, _id, options);
+    kuzzleMock.getDocumentController().create(index, collection, document);
   }
 }
