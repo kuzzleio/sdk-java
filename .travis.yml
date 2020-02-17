@@ -108,7 +108,7 @@ jobs:
         - cd $TRAVIS_BUILD_DIR/
         - ./gradlew assemble
       script:
-        - gradle build
+        - ./gradlew build
 
     - stage: Unit tests
       name: Unit tests SDK Java

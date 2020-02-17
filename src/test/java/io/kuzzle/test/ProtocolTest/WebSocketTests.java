@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 import static org.mockito.Mockito.*;
 
 public class WebSocketTests {
-
   private TestableWebSocket socket;
   private String host;
   private WebSocketOptions options;

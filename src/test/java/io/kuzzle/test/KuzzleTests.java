@@ -122,5 +122,4 @@ public class KuzzleTests {
 
     Mockito.verify(listener, Mockito.times(1)).trigger(Matchers.any(Response.class));
   }
-
 }
