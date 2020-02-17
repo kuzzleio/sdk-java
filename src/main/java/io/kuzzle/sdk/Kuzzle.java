@@ -1,5 +1,6 @@
 package io.kuzzle.sdk;
 
+import io.kuzzle.sdk.API.Controllers.IndexController;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.API.Controllers.AuthController;
@@ -66,8 +67,18 @@ public class Kuzzle extends EventManager {
     this(networkProtocol, new KuzzleOptions());
   }
 
+  /**
+   * @return The AuthController
+   */
   public AuthController getAuthController() {
     return new AuthController(this);
+  }
+
+  /**
+   * @return The IndexController
+   */
+  public IndexController getIndexController() {
+    return new IndexController(this);
   }
 
   /**
@@ -184,7 +195,7 @@ public class Kuzzle extends EventManager {
       final ConcurrentHashMap<String, Object> query)
       throws InternalException, NotConnectedException {
     if (query == null) {
-      throw new InternalException(KuzzleExceptionCode.MSSING_QUERY);
+      throw new InternalException(KuzzleExceptionCode.MISSING_QUERY);
     }
 
     if (networkProtocol.getState() == ProtocolState.CLOSE) {
