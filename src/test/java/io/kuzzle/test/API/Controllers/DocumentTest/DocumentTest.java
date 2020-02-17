@@ -35,7 +35,7 @@ public class DocumentTest {
 
     ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().create(index, collection, document, true);
+    kuzzleMock.getDocumentController().create(index, collection, document);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
 
     assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
