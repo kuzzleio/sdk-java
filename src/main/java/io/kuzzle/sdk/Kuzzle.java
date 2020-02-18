@@ -150,7 +150,7 @@ public class Kuzzle extends EventManager {
       return;
     }
 
-    if (!requests.containsKey(response.room)) {
+    if (requests != null && (response.room == null || !requests.containsKey(response.room))) {
       super.trigger(Event.unhandledResponse, response);
       return;
     }
