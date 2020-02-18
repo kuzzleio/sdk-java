@@ -24,8 +24,7 @@ public class DocumentController extends BaseController {
    * @param index
    * @param collection
    * @param document
-   * @param _id
-   * @param waitForRefresh
+   * @param options
    * @return a CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
@@ -34,18 +33,22 @@ public class DocumentController extends BaseController {
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> document,
-      final String _id,
-      final Boolean waitForRefresh) throws NotConnectedException, InternalException {
+      final ConcurrentHashMap<String, Object> options) throws NotConnectedException, InternalException {
+
     final KuzzleMap query = new KuzzleMap();
+    final KuzzleMap _options = KuzzleMap
+        .from(options);
+    final String _id = _options.getString("_id") == null ? UUID.randomUUID().toString() : _options.getString("_id");
+    final Boolean _waitForRefresh = _options.getBoolean("waitForRefresh");
 
     query
         .put("index", index)
         .put("collection", collection)
         .put("controller", "document")
         .put("action", "create")
-        .put("_id", _id)
         .put("body", document)
-        .put("waitForRefresh", waitForRefresh);
+        .put("_id", _id)
+        .put("waitForRefresh", _waitForRefresh);
 
     return kuzzle
         .query(query)
@@ -59,52 +62,19 @@ public class DocumentController extends BaseController {
    * @param index
    * @param collection
    * @param document
-   * @param waitForRefresh
    * @return a CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
    */
   public CompletableFuture<ConcurrentHashMap<String, Object>> create(
-          final String index,
-          final String collection,
-          final ConcurrentHashMap<String, Object> document,
-          final Boolean waitForRefresh) throws NotConnectedException, InternalException {
-    return this.create(index, collection, document, UUID.randomUUID().toString(), waitForRefresh);
-  }
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
 
-  /**
-   * Creates a document in a given collection and index.
-   *
-   * @param index
-   * @param collection
-   * @param document
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
-          final String index,
-          final String collection,
-          final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
-    return this.create(index, collection, document, UUID.randomUUID().toString(), false);
-  }
-  /**
-   * Creates a document in a given collection and index.
-   *
-   * @param index
-   * @param collection
-   * @param document
-   * @param _id
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
-          final String index,
-          final String collection,
-          final ConcurrentHashMap<String, Object> document,
-          final String _id) throws NotConnectedException, InternalException {
-    return this.create(index, collection, document, _id, false);
+    final ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
+    options.put("_id", UUID.randomUUID().toString());
+    options.put("waitForRefresh", false);
+    return this.create(index, collection, document, options);
   }
 
 }
