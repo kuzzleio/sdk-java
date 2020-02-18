@@ -40,7 +40,7 @@ public class RealtimeControllerTest {
   }
 
   @Test
-  public void notificationHandlerTest() throws NotConnectedException, InternalException {
+  public void notificationHandlerTest() throws NotConnectedException, InternalException, InterruptedException {
     Kuzzle kuzzleSpy = spy(new Kuzzle(networkProtocol));
     NotificationHandler notificationHandler = mock(NotificationHandler.class);
     Response response = new Response();
@@ -55,6 +55,7 @@ public class RealtimeControllerTest {
 
     kuzzleSpy.getRealtimeController().subscribe("index", "collection", new ConcurrentHashMap<>(), notificationHandler, new SubscribeOptions());
     queryResponse.complete(response);
+    Thread.sleep(1000);
     kuzzleSpy.trigger(Event.unhandledResponse, response);
     verify(notificationHandler).run(any(Response.class));
   }
