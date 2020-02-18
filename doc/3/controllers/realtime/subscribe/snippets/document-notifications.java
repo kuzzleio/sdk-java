@@ -4,6 +4,9 @@ options.setSubscribeToSelf(true);
 ConcurrentHashMap<String, Object> filters = new ConcurrentHashMap<>();
 filters.put("exists", "name");
 
+ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+document.put("name", "nina-vkote");
+
 kuzzle.getRealtimeController().subscribe(
 "nyc-open-data",
 "yellow-taxi",
@@ -21,5 +24,6 @@ query.put("controller", "document");
 query.put("action", "create");
 query.put("index", "nyc-open-data");
 query.put("collection", "yellow-taxi");
+query.put("_id", "nina-vkote");
 query.put("body", new ConcurrentHashMap<String, Object>());
 kuzzle.query(query).get();
