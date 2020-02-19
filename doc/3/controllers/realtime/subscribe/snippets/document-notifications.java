@@ -25,5 +25,5 @@ query.put("action", "create");
 query.put("index", "nyc-open-data");
 query.put("collection", "yellow-taxi");
 query.put("_id", "nina-vkote");
-query.put("body", new ConcurrentHashMap<String, Object>());
+query.put("body", document);
 kuzzle.query(query).get();
