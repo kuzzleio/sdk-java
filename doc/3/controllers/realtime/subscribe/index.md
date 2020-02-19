@@ -1,7 +1,7 @@
 ---
 code: true
 type: page
-title: Subscribe
+title: subscribe
 description: Subscribes to real-time notifications.
 ---
 
@@ -29,7 +29,7 @@ public CompletableFuture<String> subscribe(
 | `handler`   | <pre>NotificationHandler</pre>          | Handler function to handle notifications                                                                      |
 | `options`    | <pre>SubscribeOptions</pre><br>(`null`) | Subscription options                                                                                           |
 
-### handled
+### handler
 
 Handler function that will be called each time a new notification is received.
 The hanlder will receive a [Response](/sdk/java/3/essentials/realtime-notifications) as only argument.
