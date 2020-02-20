@@ -34,8 +34,6 @@ public class DocumentController extends BaseController {
     final KuzzleMap query = new KuzzleMap();
     final KuzzleMap _options = KuzzleMap
         .from(options);
-    final String _id = _options.getString("_id") == null ? UUID.randomUUID().toString() : _options.getString("_id");
-    final Boolean _waitForRefresh = _options.getBoolean("waitForRefresh");
 
     query
         .put("index", index)
@@ -43,8 +41,8 @@ public class DocumentController extends BaseController {
         .put("controller", "document")
         .put("action", "create")
         .put("body", document)
-        .put("_id", _id)
-        .put("waitForRefresh", _waitForRefresh);
+        .put("_id",  _options.getString("_id"))
+        .put("waitForRefresh", _options.getBoolean("waitForRefresh"));
 
     return kuzzle
         .query(query)
@@ -68,8 +66,6 @@ public class DocumentController extends BaseController {
       final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
 
     final ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    options.put("_id", UUID.randomUUID().toString());
-    options.put("waitForRefresh", false);
     return this.create(index, collection, document, options);
   }
 
