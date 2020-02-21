@@ -43,8 +43,7 @@ throws NotConnectedException, InternalException
 ### options
 
 | Arguments          | Type                                         | Description                       |
-| ------------------ | -------------------------------------------- | --------------------------------- |
-| `queuable`         | <pre>boolean</pre>                           | If true, queues the request during downtime, until connected to Kuzzle again              |
+| ------------------ | -------------------------------------------- | --------------------------------- |           |
 | `waitForRefresh`   | <pre>boolean</pre>                           | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 | `retryOnConflict`  | <pre>Number</pre>                            | The number of times the database layer should retry in case of version conflict
 | `source`           | <pre>boolean</pre>                           | If true, returns the updated document inside the response

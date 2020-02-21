@@ -45,7 +45,6 @@ public class DocumentController extends BaseController {
         .put("body", document)
         .put("_id",  id)
         .put("waitForRefresh", _options.getBoolean("waitForRefresh"))
-        .put("queuable", _options.getBoolean("queuable"))
         .put("retryOnConflict", _options.getNumber("retryOnConflict") != null ? _options.getNumber("retryOnConflict") : 0)
         .put("source", _options.getBoolean("source"));
 
