@@ -20,7 +20,7 @@ public class DocumentController extends BaseController {
    * @param index
    * @param collection
    * @param id
-   * @param options
+   * @param waitForRefresh
    * @return a CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
@@ -29,11 +29,9 @@ public class DocumentController extends BaseController {
       final String index,
       final String collection,
       final String id,
-      final ConcurrentHashMap<String, Object> options) throws NotConnectedException, InternalException {
+      final Boolean waitForRefresh) throws NotConnectedException, InternalException {
 
     final KuzzleMap query = new KuzzleMap();
-    final KuzzleMap _options = KuzzleMap
-        .from(options);
 
     query
         .put("index", index)
@@ -41,8 +39,7 @@ public class DocumentController extends BaseController {
         .put("controller", "document")
         .put("action", "delete")
         .put("_id",  id)
-        .put("queuable", _options.getBoolean("queuable"))
-        .put("waitForRefresh", _options.getBoolean("waitForRefresh"));
+        .put("waitForRefresh", waitForRefresh);
 
     return kuzzle
         .query(query)
@@ -65,8 +62,6 @@ public class DocumentController extends BaseController {
       final String collection,
       final String id) throws NotConnectedException, InternalException {
 
-    final ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    return this.delete(index, collection, id, options);
+    return this.delete(index, collection, id, false);
   }
-
 }

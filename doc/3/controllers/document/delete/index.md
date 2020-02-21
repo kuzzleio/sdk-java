@@ -24,7 +24,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> delete(
       final String index,
       final String collection,
       final String id,
-      final ConcurrentHashMap<String, Object> options)
+      final Boolean waitForRefresh)
 throws NotConnectedException, InternalException
 ```
 
@@ -33,16 +33,9 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `id      `         | <pre>String</pre>                            | Document ID |
-| `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
+| `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ---
-
-### options
-
-| Arguments          | Type                                         | Description                       |
-| ------------------ | -------------------------------------------- | --------------------------------- |
-| `queuable`         | <pre>Boolean</pre> (optional)                | If true, queues the request during downtime, until connected to Kuzzle again   |
-| `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ## Return
 
