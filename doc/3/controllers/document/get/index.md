@@ -20,12 +20,6 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> get(
       final String id)
 throws NotConnectedException, InternalException
 
-public CompletableFuture<ConcurrentHashMap<String, Object>> get(
-      final String index,
-      final String collection,
-      final String id
-      final Boolean queuable)
-throws NotConnectedException, InternalException
 ```
  
 | Arguments          | Type                                         | Description                       |
@@ -33,7 +27,6 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `id        `       | <pre>String</pre>                            | Document ID                       |
-| `queuable`         | <pre>Boolean</pre> (optional)                | If true, queues the request during downtime, until connected to Kuzzle again |
 
 ---
 
