@@ -5,7 +5,7 @@ title: mCreate
 description: Creates multiple documents
 ---
 
-# create
+# mCreate
 
 Creates multiple documents in the provided index and collection.
 
@@ -44,7 +44,7 @@ Each document has the following properties:
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `_id`              | <pre>String</pre> (optional)                 | Optional document ID. Will be auto-generated if not defined.             |
-| `body`             | <pre>boolean</pre> (optional)                | Document body |
+| `body`             | <pre>Boolean</pre> (optional)                | Document body |
 
 ## Return
 
