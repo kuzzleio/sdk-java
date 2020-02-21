@@ -1,5 +1,6 @@
 package io.kuzzle.sdk;
 
+import io.kuzzle.sdk.API.Controllers.DocumentController;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.API.Controllers.AuthController;
@@ -70,6 +71,9 @@ public class Kuzzle extends EventManager {
     return new AuthController(this);
   }
 
+  public DocumentController getDocumentController() {
+    return new DocumentController(this);
+  }
   /**
    * Initialize a new instance of Kuzzle
    *
