@@ -26,7 +26,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> replace(
       final String collection,
       final String id,
       final ConcurrentHashMap<String, Object> document,
-      final ConcurrentHashMap<String, Object> options)
+      final Boolean waitForRefresh)
 throws NotConnectedException, InternalException
 ```
 
@@ -36,16 +36,9 @@ throws NotConnectedException, InternalException
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `id`               | <pre>String</pre>                            | Document ID                       |
 | `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Document content                  |
-| `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
+| `waitForRefresh`   | <pre>Boolean</pre>                           | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ---
-
-### options
-
-| Arguments          | Type                                         | Description                       |
-| ------------------ | -------------------------------------------- | --------------------------------- |
-| `queuable`         | <pre>Boolean</pre>                           | Document identifier. Auto-generated if not specified              |
-| `waitForRefresh`   | <pre>Boolean</pre>                           | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ## Return
 
