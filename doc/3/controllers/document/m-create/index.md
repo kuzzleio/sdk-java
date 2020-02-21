@@ -48,13 +48,22 @@ Each document has the following properties:
 
 ## Return
 
-A `ConcurrentHashMap` which has the following properties:
+A `ConcurrentHashMap` which has a `successes` and `errors` array:
+Each created document is an object of the `successes` array with the following properties:
 
 | Property     | Type                         | Description                      |
 |------------- |----------------------------- |--------------------------------- |
 | `_source`    | <pre>ConcurrentHashMap</pre> | Created document                 |
 | `_id`        | <pre>String</pre>            | ID of the newly created document                       |
 | `_version`   | <pre>Integer</pre>           | Version of the document in the persistent data storage |
+
+Each errored document is an object of the `errors` array with the following properties:
+
+| Property     | Type                         | Description                      |
+|------------- |----------------------------- |--------------------------------- |
+| `document`   | <pre>ConcurrentHashMap</pre> | Document that causes the error   |
+| `status`     | <pre>Integer</pre>           | HTTP error status                |
+| `reason`     | <pre>String</pre>            | Human readable reason |
 
 ## Usage
 

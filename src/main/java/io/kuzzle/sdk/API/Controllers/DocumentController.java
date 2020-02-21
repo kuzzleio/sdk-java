@@ -31,14 +31,14 @@ public class DocumentController extends BaseController {
       final ArrayList<ConcurrentHashMap<String, Object>> documents,
       final Boolean waitForRefresh) throws NotConnectedException, InternalException {
 
-    final KuzzleMap query = new KuzzleMap();
 
+    final KuzzleMap query = new KuzzleMap();
     query
         .put("index", index)
         .put("collection", collection)
         .put("controller", "document")
         .put("action", "mCreate")
-        .put("body", documents)
+        .put("body", new KuzzleMap().put("documents", documents))
         .put("waitForRefresh", waitForRefresh);
 
     return kuzzle
