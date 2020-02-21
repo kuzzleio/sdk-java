@@ -1,29 +1,29 @@
 ---
 code: true
 type: page
-title: create
-description: Creates a new document
+title: delete
+description: Deletes a new document
 ---
 
-# create
+# delete
 
-Creates a new document in the provided index and collection.
+Deletes a document in the provided index and collection.
 
 ---
 
 ## Arguments
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+public CompletableFuture<ConcurrentHashMap<String, Object>> delete(
       final String index,
       final String collection,
-      final ConcurrentHashMap<String, Object> document)
+      final String id)
 throws NotConnectedException, InternalException
 
-public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+public CompletableFuture<ConcurrentHashMap<String, Object>> delete(
       final String index,
       final String collection,
-      final ConcurrentHashMap<String, Object> document,
+      final String id,
       final ConcurrentHashMap<String, Object> options)
 throws NotConnectedException, InternalException
 ```
@@ -32,7 +32,7 @@ throws NotConnectedException, InternalException
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
-| `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Content of the document to create |
+| `id      `         | <pre>String</pre>                            | Document ID |
 | `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
 
 ---
@@ -41,19 +41,17 @@ throws NotConnectedException, InternalException
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
-| `id`               | <pre>String</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
-| `waitForRefresh`   | <pre>boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
+| `queuable`         | <pre>Boolean</pre> (optional)                | If true, queues the request during downtime, until connected to Kuzzle again   |
+| `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ## Return
 
-A `ConcurrentHashMap` which has the following properties:
+A `ConcurrentHashMap` which has the following property:
 
 | Property     | Type                         | Description                      |
 |------------- |----------------------------- |--------------------------------- |
-| `_source`    | <pre>ConcurrentHashMap</pre> | Created document                 |
-| `_id`        | <pre>String</pre>            | ID of the newly created document                       |
-| `_version`   | <pre>Integer</pre>           | Version of the document in the persistent data storage |
+| `_id`        | <pre>String</pre>            | ID of the deleted document                       |
 
 ## Usage
 
-<<< ./snippets/create.java
+<<< ./snippets/delete.java
