@@ -15,61 +15,6 @@ public class DocumentController extends BaseController {
   }
 
   /**
-   * Creates a document in a given collection and index.
-   *
-   * @param index
-   * @param collection
-   * @param document
-   * @param options
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
-      final String index,
-      final String collection,
-      final ConcurrentHashMap<String, Object> document,
-      final ConcurrentHashMap<String, Object> options) throws NotConnectedException, InternalException {
-
-    final KuzzleMap query = new KuzzleMap();
-    final KuzzleMap _options = KuzzleMap
-        .from(options);
-
-    query
-        .put("index", index)
-        .put("collection", collection)
-        .put("controller", "document")
-        .put("action", "create")
-        .put("body", document)
-        .put("_id",  _options.getString("_id"))
-        .put("waitForRefresh", _options.getBoolean("waitForRefresh"));
-
-    return kuzzle
-        .query(query)
-        .thenApplyAsync(
-            (response) -> (ConcurrentHashMap<String, Object>) response.result);
-  }
-
-  /**
-   * Creates a document in a given collection and index.
-   *
-   * @param index
-   * @param collection
-   * @param document
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
-      final String index,
-      final String collection,
-      final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
-
-    final ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    return this.create(index, collection, document, options);
-  }
-
-  /**
    * Updates a document in a given collection and index.
    *
    * @param index

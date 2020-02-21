@@ -7,4 +7,4 @@ hooks:
     curl -XPUT kuzzle:7512/nyc-open-data/yellow-taxi
   after:
 template: default
-expected: "id: 'some-id'"
+expected: "id: 'some-id'" 

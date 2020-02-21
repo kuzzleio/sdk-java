@@ -12,7 +12,7 @@ Updates a document.
 ---
 
 ## Arguments
-
+ 
 ```java
 public CompletableFuture<ConcurrentHashMap<String, Object>> update(
       final String index,
