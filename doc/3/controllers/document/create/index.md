@@ -30,17 +30,18 @@ throws NotConnectedException, InternalException
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
-| `index`            | <pre>string</pre>                            | Index                             |
-| `collection`       | <pre>string</pre>                            | Collection                        |
-| `content`          | <pre>ConcurrentHashMap<String, Object></pre> | Content of the document to create |
+| `index`            | <pre>String</pre>                            | Index                             |
+| `collection`       | <pre>String</pre>                            | Collection                        |
+| `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Content of the document to create |
+| `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
 
 ---
 
-# options
+### options
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
-| `id`               | <pre>string</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
+| `id`               | <pre>String</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
 | `waitForRefresh`   | <pre>boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ## Return
