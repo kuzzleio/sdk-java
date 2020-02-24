@@ -1,11 +1,11 @@
 ---
 code: true
 type: page
-title: Delete
+title: delete
 description: Deletes an index.
 ---
 
-# Delete
+# delete
 
 Deletes an entire index from Kuzzle.
 

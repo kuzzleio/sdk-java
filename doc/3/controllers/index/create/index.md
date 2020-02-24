@@ -1,11 +1,11 @@
 ---
 code: true
 type: page
-title: Create
+title: create
 description: Creates an index.
 ---
 
-# Create
+# create
 
 Creates a new index in Kuzzle
 

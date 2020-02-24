@@ -1,11 +1,11 @@
 ---
 code: true
 type: page
-title: List
-description: List the indexes.
+title: list
+description: Lists the indexes.
 ---
 
-# List
+# list
 
 Gets the complete list of indexes handled by Kuzzle.
 

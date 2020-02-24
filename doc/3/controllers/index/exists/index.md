@@ -1,11 +1,11 @@
 ---
 code: true
 type: page
-title: Exists
+title: exists
 description: Check for index existence.
 ---
 
-# Exists
+# exists
 
 Checks if the given index exists in Kuzzle.
 

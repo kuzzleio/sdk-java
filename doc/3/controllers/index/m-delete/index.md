@@ -1,11 +1,11 @@
 ---
 code: true
 type: page
-title: MDelete
+title: mDelete
 description: Deletes multiple indexes.
 ---
 
-# MDelete
+# mDelete
 
 Deletes multiple indexes.
 
