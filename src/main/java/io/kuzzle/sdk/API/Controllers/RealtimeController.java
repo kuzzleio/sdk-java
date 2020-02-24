@@ -56,8 +56,13 @@ public class RealtimeController extends BaseController {
 
   public CompletableFuture<String> subscribe(final String index, final String collection, final ConcurrentHashMap<String, Object> filters, final NotificationHandler handler, final SubscribeOptions options) throws NotConnectedException, InternalException {
     ConcurrentHashMap<String, Object> queryOptions = new ConcurrentHashMap<>();
-    if (options != null) {
-      queryOptions = options.toHashMap();
+    boolean subscribeToSelf = true;
+
+    synchronized (RealtimeController.class) {
+      if (options != null) {
+        subscribeToSelf = options.isSubscribeToSelf();
+        queryOptions = options.toHashMap();
+      }
     }
 
     KuzzleMap query = new KuzzleMap(queryOptions)
@@ -67,13 +72,14 @@ public class RealtimeController extends BaseController {
         .put("collection", collection)
         .put("body", filters);
 
+    boolean finalSubscribeToSelf = subscribeToSelf;
     return kuzzle
         .query(query)
         .thenApplyAsync(
             (response) -> {
               String channel = ((ConcurrentHashMap<String, Object>) response.result).get("channel").toString();
               Subscription subscription = new Subscription(
-                  options == null ? new SubscribeOptions().isSubscribeToSelf() : options.isSubscribeToSelf(),
+                  options == null ? new SubscribeOptions().isSubscribeToSelf() : finalSubscribeToSelf,
                   handler
               );
 
