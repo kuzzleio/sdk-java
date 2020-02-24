@@ -18,7 +18,7 @@ The `Result` ConcurrentHashMap is the notification content, and it has the follo
 
 | Property  | Type              | Description                                                                             |
 | --------- | ----------------- | --------------------------------------------------------------------------------------- |
-| `_id`     | <pre>String</pre> | Document unique ID<br/null` if the notification is from a real-time message             |
+| `_id`     | <pre>String</pre> | Document unique ID<br/>`null` if the notification is from a real-time message             |
 | `_source` | <pre>ConcurrentHashMap<String, Object></pre> | Message or full document content. Not present if the event is about a document deletion |
 
 ## User

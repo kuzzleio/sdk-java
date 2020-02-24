@@ -1,7 +1,7 @@
 ---
 code: true
 type: branch
-title: realtime
+title: Realtime
 description: Realtime Controller
 ---
 

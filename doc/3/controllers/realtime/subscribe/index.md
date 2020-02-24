@@ -1,7 +1,7 @@
 ---
 code: true
 type: page
-title: Subscribe
+title: subscribe
 description: Subscribes to real-time notifications.
 ---
 
@@ -25,14 +25,14 @@ public CompletableFuture<String> subscribe(
 |--------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | `index`      | <pre>String/pre>                       | Index name                                                                                                     |
 | `collection` | <pre>String</pre>                       | Collection name                                                                                                |
-| `filters`    | <pre>ConcurrentHashMap<String, Object></pre>                      | ConcurrentHashMAp representing a set of filters following [Koncorde syntax](/core/2/guides/cookbooks/realtime-api/terms) |
+| `filters`    | <pre>ConcurrentHashMap<String, Object></pre>                      | ConcurrentHashMap representing a set of filters following [Koncorde syntax](/core/2/guides/cookbooks/realtime-api/terms) |
 | `handler`   | <pre>NotificationHandler</pre>          | Handler function to handle notifications                                                                      |
 | `options`    | <pre>SubscribeOptions</pre><br>(`null`) | Subscription options                                                                                           |
 
-### handled
+### handler
 
 Handler function that will be called each time a new notification is received.
-The hanlder will receive a [Response](/sdk/java/3/essentials/realtime-notifications) as only argument.
+The hanlder will receive a [Response](/sdk/java/3/essentials/realtime-notifications) as its only argument.
 
 ### options
 
