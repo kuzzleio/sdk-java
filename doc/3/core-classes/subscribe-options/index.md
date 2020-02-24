@@ -22,7 +22,7 @@ import io.kuzzle.sdk.Options.SubscribeOptions;
 
 | Property | Type<br/>(default) | Description      | writable |
 |----------|--------------------|------------------| ------- |
-| `Scope`           | <pre>Scope</pre><br/>(`all`)   | Subscribes to document entering or leaving the scope<br/>Possible values: `ALL`, `IN`, `OUT`, `NONE`| yes |
-| `Users`           | <pre>Users</pre><br/>(`none`)  | Subscribes to users entering or leaving the room<br/>Possible values: `ALL`, `IN`, `OUT`, `NONE`| yes |
+| `Scope`           | <pre>Scope</pre><br/>(`ALL`)   | Subscribes to document entering or leaving the scope<br/>Possible values: `ALL`, `IN`, `OUT`, `NONE`| yes |
+| `Users`           | <pre>Users</pre><br/>(`NONE`)  | Subscribes to users entering or leaving the room<br/>Possible values: `ALL`, `IN`, `OUT`, `NONE`| yes |
 | `SubscribeToSelf` | <pre>boolean</pre><br/>(`true`)    | Subscribes to notifications fired by our own queries | yes |
 | `Volatile`        | <pre>ConcurrentHashMap<String, Object></pre><br/>(`null`) | ConcurrentHashMap representing subscription information, used in [user join/leave notifications](/core/2/api/essentials/volatile-data)  |yes |
