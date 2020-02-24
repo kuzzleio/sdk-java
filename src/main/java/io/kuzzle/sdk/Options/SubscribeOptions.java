@@ -40,6 +40,23 @@ public class SubscribeOptions {
   private boolean subscribeToSelf = true;
   private ConcurrentHashMap<String, Object> volatiles = new ConcurrentHashMap<>();
 
+  /**
+   * Constructor
+   */
+  public SubscribeOptions() {}
+
+  /**
+   * Copy constructor
+   *
+   * @param options
+   */
+  public SubscribeOptions(SubscribeOptions options) {
+    this.scope = options.getScope();
+    this.users = options.getUsers();
+    this.subscribeToSelf = options.isSubscribeToSelf();
+    this.volatiles = options.getVolatiles();
+  }
+
   public Scope getScope() {
     return scope;
   }
