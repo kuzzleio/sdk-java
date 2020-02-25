@@ -31,7 +31,6 @@ jobs:
       script:
         - docker-compose -f .ci/doc/docker-compose.yml run doc-tests index
 
-
     - stage: Deployment Doc Dev
       name: Deploy next-docs.kuzzle.io
       if: type = push AND branch =~ /^[0-9]+-dev$/
