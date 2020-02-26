@@ -44,9 +44,9 @@ public class DocumentController extends BaseController {
         .put("action", "update")
         .put("body", document)
         .put("_id",  id)
-        .put("waitForRefresh", _options.getBoolean("waitForRefresh"))
-        .put("retryOnConflict", _options.getNumber("retryOnConflict") != null ? _options.getNumber("retryOnConflict") : 0)
-        .put("source", _options.getBoolean("source"));
+        .put("waitForRefresh", _options != null ? _options.getBoolean("waitForRefresh") : null)
+        .put("retryOnConflict", _options != null ? _options.getNumber("retryOnConflict") : 0)
+        .put("source", _options != null ? _options.getBoolean("source") : null);
 
     return kuzzle
         .query(query)
@@ -71,7 +71,6 @@ public class DocumentController extends BaseController {
       final String id,
       final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
 
-    final ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    return this.update(index, collection, id, document, options);
+    return this.update(index, collection, id, document, null);
   }
 }
