@@ -1,6 +1,5 @@
 import io.kuzzle.sdk.Kuzzle;
 import java.util.ArrayList;
-import java.lang.reflect.Array;
 import io.kuzzle.sdk.Protocol.WebSocket;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Options.KuzzleOptions;
