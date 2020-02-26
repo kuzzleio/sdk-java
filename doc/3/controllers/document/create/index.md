@@ -42,7 +42,7 @@ throws NotConnectedException, InternalException
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `id`               | <pre>String</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
-| `waitForRefresh`   | <pre>boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
+| `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ## Return
 
