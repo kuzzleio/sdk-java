@@ -62,6 +62,6 @@ public class DocumentController extends BaseController {
       final String collection,
       final String id) throws NotConnectedException, InternalException {
 
-    return this.delete(index, collection, id, false);
+    return this.delete(index, collection, id, null);
   }
 }
