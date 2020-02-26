@@ -14,13 +14,13 @@ Creates multiple documents in the provided index and collection.
 ## Arguments
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, Object>> mCreate(
+public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mCreate(
       final String index,
       final String collection,
       final ArrayList<ConcurrentHashMap<String, Object>> documents)
 throws NotConnectedException, InternalException
 
-public CompletableFuture<ConcurrentHashMap<String, Object>> mCreate(
+public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mCreate(
       final String index,
       final String collection,
       final ArrayList<ConcurrentHashMap<String, Object>> documents,
@@ -33,7 +33,7 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                                       | Index                             |
 | `collection`       | <pre>String</pre>                                       | Collection                        |
 | `documents`        | <pre>ArrayList<ConcurrentHashMap<String, Object>></pre> | ArrayList containing the documents to create |
-| `waitForRefresh`   | <pre>Boolean</pre> | Optional parameters                |
+| `waitForRefresh`   | <pre>Boolean</pre>                                      | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing |
 
 ---
 
@@ -43,27 +43,27 @@ Each document has the following properties:
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
-| `_id`              | <pre>String</pre> (optional)                 | Optional document ID. Will be auto-generated if not defined.             |
-| `body`             | <pre>Boolean</pre> (optional)                | Document body |
+| `_id`              | <pre>String</pre>                            | Optional document ID. Will be auto-generated if not defined.             |
+| `body`             | <pre>ConcurrentHashMap<String, Object></pre> | Document body |
 
 ## Return
 
-A `ConcurrentHashMap` which has a `successes` and `errors` array:
+A `ConcurrentHashMap<String, ArrayList<Object>>` which has a `successes` and `errors` `ArrayList<Object>`:
 Each created document is an object of the `successes` array with the following properties:
 
-| Property     | Type                         | Description                      |
-|------------- |----------------------------- |--------------------------------- |
-| `_source`    | <pre>ConcurrentHashMap</pre> | Created document                 |
-| `_id`        | <pre>String</pre>            | ID of the newly created document                       |
-| `_version`   | <pre>Integer</pre>           | Version of the document in the persistent data storage |
+| Property     | Type                                         | Description                      |
+|------------- |--------------------------------------------- |--------------------------------- |
+| `_source`    | <pre>ConcurrentHashMap<String, Object></pre> | Created document                 |
+| `_id`        | <pre>String</pre>                            | ID of the newly created document                       |
+| `_version`   | <pre>Integer</pre>                           | Version of the document in the persistent data storage |
 
 Each errored document is an object of the `errors` array with the following properties:
 
-| Property     | Type                         | Description                      |
-|------------- |----------------------------- |--------------------------------- |
-| `document`   | <pre>ConcurrentHashMap</pre> | Document that causes the error   |
-| `status`     | <pre>Integer</pre>           | HTTP error status                |
-| `reason`     | <pre>String</pre>            | Human readable reason |
+| Property     | Type                                         | Description                      |
+|------------- |--------------------------------------------- |--------------------------------- |
+| `document`   | <pre>ConcurrentHashMap<String, Object></pre> | Document that causes the error   |
+| `status`     | <pre>Integer</pre>                           | HTTP error status                |
+| `reason`     | <pre>String</pre>                            | Human readable reason |
 
 ## Usage
 

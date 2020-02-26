@@ -25,7 +25,7 @@ public class DocumentController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> mCreate(
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mCreate(
       final String index,
       final String collection,
       final ArrayList<ConcurrentHashMap<String, Object>> documents,
@@ -44,7 +44,7 @@ public class DocumentController extends BaseController {
     return kuzzle
         .query(query)
         .thenApplyAsync(
-            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+            (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
   }
 
   /**
@@ -57,11 +57,11 @@ public class DocumentController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> mCreate(
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mCreate(
       final String index,
       final String collection,
       final ArrayList<ConcurrentHashMap<String, Object>> documents) throws NotConnectedException, InternalException {
 
-    return this.mCreate(index, collection, documents, false);
+    return this.mCreate(index, collection, documents, null);
   }
 }
