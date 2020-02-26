@@ -4,4 +4,4 @@
     ConcurrentHashMap<String, Object> response =
     kuzzle.getDocumentController().update("nyc-open-data", "yellow-taxi", "some-id", content)
     .get();
-    
+    System.out.println(response);
