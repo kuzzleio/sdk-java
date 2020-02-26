@@ -66,7 +66,7 @@ public class DocumentController extends BaseController {
       final String id,
       final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
 
-    return this.replace(index, collection, id, document, false);
+    return this.replace(index, collection, id, document, null);
   }
 
 }

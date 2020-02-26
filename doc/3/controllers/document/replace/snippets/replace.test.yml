@@ -8,4 +8,4 @@ hooks:
     curl -XPOST -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" kuzzle:7512/nyc-open-data/yellow-taxi/some-id/_create
   after:
 template: default
-expected: Success
+expected: "firstname=John"
