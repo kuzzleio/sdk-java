@@ -21,8 +21,34 @@ import static org.mockito.Mockito.*;
 public class DocumentTest {
 
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
+
   @Test
-  public void createOrReplaceDocumentTest() throws NotConnectedException, InternalException {
+  public void createOrReplaceDocumentTestA() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    document.put("name", "Yoann");
+    document.put("nickname", "El angel de la muerte que hace el JAVA");
+
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document, true);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
+
+    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
+    assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
+    assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
+  }
+
+  @Test
+  public void createOrReplaceDocumentTestB() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
@@ -41,6 +67,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("waitForRefresh"), null);
     assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
     assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
   }
