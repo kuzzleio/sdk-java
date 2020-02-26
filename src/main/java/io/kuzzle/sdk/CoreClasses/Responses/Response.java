@@ -111,7 +111,7 @@ public class Response implements Serializable {
     protocol = kuzzleMap.getString("protocol");
     scope = kuzzleMap.getString("scope");
     state = kuzzleMap.getString("state");
-    timestamp = (Long) kuzzleMap.getNumber("timestamp");
+    timestamp = (kuzzleMap.getNumber("timestamp") == null ? null : kuzzleMap.getNumber("timestamp").longValue());
     type = kuzzleMap.getString("type");
   }
 

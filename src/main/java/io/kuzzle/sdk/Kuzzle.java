@@ -1,6 +1,8 @@
 package io.kuzzle.sdk;
 
 import io.kuzzle.sdk.API.Controllers.DocumentController;
+import io.kuzzle.sdk.API.Controllers.IndexController;
+import io.kuzzle.sdk.API.Controllers.RealtimeController;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.API.Controllers.AuthController;
@@ -56,6 +58,8 @@ public class Kuzzle extends EventManager {
 
   protected ConcurrentHashMap<String, Task<Response>> requests = new ConcurrentHashMap<>();
 
+  private RealtimeController realtimeController;
+
   /**
    * Initialize a new instance of Kuzzle
    *
@@ -67,6 +71,9 @@ public class Kuzzle extends EventManager {
     this(networkProtocol, new KuzzleOptions());
   }
 
+  /**
+   * @return The AuthController
+   */
   public AuthController getAuthController() {
     return new AuthController(this);
   }
@@ -74,6 +81,27 @@ public class Kuzzle extends EventManager {
   public DocumentController getDocumentController() {
     return new DocumentController(this);
   }
+  /**
+   * @return The IndexController
+   */
+  public IndexController getIndexController() {
+    return new IndexController(this);
+  }
+
+  /**
+   * @return RealtimeController
+   */
+  public RealtimeController getRealtimeController() {
+    if (this.realtimeController == null) {
+      synchronized (Kuzzle.class) {
+        if (this.realtimeController == null) {
+          this.realtimeController = new RealtimeController(this);
+        }
+      }
+    }
+    return this.realtimeController;
+  }
+
   /**
    * Initialize a new instance of Kuzzle
    *
@@ -129,16 +157,15 @@ public class Kuzzle extends EventManager {
    * @param payload Raw API Response
    */
   protected void onResponseReceived(final Object... payload) {
-
     final Response response = new Response();
     try {
       response.fromMap(JsonSerializer.deserialize(payload[0].toString()));
-    } catch (final InternalException e) {
+    } catch (final Exception e) {
       e.printStackTrace();
       return;
     }
 
-    if (response.room == null || !requests.containsKey(response.room)) {
+    if (requests != null && (response.room == null || !requests.containsKey(response.room))) {
       super.trigger(Event.unhandledResponse, response);
       return;
     }
@@ -188,7 +215,7 @@ public class Kuzzle extends EventManager {
       final ConcurrentHashMap<String, Object> query)
       throws InternalException, NotConnectedException {
     if (query == null) {
-      throw new InternalException(KuzzleExceptionCode.MSSING_QUERY);
+      throw new InternalException(KuzzleExceptionCode.MISSING_QUERY);
     }
 
     if (networkProtocol.getState() == ProtocolState.CLOSE) {
