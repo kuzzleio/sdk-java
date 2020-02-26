@@ -41,8 +41,8 @@ public class DocumentController extends BaseController {
         .put("controller", "document")
         .put("action", "create")
         .put("body", document)
-        .put("_id",  _options.getString("_id"))
-        .put("waitForRefresh", _options.getBoolean("waitForRefresh"));
+        .put("_id",  _options == null ? null : _options.getString("_id"))
+        .put("waitForRefresh", _options == null ? null : _options.getBoolean("waitForRefresh"));
 
     return kuzzle
         .query(query)
@@ -65,8 +65,7 @@ public class DocumentController extends BaseController {
       final String collection,
       final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
 
-    final ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    return this.create(index, collection, document, options);
+    return this.create(index, collection, document, null);
   }
 
 }
