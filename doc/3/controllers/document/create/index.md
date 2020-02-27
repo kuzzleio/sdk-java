@@ -32,7 +32,7 @@ throws NotConnectedException, InternalException
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
-| `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Content of the document to create |
+| `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Document content |
 | `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
 
 ---
