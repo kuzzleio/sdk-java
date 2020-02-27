@@ -2,7 +2,7 @@
 code: true
 type: page
 title: createOrReplace
-description: Creates or Replace a new document
+description: Creates or Replace a document
 ---
 
 # createOrReplace
