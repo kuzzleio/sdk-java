@@ -2,7 +2,7 @@
 code: true
 type: page
 title: delete
-description: Deletes a new document
+description: Deletes a document
 ---
 
 # delete
