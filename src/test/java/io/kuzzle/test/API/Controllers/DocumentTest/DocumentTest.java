@@ -46,7 +46,7 @@ public class DocumentTest {
   }
 
   @Test(expected = NotConnectedException.class)
-  public void mCreateDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+  public void mGetDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
     AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
     Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
 

@@ -79,7 +79,7 @@ public class Kuzzle extends EventManager {
   }
 
   /**
-   * @return The AuthController
+   * @return The DocumentController
    */
   public DocumentController getDocumentController() {
     return new DocumentController(this);

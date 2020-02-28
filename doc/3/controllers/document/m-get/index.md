@@ -14,7 +14,7 @@ Gets multiple documents.
 ## Arguments 
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mCreate(
+public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mGet(
       final String index,
       final String collection,
       final ArrayList<String> ids)
@@ -26,7 +26,7 @@ throws NotConnectedException, InternalException
 | ------------------ | ------------------------------------------------------- | --------------------------------- |
 | `index`            | <pre>String</pre>                                       | Index name                        |
 | `collection`       | <pre>String</pre>                                       | Collection name                   |
-| `ids`              | <pre>ArrayList<String></pre>                            | Document IDs |
+| `ids`              | <pre>ArrayList<String></pre>                            | Document IDs                      |
 ---
 
 ## Return
