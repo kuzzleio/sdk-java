@@ -1,10 +1,11 @@
 package io.kuzzle.sdk;
 
+import io.kuzzle.sdk.API.Controllers.AuthController;
+import io.kuzzle.sdk.API.Controllers.DocumentController;
 import io.kuzzle.sdk.API.Controllers.IndexController;
 import io.kuzzle.sdk.API.Controllers.RealtimeController;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
-import io.kuzzle.sdk.API.Controllers.AuthController;
 import io.kuzzle.sdk.CoreClasses.Task;
 import io.kuzzle.sdk.Exceptions.*;
 import io.kuzzle.sdk.Options.KuzzleOptions;
@@ -75,6 +76,14 @@ public class Kuzzle extends EventManager {
    */
   public AuthController getAuthController() {
     return new AuthController(this);
+  }
+
+  /**
+   * @return The DocumentController
+   */
+  public DocumentController getDocumentController() {
+    return new DocumentController(this);
+
   }
 
   /**

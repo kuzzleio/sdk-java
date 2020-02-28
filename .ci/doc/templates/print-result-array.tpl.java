@@ -8,14 +8,16 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 
 public class SnippetTest {
-
   private static Kuzzle kuzzle;
+
   public static void main(String[] argv) {
     try {
       kuzzle = new Kuzzle(new WebSocket("kuzzle"));
       kuzzle.connect();
       [snippet-code]
-      System.out.println(result.toString());
+      for (Object o : result.get("successes")) {
+        System.out.println(o);
+      }
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
