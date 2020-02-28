@@ -6,5 +6,7 @@ hooks:
     curl -XPOST kuzzle:7512/nyc-open-data/_create
     curl -XPUT kuzzle:7512/nyc-open-data/yellow-taxi
   after:
-template: default
-expected: Successfully created 2 documents
+template: print-result-array
+expected:
+  - "id=some-id, _version=1, status=201"
+  - "id=some-id2, _version=1, status=201"
