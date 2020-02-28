@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.ArrayList;
 
 public class SnippetTest {
-
   private static Kuzzle kuzzle;
+
   public static void main(String[] argv) {
     try {
       kuzzle = new Kuzzle(new WebSocket("kuzzle"));
