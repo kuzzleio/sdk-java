@@ -7,7 +7,7 @@ description: Deletes multiple documents
 
 # mDelete
 
-Delete multiple documents.
+Deletes multiple documents.
 
 ---
 
