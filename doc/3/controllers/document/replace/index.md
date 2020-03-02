@@ -7,7 +7,7 @@ description: Replaces a document
 
 # replace
 
-Replaces a document in the provided index and collection.
+Replaces the content of an existing document.
 
 ---
 
