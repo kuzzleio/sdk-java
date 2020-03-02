@@ -7,7 +7,7 @@ description: Deletes a document
 
 # delete
 
-Deletes a document in the provided index and collection.
+Deletes a document.
 
 ---
 
