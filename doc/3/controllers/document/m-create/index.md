@@ -7,7 +7,7 @@ description: Creates multiple documents
 
 # mCreate
 
-Creates multiple documents in the provided index and collection.
+Creates multiple documents.
 
 ---
 
