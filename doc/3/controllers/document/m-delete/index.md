@@ -40,7 +40,6 @@ Each deletion error is an object of the errors array with the following properti
 |------------- |--------------------------------------------- |--------------------------------- |
 | `_id`        | <pre>String</pre>                            | Document ID                      |
 | `reason`     | <pre>String</pre> | Human readable reason            |
-| `status`     | <pre>Integer</pre>                           | HTTP status code |
 
 ## Usage
 
