@@ -31,7 +31,6 @@ public class DocumentController extends BaseController {
       final ArrayList<ConcurrentHashMap<String, Object>> documents,
       final Boolean waitForRefresh) throws NotConnectedException, InternalException {
 
-
     final KuzzleMap query = new KuzzleMap();
     query
         .put("index", index)
