@@ -24,6 +24,36 @@ public class RealtimeControllerTest {
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
 
   @Test
+  public void countTest() throws NotConnectedException, InternalException {
+    Kuzzle kuzzleSpy = spy(new Kuzzle(networkProtocol));
+    NotificationHandler notificationHandler = mock(NotificationHandler.class);
+
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleSpy.getRealtimeController().count("roomId");
+    verify(kuzzleSpy).query((KuzzleMap) arg.capture());
+
+    assertEquals("realtime", ((KuzzleMap) arg.getValue()).getString("controller"));
+    assertEquals("test", ((KuzzleMap) arg.getValue()).getString("action"));
+    assertEquals("roomId", ((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).getString("room_id"));
+  }
+
+  @Test
+  public void publishTest() throws NotConnectedException, InternalException {
+    Kuzzle kuzzleSpy = spy(new Kuzzle(networkProtocol));
+    NotificationHandler notificationHandler = mock(NotificationHandler.class);
+
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleSpy.getRealtimeController().unsubscribe("roomId");
+    verify(kuzzleSpy).query((KuzzleMap) arg.capture());
+
+    assertEquals("realtime", ((KuzzleMap) arg.getValue()).getString("controller"));
+    assertEquals("publish", ((KuzzleMap) arg.getValue()).getString("action"));
+    assertEquals("bar", ((KuzzleMap)((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).get("message")).getString("foo"));
+  }
+
+  @Test
   public void subscribeTest() throws NotConnectedException, InternalException {
     Kuzzle kuzzleSpy = spy(new Kuzzle(networkProtocol));
     NotificationHandler notificationHandler = mock(NotificationHandler.class);
@@ -82,5 +112,20 @@ public class RealtimeControllerTest {
     queryResponse.complete(response);
     kuzzleSpy.trigger(Event.unhandledResponse, response);
     verify(notificationHandler, never()).run(any(Response.class));
+  }
+
+  @Test
+  public void unsubscribeTest() throws NotConnectedException, InternalException {
+    Kuzzle kuzzleSpy = spy(new Kuzzle(networkProtocol));
+    NotificationHandler notificationHandler = mock(NotificationHandler.class);
+
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleSpy.getRealtimeController().unsubscribe("roomId");
+    verify(kuzzleSpy).query((KuzzleMap) arg.capture());
+
+    assertEquals("realtime", ((KuzzleMap) arg.getValue()).getString("controller"));
+    assertEquals("unsubscribe", ((KuzzleMap) arg.getValue()).getString("action"));
+    assertEquals("roomId", ((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).getString("room_id"));
   }
 }
