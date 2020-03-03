@@ -34,7 +34,7 @@ public class RealtimeControllerTest {
     verify(kuzzleSpy).query((KuzzleMap) arg.capture());
 
     assertEquals("realtime", ((KuzzleMap) arg.getValue()).getString("controller"));
-    assertEquals("test", ((KuzzleMap) arg.getValue()).getString("action"));
+    assertEquals("count", ((KuzzleMap) arg.getValue()).getString("action"));
     assertEquals("roomId", ((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).getString("room_id"));
   }
 
@@ -45,12 +45,17 @@ public class RealtimeControllerTest {
 
     ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleSpy.getRealtimeController().unsubscribe("roomId");
+    ConcurrentHashMap<String, Object> message = new ConcurrentHashMap<>();
+    message.put("foo", "bar");
+
+    kuzzleSpy.getRealtimeController().publish("index", "collection", message);
     verify(kuzzleSpy).query((KuzzleMap) arg.capture());
 
     assertEquals("realtime", ((KuzzleMap) arg.getValue()).getString("controller"));
     assertEquals("publish", ((KuzzleMap) arg.getValue()).getString("action"));
-    assertEquals("bar", ((KuzzleMap)((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).get("message")).getString("foo"));
+    assertEquals("index", ((KuzzleMap) arg.getValue()).getString("index"));
+    assertEquals("collection", ((KuzzleMap) arg.getValue()).getString("collection"));
+    assertEquals("bar", ((ConcurrentHashMap<String, Object>)((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).get("message")).get("foo").toString());
   }
 
   @Test
