@@ -74,36 +74,6 @@ public class DocumentController extends BaseController {
    return this.create(index, collection, document, null);
  }
 
- /**
-  * Gets multiple documents in a given collection and index.
-  *
-  * @param index
-  * @param collection
-  * @param ids
-  * @return a CompletableFuture
-  * @throws NotConnectedException
-  * @throws InternalException
-  */
- public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mGet(
-     final String index,
-     final String collection,
-     final ArrayList<String> ids) throws NotConnectedException, InternalException {
-
-
-   final KuzzleMap query = new KuzzleMap();
-   query
-       .put("index", index)
-       .put("collection", collection)
-       .put("controller", "document")
-       .put("action", "mGet")
-       .put("body", new KuzzleMap().put("ids", ids));
-
-   return kuzzle
-       .query(query)
-       .thenApplyAsync(
-           (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
- }
-
   /**
    * Replace a document in a given collection and index.
    *
