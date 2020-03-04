@@ -40,8 +40,8 @@ public class DocumentOptions {
   public ConcurrentHashMap<String, Object> toHashMap() {
     ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
 
-    options.put("scope", this.id);
-    options.put("users", this.waitForRefresh);
+    options.put("id", this.id);
+    options.put("waitForRefresh", this.waitForRefresh);
 
     return options;
   }
