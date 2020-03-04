@@ -82,6 +82,13 @@ public class Kuzzle extends EventManager {
     return new DocumentController(this);
   }
   /**
+   * @return The DocumentController
+   */
+  public DocumentController getDocumentController() {
+    return new DocumentController(this);
+  }
+
+  /**
    * @return The IndexController
    */
   public IndexController getIndexController() {
