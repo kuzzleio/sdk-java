@@ -45,6 +45,14 @@ throws NotConnectedException, InternalException
 
 A [DocumentOptions](/sdk/java/3/core-classes/document-options) object.
 
+The `create` method takes into account those following argument:
+
+| Arguments          | Type                                         | Description                       |
+| ------------------ | -------------------------------------------- | --------------------------------- |
+| `id`               | <pre>String</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
+| `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
+
+
 ## Return
 
 A `ConcurrentHashMap` which has the following properties:
