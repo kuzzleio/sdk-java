@@ -49,7 +49,7 @@ The `update` method takes into account those following argument:
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |           |
 | `waitForRefresh`   | <pre>Boolean</pre>                           | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
-| `retryOnConflict`  | <pre>Number</pre>                            | The number of times the database layer should retry in case of version conflict
+| `retryOnConflict`  | <pre>Integer</pre>                           | The number of times the database layer should retry in case of version conflict
 | `source`           | <pre>Boolean</pre>                           | If true, returns the updated document inside the response
 
 ## Return
