@@ -18,12 +18,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+import io.kuzzle.sdk.Options.DocumentOptions;
+
 public class DocumentTest {
 
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
 
   @Test
-  public void udpateDocumentWithOptionsTest() throws NotConnectedException, InternalException {
+  public void udpateDocumentTestA() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
@@ -32,10 +34,10 @@ public class DocumentTest {
     ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
     document.put("name", "Yoann");
 
-    ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
-    options.put("waitForRefresh", false);
-    options.put("source", true);
-    options.put("retryOnConflict", 1);
+    DocumentOptions options = new DocumentOptions();
+    options.setWaitForRefresh(false);
+    options.setSource(true);
+    options.setRetryOnConflict(1);
 
     ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
@@ -53,7 +55,7 @@ public class DocumentTest {
   }
 
   @Test
-  public void udpateDocumentNoOptionsTest() throws NotConnectedException, InternalException {
+  public void udpateDocumentTestB() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
@@ -71,7 +73,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "update");
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-    assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), 0);
+    assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), null);
     assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), null);
     assertEquals(((KuzzleMap) arg.getValue()).getBoolean("source"), null);
     assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
