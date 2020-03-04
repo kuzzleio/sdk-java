@@ -7,7 +7,11 @@ description: Creates a new document
 
 # create
 
-Creates a new document in the provided index and collection.
+Creates a new document in the persistent data storage.
+
+Throws an error if the document already exists.
+
+The optional parameter `waitForRefresh` can be used with the value `true` in order to wait for the document to be indexed (indexed documents are available for `search`).
 
 ---
 
