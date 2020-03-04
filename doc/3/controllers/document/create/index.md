@@ -24,7 +24,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> create(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> document,
-      final ConcurrentHashMap<String, Object> options)
+      final DocumentOptions options)
 throws NotConnectedException, InternalException
 ```
 
@@ -33,16 +33,13 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Document content |
-| `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
+| `options`          | <pre>DocumentOptions</pre><br>(`null`)       | Document options               |
 
 ---
 
 ### options
 
-| Arguments          | Type                                         | Description                       |
-| ------------------ | -------------------------------------------- | --------------------------------- |
-| `id`               | <pre>String</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
-| `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
+A [DocumentOptions](/sdk/java/3/core-classes/document-options) object.
 
 ## Return
 
