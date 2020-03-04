@@ -83,7 +83,6 @@ public class Kuzzle extends EventManager {
    */
   public DocumentController getDocumentController() {
     return new DocumentController(this);
-
   }
 
   /**

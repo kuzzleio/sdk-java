@@ -1,20 +1,20 @@
 ---
 code: true
 type: page
-title: mDelete
-description: Deletes multiple documents
+title: mGet
+description: Gets multiple documents
 ---
 
-# mDelete
+# mGet
 
-Deletes multiple documents.
+Gets multiple documents.
 
 ---
 
 ## Arguments 
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mDelete(
+public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mGet(
       final String index,
       final String collection,
       final ArrayList<String> ids)
@@ -32,15 +32,16 @@ throws NotConnectedException, InternalException
 ## Return
 
 A `ConcurrentHashMap<String, ArrayList<Object>>` which has a `successes` and `errors` `ArrayList<Object>`:
-The `successes` array contains the successfully deleted document IDs.
-
-Each deletion error is an object of the errors array with the following properties:
+Each created document is an object of the `successes` array with the following properties:
 
 | Property     | Type                                         | Description                      |
 |------------- |--------------------------------------------- |--------------------------------- |
+| `_source`    | <pre>ConcurrentHashMap<String, Object></pre> | Document content                 |
 | `_id`        | <pre>String</pre>                            | Document ID                      |
-| `reason`     | <pre>String</pre> | Human readable reason            |
+| `_version`   | <pre>Integer</pre>                           | Version of the document in the persistent data storage |
+
+The `errors` array contain the IDs of not found documents.
 
 ## Usage
 
-<<< ./snippets/m-delete.java
+<<< ./snippets/m-get.java
