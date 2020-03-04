@@ -39,7 +39,7 @@ Each deletion error is an object of the errors array with the following properti
 | Property     | Type                                         | Description                      |
 |------------- |--------------------------------------------- |--------------------------------- |
 | `_id`        | <pre>String</pre>                            | Document ID                      |
-| `reason`     | <pre>String</pre> | Human readable reason            |
+| `reason`     | <pre>String</pre>                            | Human readable reason            |
 
 ## Usage
 
