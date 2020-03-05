@@ -18,7 +18,7 @@ public CompletableFuture<Void> unsubscribe(final String roomId)
 
 | Argument  | Type               | Description          |
 |-----------|--------------------|----------------------|
-| `room_id` | <pre>String</pre> | Subscription room ID |
+| `room_id` | <pre>String</pre>  | Subscription room ID |
 
 ## Exceptions
 
