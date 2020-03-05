@@ -60,6 +60,7 @@ public class DocumentOptions {
   public ConcurrentHashMap<String, Object> toHashMap() {
     ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
 
+    options.put("_id", this.id);
     options.put("source", this.source);
     options.put("waitForRefresh", this.waitForRefresh);
     options.put("retryOnConflict", this.retryOnConflict);
