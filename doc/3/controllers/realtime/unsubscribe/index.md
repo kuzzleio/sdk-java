@@ -20,10 +20,6 @@ public CompletableFuture<Void> unsubscribe(final String roomId)
 |-----------|--------------------|----------------------|
 | `room_id` | <pre>String</pre>  | Subscription room ID |
 
-## Exceptions
-
-Throws a `KuzzleException` if there is an error. See how to [handle error](/sdk/java/3/essentials/error-handling).
-
 ## Usage
 
 <<< ./snippets/unsubscribe.java

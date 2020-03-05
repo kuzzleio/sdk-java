@@ -29,10 +29,6 @@ public CompletableFuture<Integer> publish(
 | `collection` | <pre>String</pre>  | Collection name                     |
 | `message`    | <pre>ConcurrentHashMap<String, Object></pre> | ConcurrentHashMap representing a JSON payload |
 
-## Exceptions
-
-Throws a `KuzzleException` if there is an error. See how to [handle error](/sdk/java/3/essentials/error-handling).
-
 ## Usage
 
 <<< ./snippets/publish.java

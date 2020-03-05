@@ -24,10 +24,6 @@ public CompletableFuture<Integer> count(final String roomId)
 
 Returns the number of active connections using the same provided subscription room.
 
-## Exceptions
-
-Throws a `KuzzleException` if there is an error. See how to [handle error](/sdk/java/3/essentials/error-handling).
-
 ## Usage
 
 <<< ./snippets/count.java
