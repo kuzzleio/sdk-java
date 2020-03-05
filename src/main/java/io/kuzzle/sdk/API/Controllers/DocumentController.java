@@ -13,7 +13,7 @@ public class DocumentController extends BaseController {
   public DocumentController(final Kuzzle kuzzle) {
     super(kuzzle);
   }
-  
+
   /**
    * Creates or replaces multiple documents in a given collection and index.
    *
@@ -47,7 +47,7 @@ public class DocumentController extends BaseController {
   }
 
   /**
-   * Creates multiple documents in a given collection and index.
+   * Creates or replaces multiple documents in a given collection and index.
    *
    * @param index
    * @param collection
