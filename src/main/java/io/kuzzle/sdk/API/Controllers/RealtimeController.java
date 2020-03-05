@@ -54,6 +54,58 @@ public class RealtimeController extends BaseController {
     });
   }
 
+  /**
+   * Returns the number of other connections sharing the same subscription.
+   *
+   * @param roomId
+   * @return
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Integer> count(final String roomId) throws NotConnectedException, InternalException {
+    return kuzzle
+        .query(new KuzzleMap()
+            .put("controller", "realtime")
+            .put("action", "count")
+            .put("body", new KuzzleMap().put("room_id", roomId)))
+        .thenApplyAsync((response) -> ((KuzzleMap) response.result).getNumber("count").intValue());
+  }
+
+  /**
+   * Sends a real-time message to Kuzzle. The message will be dispatched to
+   * all clients with subscriptions matching the index, the collection and
+   * the message content.
+   *
+   * @param index
+   * @param collection
+   * @param message
+   * @return
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Void> publish(final String index, final String collection, final ConcurrentHashMap<String, Object> message) throws NotConnectedException, InternalException {
+    return kuzzle
+        .query(new KuzzleMap()
+            .put("controller", "realtime")
+            .put("action", "publish")
+            .put("index", index)
+            .put("collection", collection)
+            .put("body", new KuzzleMap().put("message", message)))
+        .thenApplyAsync((response) -> null);
+  }
+
+  /**
+   * Subscribe to a collection.
+   *
+   * @param index
+   * @param collection
+   * @param filters
+   * @param handler
+   * @param options
+   * @return
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
   public CompletableFuture<String> subscribe(final String index, final String collection, final ConcurrentHashMap<String, Object> filters, final NotificationHandler handler, final SubscribeOptions options) throws NotConnectedException, InternalException {
     ConcurrentHashMap<String, Object> queryOptions = new ConcurrentHashMap<>();
     boolean subscribeToSelf = true;
@@ -97,5 +149,22 @@ public class RealtimeController extends BaseController {
 
   public CompletableFuture<String> subscribe(final String index, final String collection, final ConcurrentHashMap<String, Object> filters, final NotificationHandler handler) throws NotConnectedException, InternalException {
     return this.subscribe(index, collection, filters, handler, null);
+  }
+
+  /**
+   * Removes a subscription
+   *
+   * @param roomId
+   * @return
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Void> unsubscribe(final String roomId) throws NotConnectedException, InternalException {
+    return kuzzle
+        .query(new KuzzleMap()
+            .put("controller", "realtime")
+            .put("action", "unsubscribe")
+            .put("body", new KuzzleMap().put("roomId", roomId)))
+        .thenApplyAsync((response) -> null);
   }
 }
