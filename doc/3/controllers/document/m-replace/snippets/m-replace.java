@@ -33,8 +33,8 @@
                             _kuzzle_info={createdAt=1582892842099, author=-1}
                         },
                     _id=some-id,
-                    _version=1,
-                    status=201
+                    _version=2,
+                    status=200
                 },
                 {
                     result=created,
@@ -44,8 +44,8 @@
                             _kuzzle_info={createdAt=1582892842099, author=-1}
                         },
                     _id=some-id2,
-                    _version=1,
-                    status=201
+                    _version=2,
+                    status=200
                 }
             ],
             errors=[]
