@@ -114,6 +114,7 @@ public class RealtimeController extends BaseController {
 
   public void renewSubscriptions() {
     for (Map.Entry sub : subscriptionsCache.entrySet()) {
+      subscriptionsCache.get(sub.getKey()).clear();
       ((ArrayList<Subscription>) sub.getValue()).forEach(subscription ->
       {
         try {
