@@ -131,6 +131,6 @@ public class RealtimeControllerTest {
 
     assertEquals("realtime", ((KuzzleMap) arg.getValue()).getString("controller"));
     assertEquals("unsubscribe", ((KuzzleMap) arg.getValue()).getString("action"));
-    assertEquals("roomId", ((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).getString("room_id"));
+    assertEquals("roomId", ((KuzzleMap)((KuzzleMap) arg.getValue()).get("body")).getString("roomId"));
   }
 }
