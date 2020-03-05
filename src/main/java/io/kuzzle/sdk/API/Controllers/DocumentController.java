@@ -6,9 +6,9 @@ import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.DocumentOptions;
 
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.ArrayList;
 
 public class DocumentController extends BaseController {
   public DocumentController(final Kuzzle kuzzle) {
@@ -73,6 +73,57 @@ public class DocumentController extends BaseController {
 
    return this.create(index, collection, document, null);
  }
+
+  /**
+   * Deletes multiple documents.
+   *
+   * @param index
+   * @param collection
+   * @param ids
+   * @param waitForRefresh
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mDelete(
+      final String index,
+      final String collection,
+      final ArrayList<String> ids,
+      final Boolean waitForRefresh) throws NotConnectedException, InternalException {
+
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "mDelete")
+        .put("waitForRefresh", waitForRefresh)
+        .put("body", new KuzzleMap().put("ids", ids));
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
+  }
+
+  /**
+   * Deletes multiple documents.
+   *
+   * @param index
+   * @param collection
+   * @param ids
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mDelete(
+      final String index,
+      final String collection,
+      final ArrayList<String> ids) throws NotConnectedException, InternalException {
+
+    return mDelete(index, collection, ids, null);
+  }
 
   /**
    * Replace a document in a given collection and index.

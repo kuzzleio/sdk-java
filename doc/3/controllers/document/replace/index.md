@@ -35,7 +35,7 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `id`               | <pre>String</pre>                            | Document ID                       |
-| `document`         | <pre>ConcurrentHashMap<String, Object></pre> | New content of the document to update                  |
+| `document`         | <pre>ConcurrentHashMap<String, Object></pre> | New content of the document to update |
 | `waitForRefresh`   | <pre>Boolean</pre>                           | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
 
 ---
