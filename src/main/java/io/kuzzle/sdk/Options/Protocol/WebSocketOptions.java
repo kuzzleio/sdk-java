@@ -23,6 +23,16 @@ public class WebSocketOptions {
   private boolean autoReconnect = true;
 
   /**
+   * The number of milliseconds between 2 automatic reconnection attempts.
+   */
+  private long reconnectionDelay = 1000;
+
+  /**
+   * The maximum number of automatic reconnection attempts.
+   */
+  private long reconnectionRetries = 20;
+
+  /**
    * Initialize a new WebSocketOptions instance.
    */
   public WebSocketOptions() {
@@ -111,5 +121,21 @@ public class WebSocketOptions {
   public WebSocketOptions setAutoReconnect(boolean autoReconnect) {
     this.autoReconnect = autoReconnect;
     return this;
+  }
+
+  public long getReconnectionDelay() {
+    return reconnectionDelay;
+  }
+
+  public void setReconnectionDelay(long reconnectionDelay) {
+    this.reconnectionDelay = reconnectionDelay;
+  }
+
+  public long getReconnectionRetries() {
+    return reconnectionRetries;
+  }
+
+  public void setReconnectionRetries(long reconnectionRetries) {
+    this.reconnectionRetries = reconnectionRetries;
   }
 }

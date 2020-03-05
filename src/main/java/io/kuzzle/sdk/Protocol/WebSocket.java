@@ -3,6 +3,7 @@ package io.kuzzle.sdk.Protocol;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
+import com.neovisionaries.ws.client.WebSocketFrame;
 import io.kuzzle.sdk.CoreClasses.Json.JsonSerializer;
 import io.kuzzle.sdk.Events.Event;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
@@ -11,22 +12,22 @@ import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class WebSocket extends AbstractProtocol {
 
+  protected final boolean ssl;
+  protected final int port;
   protected BlockingDeque<ConcurrentHashMap<String, Object>> queue;
   protected com.neovisionaries.ws.client.WebSocket socket;
   protected ProtocolState state = ProtocolState.CLOSE;
   protected URI uri;
-
-  protected final boolean ssl;
-  protected final int port;
   protected int connectionTimeout;
-
-  public ProtocolState getState() {
-    return state;
-  }
+  protected boolean autoReconnect;
+  protected long reconnectionDelay;
+  protected long reconnectionRetries;
 
   public WebSocket(URI uri) throws Exception {
     WebSocketOptions options = new WebSocketOptions();
@@ -45,6 +46,9 @@ public class WebSocket extends AbstractProtocol {
     ssl = wsOptions.isSsl();
     port = wsOptions.getPort();
     connectionTimeout = wsOptions.getConnectionTimeout();
+    autoReconnect = wsOptions.isAutoReconnect();
+    reconnectionDelay = wsOptions.getReconnectionDelay();
+    reconnectionRetries = wsOptions.getReconnectionRetries();
 
     this.uri = new URI(
         (ssl ? "wss" : "ws") + "://" + uri.getHost() + ":" + port + "/");
@@ -62,10 +66,8 @@ public class WebSocket extends AbstractProtocol {
   }
 
   /**
-   * @param host
-   *                  Kuzzle host address
-   * @param options
-   *                  WebSocket options
+   * @param host    Kuzzle host address
+   * @param options WebSocket options
    * @throws URISyntaxException
    * @throws IllegalArgumentException
    */
@@ -79,12 +81,19 @@ public class WebSocket extends AbstractProtocol {
     ssl = wsOptions.isSsl();
     port = wsOptions.getPort();
     connectionTimeout = wsOptions.getConnectionTimeout();
+    autoReconnect = wsOptions.isAutoReconnect();
+    reconnectionDelay = wsOptions.getReconnectionDelay();
+    reconnectionRetries = wsOptions.getReconnectionRetries();
 
     if (host == null || host.isEmpty()) {
       throw new IllegalArgumentException("Host name/address can't be empty");
     }
     this.uri = new URI((ssl ? "wss" : "ws") + "://" + host + ":" + port + "/");
     this.queue = new LinkedBlockingDeque<>();
+  }
+
+  public ProtocolState getState() {
+    return state;
   }
 
   @Override
@@ -136,7 +145,44 @@ public class WebSocket extends AbstractProtocol {
         super.onTextMessage(websocket, text);
         WebSocket.super.trigger(Event.networkResponseReceived, text);
       }
+
+      @Override
+      public void onDisconnected(com.neovisionaries.ws.client.WebSocket websocket,
+                                 WebSocketFrame serverCloseFrame,
+                                 WebSocketFrame clientCloseFrame,
+                                 boolean closedByServer) {
+        state = ProtocolState.CLOSE;
+        WebSocket.super.trigger(Event.networkStateChange, state);
+        CloseState(autoReconnect);
+      }
     });
+  }
+
+  private void reconnect() {
+    if (state == ProtocolState.RECONNECTING) {
+      return;
+    }
+
+    socket.clearListeners();
+    state = ProtocolState.RECONNECTING;
+    super.trigger(Event.networkStateChange, state);
+    for (int i = 0; i < reconnectionRetries; i++) {
+      try {
+        connect();
+      } catch (WebSocketException e) {
+        try {
+          Thread.sleep(reconnectionDelay);
+        } catch (InterruptedException ex) {
+          ex.printStackTrace();
+        }
+      } catch (IOException e) {
+        try {
+          Thread.sleep(reconnectionDelay);
+        } catch (InterruptedException ex) {
+          ex.printStackTrace();
+        }
+      }
+    }
   }
 
   /**
@@ -144,15 +190,21 @@ public class WebSocket extends AbstractProtocol {
    */
   @Override
   public void disconnect() {
-    CloseState();
+    CloseState(false);
   }
 
-  protected void CloseState() {
-    if (socket != null) {
-      socket.disconnect();
-      state = ProtocolState.CLOSE;
-      socket = null;
-      super.trigger(Event.networkStateChange, state);
+  synchronized protected void CloseState(final boolean tryToReconnect) {
+    if (socket != null && state != ProtocolState.CLOSE) {
+      if (tryToReconnect) {
+        new Thread(
+            () -> reconnect()
+        ).start();
+      } else {
+        socket.disconnect();
+        state = ProtocolState.CLOSE;
+        socket = null;
+        super.trigger(Event.networkStateChange, state);
+      }
     }
   }
 

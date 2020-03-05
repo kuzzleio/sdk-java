@@ -33,6 +33,8 @@ public class KuzzleOptions {
   private Predicate<ConcurrentHashMap<String, Object>> queueFilter = (
       ConcurrentHashMap<String, Object> obj) -> true;
 
+  private boolean autoResubscribe = true;
+
   /**
    * Initialize a new KuzzleOptions instance.
    */
@@ -48,6 +50,7 @@ public class KuzzleOptions {
     this.maxQueueSize = options.maxQueueSize;
     this.minTokenDuration = options.minTokenDuration;
     this.refreshedTokenDuration = options.refreshedTokenDuration;
+    this.autoResubscribe = options.autoResubscribe;
 
     this.maxRequestDelay = options.maxRequestDelay;
 
@@ -146,5 +149,13 @@ public class KuzzleOptions {
     this.queueFilter = defaultValue(filter,
         (ConcurrentHashMap<String, Object> obj) -> true);
     return this;
+  }
+
+  public boolean isAutoResubscribe() {
+    return autoResubscribe;
+  }
+
+  public void setAutoResubscribe(boolean autoResubscribe) {
+    this.autoResubscribe = autoResubscribe;
   }
 }
