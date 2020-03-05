@@ -52,5 +52,23 @@ If the websocket auto reconnects.
 
 ```java
 public boolean getAutoReconnect()
-public KuzzleOptions setAutoReconnect(boolean autoReconnect)
+public WebSocketOptions setAutoReconnect(boolean autoReconnect)
+```
+
+### reconnectionDelay
+
+Time between each reconnection attempt.
+
+```java
+public long getReconnectionDelay();
+public WebSocketOptions setReconnectionDelay(long reconnectionDelay);
+```
+
+### reconnectionRetries
+
+Number of attempt to try and reconnect. -1 for infinite attempt until the connection is fine again.
+
+```java
+public long getReconnectionRetries();
+public WebSocketOptions setReconnectionRetries(long reconnectionRetries);
 ```

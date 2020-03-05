@@ -49,6 +49,8 @@ public class WebSocketOptions {
     this.ssl = other.ssl;
     this.connectionTimeout = other.connectionTimeout;
     this.autoReconnect = other.autoReconnect;
+    this.reconnectionDelay = other.reconnectionDelay;
+    this.reconnectionRetries = other.reconnectionRetries;
   }
 
   /**
@@ -127,15 +129,17 @@ public class WebSocketOptions {
     return reconnectionDelay;
   }
 
-  public void setReconnectionDelay(long reconnectionDelay) {
+  public WebSocketOptions setReconnectionDelay(long reconnectionDelay) {
     this.reconnectionDelay = reconnectionDelay;
+    return this;
   }
 
   public long getReconnectionRetries() {
     return reconnectionRetries;
   }
 
-  public void setReconnectionRetries(long reconnectionRetries) {
+  public WebSocketOptions setReconnectionRetries(long reconnectionRetries) {
     this.reconnectionRetries = reconnectionRetries;
+    return this;
   }
 }

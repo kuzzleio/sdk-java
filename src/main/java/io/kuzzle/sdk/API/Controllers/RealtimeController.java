@@ -8,8 +8,10 @@ import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Handlers.NotificationHandler;
 import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.SubscribeOptions;
+import io.kuzzle.sdk.Protocol.ProtocolState;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,7 +36,8 @@ public class RealtimeController extends BaseController {
     }
   }
 
-  private ConcurrentHashMap<String, ArrayList<Subscription>> subscriptions = new ConcurrentHashMap<>();
+  private ConcurrentHashMap<String, ArrayList<Subscription>> currentSubscriptions = new ConcurrentHashMap<>();
+  private ConcurrentHashMap<String, ArrayList<Subscription>> subscriptionsCache = new ConcurrentHashMap<>();
 
   public RealtimeController(Kuzzle kuzzle) {
     super(kuzzle);
@@ -51,7 +54,7 @@ public class RealtimeController extends BaseController {
         sdkInstanceId = response.Volatile.get("sdkInstanceId").toString();
       }
 
-      ArrayList<Subscription> subs = RealtimeController.this.subscriptions.get(((Response) args[0]).room);
+      ArrayList<Subscription> subs = RealtimeController.this.currentSubscriptions.get(((Response) args[0]).room);
 
       if (subs != null) {
         final String instanceId = sdkInstanceId;
@@ -60,6 +63,11 @@ public class RealtimeController extends BaseController {
             sub.handler.run(response);
           }
         });
+      }
+    });
+    kuzzle.register(Event.networkStateChange, state -> {
+      if (state[0] == ProtocolState.CLOSE) {
+        this.currentSubscriptions.clear();
       }
     });
   }
@@ -104,7 +112,19 @@ public class RealtimeController extends BaseController {
         .thenApplyAsync((response) -> null);
   }
 
-  public void resubscribe() {
+  public void renewSubscriptions() {
+    for (Map.Entry sub : subscriptionsCache.entrySet()) {
+      ((ArrayList<Subscription>) sub.getValue()).forEach(subscription ->
+      {
+        try {
+          subscribe(subscription);
+        } catch (NotConnectedException e) {
+          e.printStackTrace();
+        } catch (InternalException e) {
+          e.printStackTrace();
+        }
+      });
+    }
   }
 
   /**
@@ -121,7 +141,7 @@ public class RealtimeController extends BaseController {
    */
   public CompletableFuture<String> subscribe(final String index, final String collection, final ConcurrentHashMap<String, Object> filters, final NotificationHandler handler, final SubscribeOptions options) throws NotConnectedException, InternalException {
     ConcurrentHashMap<String, Object> queryOptions = new ConcurrentHashMap<>();
-    final SubscribeOptions opts = new SubscribeOptions(options);
+    final SubscribeOptions opts = (options == null ? new SubscribeOptions() : new SubscribeOptions(options));
 
     synchronized (RealtimeController.class) {
       if (opts != null) {
@@ -149,16 +169,28 @@ public class RealtimeController extends BaseController {
                   opts
               );
 
-              if (subscriptions.get(channel) == null) {
+              if (currentSubscriptions.get(channel) == null) {
                 ArrayList<Subscription> item = new ArrayList<>();
                 item.add(subscription);
-                subscriptions.put(channel, item);
+                currentSubscriptions.put(channel, item);
+                subscriptionsCache.put(channel, item);
               } else {
-                subscriptions.get(channel).add(subscription);
+                currentSubscriptions.get(channel).add(subscription);
+                subscriptionsCache.get(channel).add(subscription);
               }
 
               return ((ConcurrentHashMap<String, Object>) response.result).get("roomId").toString();
             });
+  }
+
+  private CompletableFuture<String> subscribe(final Subscription subscribe) throws NotConnectedException, InternalException {
+    return subscribe(
+        subscribe.index,
+        subscribe.collection,
+        subscribe.filter,
+        subscribe.handler,
+        subscribe.options
+    );
   }
 
   public CompletableFuture<String> subscribe(final String index, final String collection, final ConcurrentHashMap<String, Object> filters, final NotificationHandler handler) throws NotConnectedException, InternalException {
@@ -180,7 +212,8 @@ public class RealtimeController extends BaseController {
             .put("action", "unsubscribe")
             .put("body", new KuzzleMap().put("roomId", roomId)))
         .thenApplyAsync((response) -> {
-          subscriptions.get("roomId").clear();
+          currentSubscriptions.get("roomId").clear();
+          subscriptionsCache.get("roomId").clear();
           return null;
         });
   }

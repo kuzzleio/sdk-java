@@ -155,7 +155,8 @@ public class KuzzleOptions {
     return autoResubscribe;
   }
 
-  public void setAutoResubscribe(boolean autoResubscribe) {
+  public KuzzleOptions setAutoResubscribe(boolean autoResubscribe) {
     this.autoResubscribe = autoResubscribe;
+    return this;
   }
 }

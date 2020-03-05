@@ -55,13 +55,11 @@ public int getMaxRequestDelay()
 public KuzzleOptions setMaxRequestDelay(int maxRequestDelay)
 ```
 
-### queueFilter
+### autoResubscribe
 
-Function to filter the request queue before replaying requests.
+Automatically renew all subscriptions on a reconnected event.
 
 ```java
-public Predicate<ConcurrentHashMap<String, Object>> getQueueFilter()
-public KuzzleOptions setQueueFilter(
-  Predicate<ConcurrentHashMap<String, Object>> filter
-)
+public boolean isAutoResubscribe();
+public KuzzleOptions setAutoResubscribe(boolean autoResubscribe);
 ```

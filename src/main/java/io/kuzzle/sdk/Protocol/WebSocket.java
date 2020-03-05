@@ -151,32 +151,34 @@ public class WebSocket extends AbstractProtocol {
                                  WebSocketFrame serverCloseFrame,
                                  WebSocketFrame clientCloseFrame,
                                  boolean closedByServer) {
-        state = ProtocolState.CLOSE;
-        WebSocket.super.trigger(Event.networkStateChange, state);
+        socket.clearListeners();
+        socket = null;
         CloseState(autoReconnect);
       }
     });
   }
 
-  private void reconnect() {
+  private void tryToReconnect() {
     if (state == ProtocolState.RECONNECTING) {
       return;
     }
 
-    socket.clearListeners();
     state = ProtocolState.RECONNECTING;
     super.trigger(Event.networkStateChange, state);
     for (int i = 0; i < reconnectionRetries; i++) {
       try {
         connect();
+        break;
       } catch (WebSocketException e) {
         try {
+          socket = null;
           Thread.sleep(reconnectionDelay);
         } catch (InterruptedException ex) {
           ex.printStackTrace();
         }
       } catch (IOException e) {
         try {
+          socket = null;
           Thread.sleep(reconnectionDelay);
         } catch (InterruptedException ex) {
           ex.printStackTrace();
@@ -194,11 +196,9 @@ public class WebSocket extends AbstractProtocol {
   }
 
   synchronized protected void CloseState(final boolean tryToReconnect) {
-    if (socket != null && state != ProtocolState.CLOSE) {
+    if (state != ProtocolState.CLOSE) {
       if (tryToReconnect) {
-        new Thread(
-            () -> reconnect()
-        ).start();
+        tryToReconnect();
       } else {
         socket.disconnect();
         state = ProtocolState.CLOSE;

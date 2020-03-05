@@ -209,7 +209,7 @@ public class Kuzzle extends EventManager {
       }
       requests.clear();
     } else if (args[0] == ProtocolState.OPEN && realtimeController != null && autoResubscribe) {
-      realtimeController.resubscribe();
+      realtimeController.renewSubscriptions();
     }
   }
 
