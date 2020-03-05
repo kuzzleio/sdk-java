@@ -33,6 +33,7 @@ public class DocumentController extends BaseController {
      final DocumentOptions options) throws NotConnectedException, InternalException {
 
    final KuzzleMap query = new KuzzleMap();
+
    String id = null;
    Boolean waitForRefresh = null;
    if (options != null) {
@@ -40,7 +41,7 @@ public class DocumentController extends BaseController {
      id = options.getId();
    }
 
-    query
+   query
        .put("index", index)
        .put("collection", collection)
        .put("controller", "document")

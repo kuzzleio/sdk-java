@@ -50,7 +50,7 @@ Each document has the following properties:
 
 A [DocumentOptions](/sdk/java/3/core-classes/document-options) object.
 
-The `mUpdate` method takes into account those following argument:
+The `mUpdate` method takes into account those following arguments:
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |

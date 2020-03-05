@@ -34,7 +34,7 @@
                         },
                     _id=some-id,
                     _version=1,
-                    status=201
+                    status=200
                 },
                 {
                     result=created,
@@ -45,7 +45,7 @@
                         },
                     _id=some-id2,
                     _version=1,
-                    status=201
+                    status=200
                 }
             ],
             errors=[]
