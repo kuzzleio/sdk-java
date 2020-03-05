@@ -33,7 +33,6 @@ public class DocumentController extends BaseController {
      final DocumentOptions options) throws NotConnectedException, InternalException {
 
    final KuzzleMap query = new KuzzleMap();
-
    String id = null;
    Boolean waitForRefresh = null;
    if (options != null) {
@@ -41,13 +40,13 @@ public class DocumentController extends BaseController {
      id = options.getId();
    }
 
-   query
+    query
        .put("index", index)
        .put("collection", collection)
        .put("controller", "document")
        .put("action", "create")
        .put("body", document)
-       .put("_id",  id)
+       .put("_id", id)
        .put("waitForRefresh", waitForRefresh);
 
    return kuzzle
@@ -56,23 +55,81 @@ public class DocumentController extends BaseController {
            (response) -> (ConcurrentHashMap<String, Object>) response.result);
  }
 
- /**
-  * Creates a document in a given collection and index.
-  *
-  * @param index
-  * @param collection
-  * @param document
-  * @return a CompletableFuture
-  * @throws NotConnectedException
-  * @throws InternalException
-  */
- public CompletableFuture<ConcurrentHashMap<String, Object>> create(
-     final String index,
-     final String collection,
-     final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
+  /**
+   * Creates a document in a given collection and index.
+   *
+   * @param index
+   * @param collection
+   * @param document
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
 
-   return this.create(index, collection, document, null);
+    return this.create(index, collection, document, null);
+  }
+
+  /**
+   * Updates multiple documents in a given collection and index.
+   *
+   * @param index
+   * @param collection
+   * @param documents
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mUpdate(
+      final String index,
+      final String collection,
+      final ArrayList<ConcurrentHashMap<String, Object>> documents,
+      final DocumentOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    Integer retryOnConflict = null;
+    Boolean waitForRefresh = null;
+    if (options != null) {
+      retryOnConflict = options.getRetryOnConflict();
+      waitForRefresh = options.getWaitForRefresh();
+    }
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "mUpdate")
+        .put("body", new KuzzleMap().put("documents", documents))
+        .put("retryOnConflict", retryOnConflict)
+        .put("waitForRefresh", waitForRefresh);
+
+
+   return kuzzle
+       .query(query)
+       .thenApplyAsync(
+           (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
  }
+
+  /**
+   * Updates multiple documents in a given collection and index.
+   *
+   * @param index
+   * @param collection
+   * @param documents
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mUpdate(
+      final String index,
+      final String collection,
+      final ArrayList<ConcurrentHashMap<String, Object>> documents) throws NotConnectedException, InternalException {
+
+    return this.mUpdate(index, collection, documents, null);
+  }
 
   /**
    * Deletes multiple documents.
