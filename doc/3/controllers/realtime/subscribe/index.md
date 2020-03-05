@@ -51,11 +51,3 @@ _Simple subscription to document notifications_
 _Subscription to document notifications with scope option_
 
 <<< ./snippets/document-notifications-leave-scope.java
-
-_Subscription to message notifications_
-
-<<< ./snippets/message-notifications.java
-
-_Subscription to user notifications_
-
-<<< ./snippets/user-notifications.java
