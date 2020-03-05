@@ -3,6 +3,7 @@ import io.kuzzle.sdk.Protocol.WebSocket;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import io.kuzzle.sdk.Options.SubscribeOptions;
+import io.kuzzle.sdk.Options.DocumentOptions;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
 
 import java.util.concurrent.ConcurrentHashMap;
