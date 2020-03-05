@@ -16,12 +16,14 @@ jobs:
       language: node_js
       node_js: 12
       before_script:
-        - bash -c "npm run doc-prepare"
-        - "$(npm bin)/kuzdoc iterate-repos:install --repos_path doc/framework/.repos/"
-        - "$(npm bin)/kuzdoc framework:link -d /sdk/java/3/ -v 3"
+
+        - npm ci
+        - npm run doc-prepare
+        - $(npm bin)/kuzdoc iterate-repos:install --repos_path doc/framework/.repos/
+        - $(npm bin)/kuzdoc framework:link -d /sdk/java/3/ -v 3
       script:
         - gem install typhoeus
-        - HYDRA_MAX_CONCURRENCY=20 npm run --prefix $TRAVIS_BUILD_DIR/doc/framework dead-links
+        - cd doc/framework/ && HYDRA_MAX_CONCURRENCY=20 ruby .ci/dead-links.rb -p src/sdk/java/3/
 
     - stage: Tests
       name: Documentation Snippets
@@ -102,7 +104,6 @@ jobs:
 
     - stage: Builds
       name: Build SDK Java
-      language: java
       jdk: openjdk8
       sudo: false
       before_cache:
@@ -118,8 +119,8 @@ jobs:
       script:
         - ./gradlew build
 
-    - stage: Unit Tests
-      name: Run unit tests
+    - stage: Unit tests
+      name: Unit tests SDK Java
       language: java
       jdk: openjdk8
       sudo: false
@@ -132,7 +133,6 @@ jobs:
           - "$HOME/.gradle/wrapper/"
       install:
         - cd $TRAVIS_BUILD_DIR/
-        - ./gradlew assemble
       script:
         - ./gradlew test
 
