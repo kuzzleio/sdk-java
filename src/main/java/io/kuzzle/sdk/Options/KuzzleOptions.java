@@ -8,20 +8,20 @@ import static io.kuzzle.sdk.Helpers.Default.defaultValue;
 public class KuzzleOptions {
 
   /**
-   * The maximum amount of elements that the queue can contains. If set to -1, the
-   * size is unlimited.
+   * The maximum amount of elements that the queue can contains. If set to -1,
+   * the size is unlimited.
    */
   private int maxQueueSize = -1;
 
   /**
-   * The minimum duration of a Token before being automatically refreshed. If set
-   * to -1 the SDK does not refresh the token automatically.
+   * The minimum duration of a Token before being automatically refreshed. If
+   * set to -1 the SDK does not refresh the token automatically.
    */
   private int minTokenDuration = 3_600_000;
 
   /**
-   * The minimum duration of a Token after refresh. If set to -1 the SDK does not
-   * refresh the token automatically.
+   * The minimum duration of a Token after refresh. If set to -1 the SDK does
+   * not refresh the token automatically.
    */
   private int refreshedTokenDuration = 3_600_000;
 
@@ -30,7 +30,8 @@ public class KuzzleOptions {
    */
   private int maxRequestDelay = 1000;
 
-  private Predicate<ConcurrentHashMap<String, Object>> filter = (ConcurrentHashMap<String, Object> obj) -> true;
+  private Predicate<ConcurrentHashMap<String, Object>> queueFilter = (
+      ConcurrentHashMap<String, Object> obj) -> true;
 
   /**
    * Initialize a new KuzzleOptions instance.
@@ -50,46 +51,47 @@ public class KuzzleOptions {
 
     this.maxRequestDelay = options.maxRequestDelay;
 
-    this.filter = options.filter;
+    this.queueFilter = options.queueFilter;
   }
 
   /**
-   * @return The maximum amount of elements that the queue can contains. If set to
-   *         -1, the size is unlimited.
+   * @return The maximum amount of elements that the queue can contains. If set
+   *         to -1, the size is unlimited.
    */
   public int getMaxQueueSize() {
     return maxQueueSize;
   }
 
   /**
-   * Set the maximum amount of elements that the queue can contains. If set to -1,
-   * the size is unlimited.
+   * Set the maximum amount of elements that the queue can contains. If set to
+   * -1, the size is unlimited.
    * 
    * @param maxQueueSize
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withMaxQueueSize(int maxQueueSize) {
+  public KuzzleOptions setMaxQueueSize(int maxQueueSize) {
     this.maxQueueSize = maxQueueSize < 0 ? -1 : maxQueueSize;
 
     return this;
   }
 
   /**
-   * @return The minimum duration of a Token before being automatically refreshed.
-   *         If set to -1 the SDK does not refresh the token automatically.
+   * @return The minimum duration of a Token before being automatically
+   *         refreshed. If set to -1 the SDK does not refresh the token
+   *         automatically.
    */
   public int getMinTokenDuration() {
     return minTokenDuration;
   }
 
   /**
-   * Set the minimum duration of a Token before being automatically refreshed. If
-   * set to -1 the SDK does not refresh the token automatically.
+   * Set the minimum duration of a Token before being automatically refreshed.
+   * If set to -1 the SDK does not refresh the token automatically.
    * 
    * @param minTokenDuration
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withMinTokenDuration(int minTokenDuration) {
+  public KuzzleOptions setMinTokenDuration(int minTokenDuration) {
     this.minTokenDuration = minTokenDuration < 0 ? -1 : minTokenDuration;
 
     return this;
@@ -104,14 +106,15 @@ public class KuzzleOptions {
   }
 
   /**
-   * Set the minimum duration of a Token after refresh. If set to -1 the SDK does
-   * not refresh the token automatically.
+   * Set the minimum duration of a Token after refresh. If set to -1 the SDK
+   * does not refresh the token automatically.
    * 
    * @param refreshedTokenDuration
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withRefreshedTokenDuration(int refreshedTokenDuration) {
-    this.refreshedTokenDuration = refreshedTokenDuration < 0 ? -1 : refreshedTokenDuration;
+  public KuzzleOptions setRefreshedTokenDuration(int refreshedTokenDuration) {
+    this.refreshedTokenDuration = refreshedTokenDuration < 0 ? -1
+        : refreshedTokenDuration;
 
     return this;
   }
@@ -129,17 +132,19 @@ public class KuzzleOptions {
    * @param maxRequestDelay
    * @return This KuzzleOptions instance
    */
-  public KuzzleOptions withMaxRequestDelay(int maxRequestDelay) {
+  public KuzzleOptions setMaxRequestDelay(int maxRequestDelay) {
     this.maxRequestDelay = maxRequestDelay;
     return this;
   }
 
-  public Predicate<ConcurrentHashMap<String, Object>> getFilter() {
-    return filter;
+  public Predicate<ConcurrentHashMap<String, Object>> getQueueFilter() {
+    return queueFilter;
   }
 
-  public KuzzleOptions withFilter(Predicate<ConcurrentHashMap<String, Object>> filter) {
-    this.filter = defaultValue(filter, (ConcurrentHashMap<String, Object> obj) -> true);
+  public KuzzleOptions setQueueFilter(
+      Predicate<ConcurrentHashMap<String, Object>> filter) {
+    this.queueFilter = defaultValue(filter,
+        (ConcurrentHashMap<String, Object> obj) -> true);
     return this;
   }
 }

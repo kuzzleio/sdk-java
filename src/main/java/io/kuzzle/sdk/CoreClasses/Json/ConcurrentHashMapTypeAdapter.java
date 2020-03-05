@@ -15,10 +15,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<String, Object>> {
+public class ConcurrentHashMapTypeAdapter
+    extends TypeAdapter<ConcurrentHashMap<String, Object>> {
 
   @Override
-  public void write(JsonWriter out, ConcurrentHashMap<String, Object> map) throws IOException {
+  public void write(JsonWriter out, ConcurrentHashMap<String, Object> map)
+      throws IOException {
     if (map == null) {
       out.nullValue();
     } else {
@@ -36,7 +38,8 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
   }
 
   @Override
-  public ConcurrentHashMap<String, Object> read(JsonReader in) throws IOException {
+  public ConcurrentHashMap<String, Object> read(JsonReader in)
+      throws IOException {
     JsonToken peek = in.peek();
     if (peek == JsonToken.NULL) {
       in.nextNull();
@@ -83,7 +86,9 @@ public class ConcurrentHashMapTypeAdapter extends TypeAdapter<ConcurrentHashMap<
       out.endArray();
     } else if (value instanceof ConcurrentHashMap) {
       out.beginObject();
-      Iterator<Map.Entry<String, Object>> iterator = ((ConcurrentHashMap<String, Object>) value).entrySet().iterator();
+      Iterator<Map.Entry<String, Object>> iterator = ((ConcurrentHashMap<String, Object>) value)
+          .entrySet()
+          .iterator();
 
       while (iterator.hasNext()) {
         Map.Entry<String, Object> e = iterator.next();

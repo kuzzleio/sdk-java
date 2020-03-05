@@ -1,43 +1,15 @@
 package io.kuzzle.sdk.CoreClasses;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @param <T> The object type that the task return.
  */
 public class Task<T> {
   /**
-   * A countDownLatch used to lock the future.
-   */
-  protected CountDownLatch countDownLatch;
-  /**
    * A completable future.
    */
-  protected CompletableFuture<T> future;
-
-  /**
-   * The object instance to return.
-   */
-  protected AtomicReference<T> atomicReference;
-
-  /**
-   * Initializes a new instance of the Task.
-   */
-  public Task() {
-    atomicReference = new AtomicReference<T>();
-    countDownLatch = new CountDownLatch(1);
-    future = CompletableFuture.<T>supplyAsync(() -> {
-      try {
-        countDownLatch.await();
-
-        return atomicReference.get();
-      } catch (InterruptedException e) {
-        return null;
-      }
-    });
-  }
+  protected CompletableFuture<T> future = new CompletableFuture<>();
 
   /**
    * @return The associated CompletableFuture.
@@ -48,7 +20,7 @@ public class Task<T> {
 
   /**
    * Set the exception of the CompletableFuture.
-   * 
+   *
    * @param exception
    */
   public void setException(Exception exception) {
@@ -78,7 +50,7 @@ public class Task<T> {
 
   /**
    * Set if the future is cancelled.
-   * 
+   *
    * @param state
    */
   public void setCancelled(boolean state) {
@@ -89,16 +61,15 @@ public class Task<T> {
    * Unlock the future.
    */
   public void trigger() {
-    countDownLatch.countDown();
+    future.complete(null);
   }
 
   /**
    * Unlock the future and set the object.
-   * 
+   *
    * @param object
    */
   public void trigger(T object) {
-    atomicReference.set(object);
-    countDownLatch.countDown();
+    future.complete(object);
   }
 }
