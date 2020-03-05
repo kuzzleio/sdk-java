@@ -118,8 +118,8 @@ jobs:
       script:
         - ./gradlew build
 
-    - stage: Unit Tests
-      name: Run unit tests
+    - stage: Unit tests
+      name: Unit tests SDK Java
       language: java
       jdk: openjdk8
       sudo: false
@@ -132,7 +132,6 @@ jobs:
           - "$HOME/.gradle/wrapper/"
       install:
         - cd $TRAVIS_BUILD_DIR/
-        - ./gradlew assemble
       script:
         - ./gradlew test
 
