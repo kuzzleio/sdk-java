@@ -1,10 +1,12 @@
 import io.kuzzle.sdk.Kuzzle;
+import java.util.ArrayList;
 import io.kuzzle.sdk.Protocol.WebSocket;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Options.KuzzleOptions;
 import java.util.concurrent.ConcurrentHashMap;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
 import io.kuzzle.sdk.Options.SubscribeOptions;
+import io.kuzzle.sdk.Options.DocumentOptions;
 
 public class SnippetTest {
   private static Kuzzle kuzzle;
