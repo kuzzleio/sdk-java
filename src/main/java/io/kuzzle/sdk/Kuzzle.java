@@ -83,6 +83,13 @@ public class Kuzzle extends EventManager {
   }
 
   /**
+   * @return The DocumentController
+   */
+  public DocumentController getDocumentController() {
+    return new DocumentController(this);
+  }
+
+  /**
    * @return The IndexController
    */
   public IndexController getIndexController() {
@@ -219,10 +226,10 @@ public class Kuzzle extends EventManager {
       throw new InternalException(KuzzleExceptionCode.MISSING_QUERY);
     }
 
+
     if (networkProtocol.getState() == ProtocolState.CLOSE) {
       throw new NotConnectedException();
     }
-
     final KuzzleMap queryMap = KuzzleMap.from(query);
 
     if (queryMap.contains("waitForRefresh")) {

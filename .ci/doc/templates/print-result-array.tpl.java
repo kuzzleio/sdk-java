@@ -2,7 +2,6 @@ import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Protocol.WebSocket;
 import io.kuzzle.sdk.Options.Protocol.WebSocketOptions;
 import io.kuzzle.sdk.Options.KuzzleOptions;
-import io.kuzzle.sdk.Options.DocumentOptions;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +15,9 @@ public class SnippetTest {
       kuzzle = new Kuzzle(new WebSocket("kuzzle"));
       kuzzle.connect();
       [snippet-code]
-      System.out.println(result.toString());
+      for (Object o : result.get("successes")) {
+        System.out.println(o);
+      }
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
