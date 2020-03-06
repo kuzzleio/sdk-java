@@ -2,12 +2,12 @@
 code: true
 type: page
 title: createOrReplace
-description: Creates or Replace a document
+description: Creates or replaces a document
 ---
 
 # createOrReplace
 
-Creates or replace a document in the provided index and collection.
+Creates a new document in the persistent data storage, or replaces its content if it already exists.
 
 ---
 
