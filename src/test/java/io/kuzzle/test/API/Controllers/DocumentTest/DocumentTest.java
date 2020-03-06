@@ -22,33 +22,33 @@ public class DocumentTest {
 
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
 
-  @Test
-  public void getDocumentTest() throws NotConnectedException, InternalException {
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-    kuzzleMock.getDocumentController().get(index, collection, "some-id");
-    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
-
-    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
-    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "get");
-    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-  }
-
-  @Test(expected = NotConnectedException.class)
-  public void getDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
-    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    kuzzleMock.getDocumentController().get(index, collection, "some-id");
-  }
+//  @Test
+//  public void getDocumentTest() throws NotConnectedException, InternalException {
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+//
+//    kuzzleMock.getDocumentController().get(index, collection, "some-id");
+//    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
+//
+//    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+//    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "get");
+//    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+//    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+//  }
+//
+//  @Test(expected = NotConnectedException.class)
+//  public void getDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+//    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+//    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    kuzzleMock.getDocumentController().get(index, collection, "some-id");
+//  }
 }
