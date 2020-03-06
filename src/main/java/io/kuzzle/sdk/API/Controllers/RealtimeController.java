@@ -213,8 +213,14 @@ public class RealtimeController extends BaseController {
             .put("action", "unsubscribe")
             .put("body", new KuzzleMap().put("roomId", roomId)))
         .thenApplyAsync((response) -> {
-          currentSubscriptions.get(roomId).clear();
-          subscriptionsCache.get(roomId).clear();
+          ArrayList<Subscription> subs = currentSubscriptions.get(roomId);
+          if (subs != null) {
+            currentSubscriptions.get(roomId).clear();
+          }
+          subs = subscriptionsCache.get(roomId);
+          if (subs != null) {
+            subscriptionsCache.get(roomId).clear();
+          }
           return null;
         });
   }
