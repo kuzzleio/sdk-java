@@ -14,7 +14,7 @@ Checks if a document exists.
 ## Arguments
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, Object>> exists(
+public CompletableFuture<Boolean> exists(
       final String index,
       final String collection,
       final String id)
