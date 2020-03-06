@@ -54,7 +54,6 @@ public class DocumentTest {
 
    kuzzleMock.getDocumentController().get(index, collection, "some-id");
  }
-}
 
  @Test
  public void createOrReplaceDocumentTestA() throws NotConnectedException, InternalException {
