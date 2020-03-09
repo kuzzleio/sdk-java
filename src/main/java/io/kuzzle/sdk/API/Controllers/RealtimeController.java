@@ -85,7 +85,7 @@ public class RealtimeController extends BaseController {
         .query(new KuzzleMap()
             .put("controller", "realtime")
             .put("action", "count")
-            .put("body", new KuzzleMap().put("room_id", roomId)))
+            .put("body", new KuzzleMap().put("roomId", roomId)))
         .thenApplyAsync((response) -> ((KuzzleMap) response.result).getNumber("count").intValue());
   }
 
