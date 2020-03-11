@@ -5,6 +5,7 @@ import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.UpdateOptions;
+import io.kuzzle.sdk.Options.CreateOptions;
 
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
@@ -134,7 +135,7 @@ public class DocumentTest {
 
     ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    UpdateOptions options = new UpdateOptions();
+    CreateOptions options = new CreateOptions();
     options.setId("some-id");
     options.setWaitForRefresh(true);
 

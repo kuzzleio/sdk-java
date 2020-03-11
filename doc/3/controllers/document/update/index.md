@@ -36,7 +36,7 @@ throws NotConnectedException, InternalException
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `id        `       | <pre>String</pre>                            | Document ID                        |
 | `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Partial document content |
-| `options`          | <pre>ConcurrentHashMap<String, Object></pre> | Optional parameters               |
+| `options`          | <pre>UpdateOptions</pre><br>(`null`)         | Optional parameters               |
 
 ---
 

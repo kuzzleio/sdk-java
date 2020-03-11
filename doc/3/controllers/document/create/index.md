@@ -28,7 +28,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> create(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> document,
-      final DocumentOptions options)
+      final CreateOptions options)
 throws NotConnectedException, InternalException
 ```
 
@@ -37,13 +37,13 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
 | `document`         | <pre>ConcurrentHashMap<String, Object></pre> | Document content |
-| `options`          | <pre>DocumentOptions</pre><br>(`null`)       | Document options               |
+| `options`          | <pre>CreateOptions</pre><br>(`null`)         | Create options               |
 
 ---
 
 ### options
 
-A [DocumentOptions](/sdk/java/3/core-classes/document-options) object.
+A [CreateOptions](/sdk/java/3/core-classes/create-options) object.
 
 The `create` method takes into account those following argument:
 
