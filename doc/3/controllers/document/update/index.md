@@ -44,7 +44,7 @@ throws NotConnectedException, InternalException
 
 A [UpdateOptions](/sdk/java/3/core-classes/update-options) object.
 
-The `update` method takes into account those following argument:
+The following options can be set:
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |           |
