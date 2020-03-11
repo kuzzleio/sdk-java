@@ -45,7 +45,7 @@ throws NotConnectedException, InternalException
 
 A [CreateOptions](/sdk/java/3/core-classes/create-options) object.
 
-The `create` method takes into account those following argument:
+The following options can be set:
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
