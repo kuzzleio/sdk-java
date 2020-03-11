@@ -8,7 +8,7 @@ order: 110
 
 # UpdateOptions
 
-This class represents the options usable with the [`update`](/sdk/java/3/controllers/document/update) and [mUpdate](/sdk/java/3/controllers/document/m-update) methods of the [DocumentController](/sdk/java/3/controllers/document).  
+This class represents the options usable with the [`update`](/sdk/java/3/controllers/document/update) method of the [DocumentController](/sdk/java/3/controllers/document).  
 
 ## Namespace
 
