@@ -2,7 +2,7 @@ package io.kuzzle.sdk.Options;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DocumentOptions {
+public class UpdateOptions {
 
   private String id;
   private Integer retryOnConflict;
@@ -11,14 +11,14 @@ public class DocumentOptions {
   /**
    * Constructor
    */
-  public DocumentOptions() {}
+  public UpdateOptions() {}
 
   /**
    * Copy constructor
    *
    * @param options
    */
-  public DocumentOptions(DocumentOptions options) {
+  public UpdateOptions(UpdateOptions options) {
     this.id = options.getId();
     this.waitForRefresh = options.getWaitForRefresh();
     this.retryOnConflict = options.getRetryOnConflict();

@@ -26,7 +26,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> update(
       final String collection,
       final String id,
       final ConcurrentHashMap<String, Object> document,
-      final DocumentOptions options)
+      final UpdateOptions options)
 throws NotConnectedException, InternalException
 ```
 
@@ -42,7 +42,7 @@ throws NotConnectedException, InternalException
 
 ### options
 
-A [DocumentOptions](/sdk/java/3/core-classes/document-options) object.
+A [UpdateOptions](/sdk/java/3/core-classes/update-options) object.
 
 The `update` method takes into account those following argument:
 

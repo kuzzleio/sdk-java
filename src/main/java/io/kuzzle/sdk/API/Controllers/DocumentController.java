@@ -4,7 +4,7 @@ import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
-import io.kuzzle.sdk.Options.DocumentOptions;
+import io.kuzzle.sdk.Options.UpdateOptions;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -30,7 +30,7 @@ public class DocumentController extends BaseController {
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> document,
-      final DocumentOptions options) throws NotConnectedException, InternalException {
+      final UpdateOptions options) throws NotConnectedException, InternalException {
 
     final KuzzleMap query = new KuzzleMap();
 
@@ -91,7 +91,7 @@ public class DocumentController extends BaseController {
       final String collection,
       final String id,
       final ConcurrentHashMap<String, Object> document,
-      final DocumentOptions options) throws NotConnectedException, InternalException {
+      final UpdateOptions options) throws NotConnectedException, InternalException {
 
     final KuzzleMap query = new KuzzleMap();
     Integer retryOnConflict = null;

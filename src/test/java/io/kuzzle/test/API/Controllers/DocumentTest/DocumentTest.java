@@ -4,7 +4,7 @@ import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
-import io.kuzzle.sdk.Options.DocumentOptions;
+import io.kuzzle.sdk.Options.UpdateOptions;
 import io.kuzzle.sdk.Protocol.AbstractProtocol;
 import io.kuzzle.sdk.Protocol.ProtocolState;
 import io.kuzzle.sdk.Protocol.WebSocket;
@@ -37,7 +37,7 @@ public class DocumentTest {
 
     ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    DocumentOptions options = new DocumentOptions();
+    UpdateOptions options = new UpdateOptions();
     options.setId("some-id");
     options.setWaitForRefresh(true);
 
@@ -105,7 +105,7 @@ public class DocumentTest {
     ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
     document.put("name", "Yoann");
 
-    DocumentOptions options = new DocumentOptions();
+    UpdateOptions options = new UpdateOptions();
     options.setWaitForRefresh(false);
     options.setSource(true);
     options.setRetryOnConflict(1);
