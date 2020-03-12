@@ -397,4 +397,33 @@ public class DocumentController extends BaseController {
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
   }
+
+  /**
+   * Tells if a document exists in a given collection and index.
+   *
+   * @param index
+   * @param collection
+   * @param id
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Boolean> exists(
+      final String index,
+      final String collection,
+      final String id) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "exists")
+        .put("_id", id);
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (Boolean) response.result);
+  }
 }
