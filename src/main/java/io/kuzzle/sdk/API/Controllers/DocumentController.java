@@ -1,10 +1,13 @@
 package io.kuzzle.sdk.API.Controllers;
 
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
+import io.kuzzle.sdk.CoreClasses.Responses.Response;
+import io.kuzzle.sdk.CoreClasses.SearchResult;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.DocumentOptions;
+import io.kuzzle.sdk.Options.SearchOptions;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -310,5 +313,65 @@ public class DocumentController extends BaseController {
         .query(query)
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
+  }
+
+  /**
+   * Searches documents.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> search(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final SearchOptions options) throws NotConnectedException, InternalException {
+
+    Integer from = null;
+    String scroll = null;
+    Integer size = null;
+    if (options != null) {
+      from = options.getFrom();
+      scroll = options.getScroll();
+      size = options.getSize();
+    }
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "search")
+        .put("from", from)
+        .put("scroll", scroll)
+        .put("size", size)
+        .put("body", new KuzzleMap().put("query", searchQuery));
+
+    CompletableFuture<Response> response = kuzzle
+        .query(query);
+    return new SearchResult(this.kuzzle, query, options, response);
+  }
+
+  /**
+   * Searches documents.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> search(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    return this.search(index, collection, searchQuery, null);
   }
 }
