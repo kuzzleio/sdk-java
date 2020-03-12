@@ -6,7 +6,8 @@ import io.kuzzle.sdk.Options.KuzzleOptions;
 import java.util.concurrent.ConcurrentHashMap;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
 import io.kuzzle.sdk.Options.SubscribeOptions;
-import io.kuzzle.sdk.Options.DocumentOptions;
+import io.kuzzle.sdk.Options.UpdateOptions;
+import io.kuzzle.sdk.Options.CreateOptions;
 
 public class SnippetTest {
   private static Kuzzle kuzzle;
