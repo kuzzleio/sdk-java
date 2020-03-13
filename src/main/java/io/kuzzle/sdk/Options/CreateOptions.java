@@ -2,7 +2,7 @@ package io.kuzzle.sdk.Options;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DocumentOptions {
+public class CreateOptions {
 
   private String id;
   private Integer retryOnConflict;
@@ -10,14 +10,14 @@ public class DocumentOptions {
   /**
    * Constructor
    */
-  public DocumentOptions() {}
+  public CreateOptions() {}
 
   /**
    * Copy constructor
    *
    * @param options
    */
-  public DocumentOptions(DocumentOptions options) {
+  public CreateOptions(CreateOptions options) {
     this.id = options.getId();
     this.waitForRefresh = options.getWaitForRefresh();
     this.retryOnConflict = options.getRetryOnConflict();
@@ -50,7 +50,7 @@ public class DocumentOptions {
   public ConcurrentHashMap<String, Object> toHashMap() {
     ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
 
-    options.put("id", this.id);
+    options.put("_id", this.id);
     options.put("waitForRefresh", this.waitForRefresh);
     options.put("retryOnConflict", this.retryOnConflict);
 

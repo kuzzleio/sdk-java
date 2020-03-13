@@ -1,21 +1,21 @@
 ---
 code: true
 type: page
-title: DocumentOptions
-description: DocumentOptions class documentation
+title: CreateOptions
+description: CreateOptions class documentation
 order: 110
 ---
 
-# DocumentOptions
+# CreateOptions
 
-This class represents the options usable with the [DocumentController](/sdk/java/3/controllers/document).  
+This class represents the options usable with the [`create`](/sdk/java/3/controllers/document/create) method of the [DocumentController](/sdk/java/3/controllers/document).  
 
 ## Namespace
 
 You must include the following package: 
 
 ```java
-import io.kuzzle.sdk.Options.DocumentOptions;
+import io.kuzzle.sdk.Options.CreateOptions;
 ```
 
 ## Properties
@@ -24,5 +24,3 @@ import io.kuzzle.sdk.Options.DocumentOptions;
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `id`               | <pre>String</pre> (optional)                 | Document identifier. Auto-generated if not specified              |
 | `waitForRefresh`   | <pre>Boolean</pre> (optional)                | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
-| `retryOnConflict`  | <pre>Integer</pre>                           | The number of times the database layer should retry in case of version conflict |
-| `source`           | <pre>Boolean</pre>                           | If true, returns the updated document inside the response |
