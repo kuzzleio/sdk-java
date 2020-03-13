@@ -611,8 +611,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test
@@ -647,8 +647,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test(expected = NotConnectedException.class)
@@ -851,8 +851,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mCreateOrReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test
@@ -887,8 +887,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mCreateOrReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test(expected = NotConnectedException.class)
