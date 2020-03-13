@@ -24,7 +24,7 @@ public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mUpdate(
       final String index,
       final String collection,
       final ArrayList<ConcurrentHashMap<String, Object>> documents,
-      final DocumentOptions options)
+      final UpdateOptions options)
 throws NotConnectedException, InternalException
 ```
 
@@ -33,7 +33,7 @@ throws NotConnectedException, InternalException
 | `index`            | <pre>String</pre>                                       | Index                             |
 | `collection`       | <pre>String</pre>                                       | Collection                        |
 | `documents`        | <pre>ArrayList<ConcurrentHashMap<String, Object>></pre> | ArrayList containing the documents to update |
-| `options`          | <pre>DocumentOptions</pre><br>(`null`)                  | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing |
+| `options`          | <pre>UpdateOptions</pre><br>(`null`)                    | Query options |
 
 ---
 
@@ -48,7 +48,7 @@ Each document has the following properties:
 
 ### options
 
-A [DocumentOptions](/sdk/java/3/core-classes/document-options) object.
+A [UpdateOptions](/sdk/java/3/core-classes/update-options) object.
 
 The `mUpdate` method takes into account those following arguments:
 
