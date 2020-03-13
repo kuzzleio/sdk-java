@@ -12,6 +12,7 @@ import io.kuzzle.sdk.Options.SearchOptions;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 public class DocumentController extends BaseController {
   public DocumentController(final Kuzzle kuzzle) {
@@ -326,20 +327,11 @@ public class DocumentController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<SearchResult> search(
+  public SearchResult search(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> searchQuery,
-      final SearchOptions options) throws NotConnectedException, InternalException {
-
-    Integer from = null;
-    String scroll = null;
-    Integer size = null;
-    if (options != null) {
-      from = options.getFrom();
-      scroll = options.getScroll();
-      size = options.getSize();
-    }
+      final SearchOptions options) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
 
     final KuzzleMap query = new KuzzleMap();
     query
@@ -347,14 +339,19 @@ public class DocumentController extends BaseController {
         .put("collection", collection)
         .put("controller", "document")
         .put("action", "search")
-        .put("from", from)
-        .put("scroll", scroll)
-        .put("size", size)
         .put("body", new KuzzleMap().put("query", searchQuery));
 
-    CompletableFuture<Response> response = kuzzle
-        .query(query);
-    return new SearchResult(this.kuzzle, query, options, response);
+    if (options != null) {
+      query
+          .put("from", options.getFrom())
+          .put("size", options.getSize());
+      if (options.getScroll() != null) {
+        query.put("scroll", options.getScroll());
+      }
+    }
+
+    Response response = kuzzle.query(query).get();
+    return new SearchResult(kuzzle, query, options, response);
   }
 
   /**
@@ -367,11 +364,11 @@ public class DocumentController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<SearchResult> search(
+  public SearchResult search(
       final String index,
       final String collection,
-      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
 
-    return this.search(index, collection, searchQuery, null);
+    return this.search(index, collection, searchQuery, new SearchOptions());
   }
 }

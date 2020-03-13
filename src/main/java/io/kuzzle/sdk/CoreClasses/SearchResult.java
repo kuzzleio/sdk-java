@@ -1,5 +1,6 @@
 package io.kuzzle.sdk.CoreClasses;
 
+import com.google.gson.internal.LazilyParsedNumber;
 import io.kuzzle.sdk.CoreClasses.Responses.Response;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
@@ -10,6 +11,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.jar.JarOutputStream;
 
 public class SearchResult {
 
@@ -36,11 +39,11 @@ public class SearchResult {
     this.options = options;
     this.request = request;
 
-    this.aggregations = (ConcurrentHashMap<String, Object>)((ConcurrentHashMap<String, Object>)_response.get("result")).get("aggregations");
-    this.hits = (ArrayList<ConcurrentHashMap<String, Object>>)((ConcurrentHashMap<String, Object>)_response.get("result")).get("hits");
-    this.total = (Integer)((ConcurrentHashMap<String, Object>)_response.get("result")).get("total");
+    this.aggregations = (ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("aggregations");
+    this.hits = (ArrayList<ConcurrentHashMap<String, Object>>) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("hits");
+    this.total = ((LazilyParsedNumber) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("total")).intValue();
     this.fetched = hits.size();
-    this.scrollId = (String)((ConcurrentHashMap<String, Object>)_response.get("result")).get("scrollId");
+    this.scrollId = (String) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("scrollId");
   }
 
   public SearchResult(
@@ -56,11 +59,11 @@ public class SearchResult {
     this.options = options;
     this.request = request;
 
-    this.aggregations = (ConcurrentHashMap<String, Object>)((ConcurrentHashMap<String, Object>)_response.get("result")).get("aggregations");
-    this.hits = (ArrayList<ConcurrentHashMap<String, Object>>)((ConcurrentHashMap<String, Object>)_response.get("result")).get("hits");
-    this.total = (Integer)((ConcurrentHashMap<String, Object>)_response.get("result")).get("total");
+    this.aggregations = (ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("aggregations");
+    this.hits = (ArrayList<ConcurrentHashMap<String, Object>>) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("hits");
+    this.total = ((LazilyParsedNumber) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("total")).intValue();
     this.fetched = hits.size() + previouslyFetched;
-    this.scrollId = (String)((ConcurrentHashMap<String, Object>)_response.get("result")).get("scrollId");
+    this.scrollId = (String) ((ConcurrentHashMap<String, Object>) _response.get("result")).get("scrollId");
   }
 
   private ConcurrentHashMap<String, Object> getScrollRequest() {
@@ -76,13 +79,30 @@ public class SearchResult {
     ConcurrentHashMap<String, Object> nextRequest = this.request;
     ConcurrentHashMap<String, Object> lastItem = this.hits.get(this.hits.size());
     ArrayList<Object> searchAfter = new ArrayList<>();
+    ArrayList<Object> sort = (ArrayList<Object>) ((ConcurrentHashMap<String, Object>) this.request.get("body")).get("sort");
 
+    ((ConcurrentHashMap<String, Object>) this.request.get("body")).put("search_after", searchAfter);
 
-    //this.request.put(this.request.get("body").get("sort"), searchAfter);
-    return null;
+    for (Object value : sort) {
+      String key;
+
+      if (value instanceof String) {
+        key = value.toString();
+      } else {
+        key = ((ConcurrentHashMap<String, Object>) value).get("First").toString();
+      }
+
+      if (key.equals("_uid")) {
+        searchAfter.add(this.request.get("collection").toString() + "#" + lastItem.get("_id").toString());
+      } else {
+        ConcurrentHashMap<String, Object> _source = (ConcurrentHashMap<String, Object>) lastItem.get("_source");
+        searchAfter.add(_source.get(key));
+      }
+    }
+    return nextRequest;
   }
 
-  private SearchResult next() throws NotConnectedException, InternalException {
+  public SearchResult next() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
     if (this.fetched >= this.total) return null;
 
     ConcurrentHashMap<String, Object> nextRequest = new ConcurrentHashMap<>();
@@ -91,16 +111,18 @@ public class SearchResult {
       nextRequest = this.getScrollRequest();
     }
 
-    else if (options.getSize() != null
-            && ((ConcurrentHashMap<String,Object>)this.request.get("body")).get("sort") != null) {
+    else if (this.options.getSize() != null
+        && ((ConcurrentHashMap<String, Object>) this.request.get("body")).get("sort") != null) {
       nextRequest = this.getSearchAfterRequest();
     }
 
-    else if (options.getSize() != null) {
-      if (options.getFrom() != null && options.getFrom() > this.total) {
+    else if (this.options.getSize() != null) {
+
+      if (this.options.getFrom() != null && this.options.getFrom() > this.total) {
         return null;
       }
-      options.setFrom(this.fetched);
+
+      this.options.setFrom(this.fetched);
       nextRequest = this.request;
     }
 
@@ -108,7 +130,7 @@ public class SearchResult {
       return null;
     }
 
-    Response response = this.kuzzle.query(nextRequest);
+    Response response = this.kuzzle.query(nextRequest).get();
 
     return new SearchResult(this.kuzzle, nextRequest, this.options, response, this.fetched);
   }
