@@ -51,4 +51,3 @@ _Simple subscription to document notifications_
 _Subscription to document notifications with scope option_
 
 <<< ./snippets/document-notifications-leave-scope.java
-
