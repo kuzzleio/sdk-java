@@ -95,114 +95,6 @@ public class DocumentTest {
   }
 
   @Test
-  public void mUpdateDocumentTestA() throws NotConnectedException, InternalException {
-    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
-
-    document1.put("_id", "some-id1");
-    body1.put("key1", "value1");
-    document1.put("body", body1);
-
-    document2.put("_id", "some-id2");
-    body2.put("key2", "value2");
-    document2.put("body", body2);
-
-    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
-    documents.add(document1);
-    documents.add(document2);
-
-    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-    kuzzleMock.getDocumentController().mUpdate(index, collection, documents);
-    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-
-    assertEquals((arg.getValue()).getString("controller"), "document");
-    assertEquals((arg.getValue()).getString("action"), "mUpdate");
-    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getNumber("retryOnConflict"), null);
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
-  }
-
-  @Test
-  public void mUpdateDocumentTestB() throws NotConnectedException, InternalException {
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
-
-    document1.put("_id", "some-id1");
-    body1.put("key1", "value1");
-    document1.put("body", body1);
-
-    document2.put("_id", "some-id2");
-    body2.put("key2", "value2");
-    document2.put("body", body2);
-
-    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
-    documents.add(document1);
-    documents.add(document2);
-
-    DocumentOptions options = new DocumentOptions();
-    options.setRetryOnConflict(0);
-    options.setWaitForRefresh(false);
-
-    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-    kuzzleMock.getDocumentController().mUpdate(index, collection, documents, options);
-    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-
-    assertEquals((arg.getValue()).getString("controller"), "document");
-    assertEquals((arg.getValue()).getString("action"), "mUpdate");
-    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getNumber("retryOnConflict"), 0);
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
-  }
-
-  @Test(expected = NotConnectedException.class)
-  public void mUpdateDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
-    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
-
-    document1.put("_id", "some-id1");
-    body1.put("key1", "value1");
-    document1.put("body", body1);
-
-    document2.put("_id", "some-id2");
-    body2.put("key2", "value2");
-    document2.put("body", body2);
-
-    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
-    documents.add(document1);
-    documents.add(document2);
-
-    kuzzleMock.getDocumentController().mUpdate(index, collection, documents);
-  }
-
-  @Test
   public void mDeleteDocumentTestA() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
@@ -417,4 +309,113 @@ public class DocumentTest {
 
     kuzzleMock.getDocumentController().mGet(index, collection, ids);
   }
+
+//  @Test
+//  public void mUpdateDocumentTestA() throws NotConnectedException, InternalException {
+//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
+//
+//    document1.put("_id", "some-id1");
+//    body1.put("key1", "value1");
+//    document1.put("body", body1);
+//
+//    document2.put("_id", "some-id2");
+//    body2.put("key2", "value2");
+//    document2.put("body", body2);
+//
+//    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
+//    documents.add(document1);
+//    documents.add(document2);
+//
+//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+//
+//    kuzzleMock.getDocumentController().mUpdate(index, collection, documents);
+//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+//
+//    assertEquals((arg.getValue()).getString("controller"), "document");
+//    assertEquals((arg.getValue()).getString("action"), "mUpdate");
+//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+//    assertEquals((arg.getValue()).getNumber("retryOnConflict"), null);
+//    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
+//    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+//    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+//  }
+//
+//  @Test
+//  public void mUpdateDocumentTestB() throws NotConnectedException, InternalException {
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
+//
+//    document1.put("_id", "some-id1");
+//    body1.put("key1", "value1");
+//    document1.put("body", body1);
+//
+//    document2.put("_id", "some-id2");
+//    body2.put("key2", "value2");
+//    document2.put("body", body2);
+//
+//    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
+//    documents.add(document1);
+//    documents.add(document2);
+//
+//    DocumentOptions options = new DocumentOptions();
+//    options.setRetryOnConflict(0);
+//    options.setWaitForRefresh(false);
+//
+//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+//
+//    kuzzleMock.getDocumentController().mUpdate(index, collection, documents, options);
+//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+//
+//    assertEquals((arg.getValue()).getString("controller"), "document");
+//    assertEquals((arg.getValue()).getString("action"), "mUpdate");
+//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+//    assertEquals((arg.getValue()).getNumber("retryOnConflict"), 0);
+//    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+//    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+//    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+//  }
+//
+//  @Test(expected = NotConnectedException.class)
+//  public void mUpdateDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+//    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+//    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
+//
+//    document1.put("_id", "some-id1");
+//    body1.put("key1", "value1");
+//    document1.put("body", body1);
+//
+//    document2.put("_id", "some-id2");
+//    body2.put("key2", "value2");
+//    document2.put("body", body2);
+//
+//    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
+//    documents.add(document1);
+//    documents.add(document2);
+//
+//    kuzzleMock.getDocumentController().mUpdate(index, collection, documents);
+//  }
+
 }
