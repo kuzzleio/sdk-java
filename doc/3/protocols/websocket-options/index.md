@@ -66,7 +66,7 @@ public WebSocketOptions setReconnectionDelay(long reconnectionDelay);
 
 ### reconnectionRetries
 
-Number of attempt to try and reconnect. -1 for infinite attempt until the connection is fine again.
+Number of attempts to try and reconnect. -1 for infinite attempts until the connection is established again.
 
 ```java
 public long getReconnectionRetries();

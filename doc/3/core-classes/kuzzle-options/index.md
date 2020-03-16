@@ -57,7 +57,7 @@ public KuzzleOptions setMaxRequestDelay(int maxRequestDelay)
 
 ### autoResubscribe
 
-Automatically renew all subscriptions on a reconnected event.
+Automatically renew all subscriptions on a `reconnected` event.
 
 ```java
 public boolean isAutoResubscribe();

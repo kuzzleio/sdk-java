@@ -12,8 +12,8 @@ The Kuzzle JAVA SDK provides tools that allow it to be used with an unstable net
 
 ## Automatic reconnection & resubscription
 
-The Kuzzle JAVA SDK can handle auto reconnection in case of a network disconnection and also resubscribe to all subscriptions if there is any.
+The Kuzzle JAVA SDK can automatically reconnect in case of a network disconnection and it can renew realtime subscriptions if there are any.
 
-To enable the auto reconnection with WebSocket (enabled by default) refer to the `autoReconnect` options of the [WebSocketOptions](/sdk/java/3/protocols/websocket-options) object.
+To control the auto reconnection feature with WebSocket (enabled by default), refer to the `autoReconnect` option of the [WebSocketOptions](/sdk/java/3/protocols/websocket-options) object.
 
-To enable the auto resubscribe (enabled by default) refer to the `autoResubscribe` options of the [KuzzleOptions](/sdk/java/3/core-classes/kuzzle-options) object.
+To control the auto resubscription (enabled by default), refer to the `autoResubscribe` option of the [KuzzleOptions](/sdk/java/3/core-classes/kuzzle-options) object.
