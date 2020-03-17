@@ -43,7 +43,7 @@ Each document has the following properties:
 
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
-| `_id`              | <pre>String</pre>                            | Optional document ID. Will be auto-generated if not defined.             |
+| `_id`              | <pre>String</pre>                            | Document ID             |
 | `body`             | <pre>ConcurrentHashMap<String, Object></pre> | Document body |
 
 ### options
