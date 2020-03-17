@@ -48,7 +48,7 @@ Each document has the following properties:
 
 ### options
 
-A [UpdateOptions](/sdk/java/3/core-classes/update-options) object.
+An [UpdateOptions](/sdk/java/3/core-classes/update-options) object.
 
 The `mUpdate` method takes into account those following arguments:
 
