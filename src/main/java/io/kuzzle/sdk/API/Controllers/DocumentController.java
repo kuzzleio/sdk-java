@@ -593,4 +593,55 @@ public class DocumentController extends BaseController {
 
     return this.mCreateOrReplace(index, collection, documents, null);
   }
+
+  /**
+   * Deletes documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param waitForRefresh
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ArrayList<String>> deleteByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final Boolean waitForRefresh) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "deleteByQuery")
+        .put("body", new KuzzleMap().put("query", searchQuery))
+        .put("waitForRefresh", waitForRefresh);
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ArrayList<String>)((ConcurrentHashMap<String, Object>) response.result).get("ids"));
+  }
+
+  /**
+   * Deletes documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ArrayList<String>> deleteByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    return this.deleteByQuery(index, collection, searchQuery, null);
+  }
 }
