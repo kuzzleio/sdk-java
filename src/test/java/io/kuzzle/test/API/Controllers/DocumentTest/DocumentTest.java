@@ -814,4 +814,59 @@ public class DocumentTest {
 
     kuzzleMock.getDocumentController().mCreateOrReplace(index, collection, documents);
   }
+
+  @Test
+  public void countDocumentTestA() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().count(index, collection);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "count");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
+  }
+
+  @Test
+  public void countDocumentTestB() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    searchQuery.put("match", match);
+
+    kuzzleMock.getDocumentController().count(index, collection, searchQuery);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "count");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
+    assertEquals(((ConcurrentHashMap<String, Object>)((ConcurrentHashMap<String, Object>)(((KuzzleMap)(arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
+
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void countDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    kuzzleMock.getDocumentController().count(index, collection);
+  }
 }
