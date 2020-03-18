@@ -824,7 +824,7 @@ public class DocumentTest {
 
     ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
 
-    document.put("Tyrion", "Fordring");
+    document.put("Tirion", "Fordring");
 
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
@@ -834,7 +834,7 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("controller"), "document");
     assertEquals((arg.getValue()).getString("action"), "validate");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("Tyrion").toString(), "Fordring");
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("Tirion").toString(), "Fordring");
 
   }
 
@@ -849,7 +849,7 @@ public class DocumentTest {
 
     ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
 
-    document.put("Tyrion", "Fordring");
+    document.put("Tirion", "Fordring");
 
     kuzzleMock.getDocumentController().validate(index, collection, document);
   }
