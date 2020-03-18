@@ -136,7 +136,7 @@ public class Kuzzle extends EventManager {
         kOptions.getRefreshedTokenDuration());
     this.maxRequestDelay = new AtomicInteger(kOptions.getMaxRequestDelay());
 
-    this.autoResubscribe = options.isAutoResubscribe();
+    this.autoResubscribe = kOptions.isAutoResubscribe();
 
     this.version = "3";
     this.instanceId = UUID.randomUUID().toString();
