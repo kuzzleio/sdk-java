@@ -1,5 +1,6 @@
 package io.kuzzle.sdk.API.Controllers;
 
+import com.google.gson.internal.LazilyParsedNumber;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
@@ -650,5 +651,52 @@ public class DocumentController extends BaseController {
       final ArrayList<ConcurrentHashMap<String, Object>> documents) throws NotConnectedException, InternalException {
 
     return this.mCreateOrReplace(index, collection, documents, null);
+  }
+
+  /**
+   * Counts documents in a collection.
+   *
+   * @param index
+   * @param collection
+   * @paran searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Integer> count(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("body", new KuzzleMap().put("query", searchQuery))
+        .put("action", "count");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> ((LazilyParsedNumber) ((ConcurrentHashMap<String, Object>)response.result).get("count")).intValue());
+  }
+
+  /**
+   * Counts documents in a collection.
+   *
+   * @param index
+   * @param collection
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Integer> count(
+      final String index,
+      final String collection) throws NotConnectedException, InternalException {
+
+    final ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+
+    return this.count(index, collection, searchQuery);
   }
 }
