@@ -36,11 +36,11 @@ throws NotConnectedException, InternalException
 
 ---
 
-| Argument     | Type              | Description     |
-| ------------ | ----------------- | --------------- |
-| `index`      | <pre>string</pre> | Index name      |
-| `collection` | <pre>string</pre> | Collection name |
-| `query`      | <pre>object</pre> | Query to match  |
+| Argument           | Type                                         | Description     |
+| ------------------ | -------------------------------------------- | --------------- |
+| `index`            | <pre>String</pre>                            | Index name      |
+| `collection`       | <pre>String</pre>                            | Collection name |
+| `searchQuery`      | <pre>ConcurrentHashMap<String, Object></pre> | Query to match  |
 
 ---
 
