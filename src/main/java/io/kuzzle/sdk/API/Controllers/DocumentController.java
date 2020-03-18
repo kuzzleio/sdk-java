@@ -7,6 +7,7 @@ import io.kuzzle.sdk.Kuzzle;
 import io.kuzzle.sdk.Options.UpdateOptions;
 import io.kuzzle.sdk.Options.CreateOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -592,5 +593,63 @@ public class DocumentController extends BaseController {
       final ArrayList<ConcurrentHashMap<String, Object>> documents) throws NotConnectedException, InternalException {
 
     return this.mCreateOrReplace(index, collection, documents, null);
+  }
+
+  /**
+   * Updates documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param changes
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> updateByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final ConcurrentHashMap<String, Object> changes,
+      final UpdateOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "updateByQuery")
+        .put("body", new KuzzleMap()
+            .put("query", searchQuery)
+            .put("changes", changes))
+        .put("source", options.getSource())
+        .put("waitForRefresh", options.getWaitForRefresh());
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
+  }
+
+  /**
+   * Updates documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param changes
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> updateByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final ConcurrentHashMap<String, Object> changes) throws NotConnectedException, InternalException {
+
+    return this.updateByQuery(index, collection, searchQuery, changes, new UpdateOptions());
   }
 }
