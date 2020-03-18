@@ -814,4 +814,43 @@ public class DocumentTest {
 
     kuzzleMock.getDocumentController().mCreateOrReplace(index, collection, documents);
   }
+
+  @Test
+  public void validateDocumentTest() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+
+    document.put("Tyrion", "Fordring");
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().validate(index, collection, document);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "validate");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("Tyrion").toString(), "Fordring");
+
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void validateDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+
+    document.put("Tyrion", "Fordring");
+
+    kuzzleMock.getDocumentController().validate(index, collection, document);
+  }
 }

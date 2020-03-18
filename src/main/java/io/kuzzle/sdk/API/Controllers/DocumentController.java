@@ -593,4 +593,33 @@ public class DocumentController extends BaseController {
 
     return this.mCreateOrReplace(index, collection, documents, null);
   }
+
+  /**
+   * Validates data against existing validation rules.
+   *
+   * @param index
+   * @param collection
+   * @param document
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Boolean> validate(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "validate")
+        .put("body", new KuzzleMap(document));
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (Boolean)((ConcurrentHashMap<String, Object>)response.result).get("valid"));
+  }
 }
