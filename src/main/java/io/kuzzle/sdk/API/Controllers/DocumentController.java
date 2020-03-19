@@ -316,59 +316,59 @@ public class DocumentController extends BaseController {
             (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
   }
 
-  /**
-   * Searches documents.
-   *
-   * @param index
-   * @param collection
-   * @param searchQuery
-   * @param options
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public SearchResult search(
-      final String index,
-      final String collection,
-      final ConcurrentHashMap<String, Object> searchQuery,
-      final SearchOptions options) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-
-    final KuzzleMap query = new KuzzleMap();
-    query
-        .put("index", index)
-        .put("collection", collection)
-        .put("controller", "document")
-        .put("action", "search")
-        .put("body", new KuzzleMap().put("query", searchQuery));
-
-    if (options != null) {
-      query
-          .put("from", options.getFrom())
-          .put("size", options.getSize());
-      if (options.getScroll() != null) {
-        query.put("scroll", options.getScroll());
-      }
-    }
-
-    Response response = kuzzle.query(query).get();
-    return new SearchResult(kuzzle, query, options, response);
-  }
-
-  /**
-   * Searches documents.
-   *
-   * @param index
-   * @param collection
-   * @param searchQuery
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public SearchResult search(
-      final String index,
-      final String collection,
-      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-
-    return this.search(index, collection, searchQuery, new SearchOptions());
-  }
+//  /**
+//   * Searches documents.
+//   *
+//   * @param index
+//   * @param collection
+//   * @param searchQuery
+//   * @param options
+//   * @return a CompletableFuture
+//   * @throws NotConnectedException
+//   * @throws InternalException
+//   */
+//  public SearchResult search(
+//      final String index,
+//      final String collection,
+//      final ConcurrentHashMap<String, Object> searchQuery,
+//      final SearchOptions options) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+//
+//    final KuzzleMap query = new KuzzleMap();
+//    query
+//        .put("index", index)
+//        .put("collection", collection)
+//        .put("controller", "document")
+//        .put("action", "search")
+//        .put("body", new KuzzleMap().put("query", searchQuery));
+//
+//    if (options != null) {
+//      query
+//          .put("from", options.getFrom())
+//          .put("size", options.getSize());
+//      if (options.getScroll() != null) {
+//        query.put("scroll", options.getScroll());
+//      }
+//    }
+//
+//    Response response = kuzzle.query(query).get();
+//    return new SearchResult(kuzzle, query, options, response);
+//  }
+//
+//  /**
+//   * Searches documents.
+//   *
+//   * @param index
+//   * @param collection
+//   * @param searchQuery
+//   * @return a CompletableFuture
+//   * @throws NotConnectedException
+//   * @throws InternalException
+//   */
+//  public SearchResult search(
+//      final String index,
+//      final String collection,
+//      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+//
+//    return this.search(index, collection, searchQuery, new SearchOptions());
+//  }
 }
