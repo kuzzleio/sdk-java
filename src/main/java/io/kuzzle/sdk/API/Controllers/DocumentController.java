@@ -607,7 +607,6 @@ public class DocumentController extends BaseController {
    * @return a CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
-   * @paran searchQuery
    */
   public CompletableFuture<Integer> count(
       final String index,
