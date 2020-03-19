@@ -60,6 +60,8 @@ public class Kuzzle extends EventManager {
 
   private RealtimeController realtimeController;
 
+  private boolean autoResubscribe;
+
   /**
    * Initialize a new instance of Kuzzle
    *
@@ -134,6 +136,8 @@ public class Kuzzle extends EventManager {
         kOptions.getRefreshedTokenDuration());
     this.maxRequestDelay = new AtomicInteger(kOptions.getMaxRequestDelay());
 
+    this.autoResubscribe = kOptions.isAutoResubscribe();
+
     this.version = "3";
     this.instanceId = UUID.randomUUID().toString();
     this.sdkName = "java@" + version;
@@ -199,11 +203,13 @@ public class Kuzzle extends EventManager {
 
   protected void onStateChanged(final Object... args) {
     // If not connected anymore: close tasks and clean up the requests buffer
-    if ((ProtocolState) args[0] == ProtocolState.CLOSE) {
+    if (args[0] == ProtocolState.CLOSE) {
       for (final Task<Response> task : requests.values()) {
         task.setException(new ConnectionLostException());
       }
       requests.clear();
+    } else if (args[0] == ProtocolState.OPEN && realtimeController != null && autoResubscribe) {
+      realtimeController.renewSubscriptions();
     }
   }
 
@@ -280,5 +286,13 @@ public class Kuzzle extends EventManager {
       authenticationToken = new AtomicReference<>();
     }
     authenticationToken.set(token);
+  }
+
+  public boolean isAutoResubscribe() {
+    return autoResubscribe;
+  }
+
+  public void setAutoResubscribe(boolean autoResubscribe) {
+    this.autoResubscribe = autoResubscribe;
   }
 }
