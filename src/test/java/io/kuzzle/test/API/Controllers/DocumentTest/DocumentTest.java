@@ -26,104 +26,8 @@ public class DocumentTest {
 
   private AbstractProtocol networkProtocol = Mockito.mock(WebSocket.class);
 
- @Test
- public void getDocumentTest() throws NotConnectedException, InternalException {
-
-   Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
-
-   ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-   kuzzleMock.getDocumentController().get(index, collection, "some-id");
-   Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
-
-   assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "get");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
- }
-
- @Test(expected = NotConnectedException.class)
- public void getDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
-   AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-   Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-
-   Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
-
-   kuzzleMock.getDocumentController().get(index, collection, "some-id");
- }
-
- @Test
- public void createOrReplaceDocumentTestA() throws NotConnectedException, InternalException {
-
-   Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
-
-   ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
-   document.put("name", "Yoann");
-   document.put("nickname", "El angel de la muerte que hace el JAVA");
-
-   ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-   kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document, true);
-   Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
-
-   assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-   assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
-   assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
-   assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
- }
-
- @Test
- public void createOrReplaceDocumentTestB() throws NotConnectedException, InternalException {
-
-   Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
-
-   ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
-   document.put("name", "Yoann");
-   document.put("nickname", "El angel de la muerte que hace el JAVA");
-
-   ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-   kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document);
-   Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
-
-   assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("waitForRefresh"), null);
-   assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
-   assertEquals(((ConcurrentHashMap<String, Object>)(((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
- }
-
- @Test(expected = NotConnectedException.class)
- public void createOrReplaceDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
-   AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-   Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-
-   Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
-
-   ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
-   document.put("name", "Yoann");
-   document.put("nickname", "El angel de la muerte que hace el JAVA");
-
-   kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document);
- }
-
- @Test
- public void createDocumentTestA() throws NotConnectedException, InternalException {
+  @Test
+  public void createDocumentTestA() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
@@ -193,77 +97,169 @@ public class DocumentTest {
     kuzzleMock.getDocumentController().create(index, collection, document);
   }
 
- @Test
- public void udpateDocumentTestA() throws NotConnectedException, InternalException {
+  @Test
+  public void getDocumentTest() throws NotConnectedException, InternalException {
 
-   Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
 
-   ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
-   document.put("name", "Yoann");
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-   UpdateOptions options = new UpdateOptions();
-   options.setWaitForRefresh(false);
-   options.setSource(true);
-   options.setRetryOnConflict(1);
+    kuzzleMock.getDocumentController().get(index, collection, "some-id");
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
 
-   ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "get");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+  }
 
-   kuzzleMock.getDocumentController().update(index, collection, "some-id", document, options);
-   Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
+  @Test(expected = NotConnectedException.class)
+  public void getDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
 
-   assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "update");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-   assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), 1);
-   assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), false);
-   assertEquals(((KuzzleMap) arg.getValue()).getBoolean("source"), true);
-   assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
- }
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
 
- @Test
- public void udpateDocumentTestB() throws NotConnectedException, InternalException {
+    kuzzleMock.getDocumentController().get(index, collection, "some-id");
+  }
 
-   Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
+  @Test
+  public void createOrReplaceDocumentTestA() throws NotConnectedException, InternalException {
 
-   ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    document.put("name", "Yoann");
+    document.put("nickname", "El angel de la muerte que hace el JAVA");
 
-   document.put("name", "Yoann");
-   ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+    kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document, true);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
 
-   kuzzleMock.getDocumentController().update(index, collection, "some-id", document);
-   Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
+    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
+  }
 
-   assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "update");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
-   assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-   assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), null);
-   assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), null);
-   assertEquals(((KuzzleMap) arg.getValue()).getBoolean("source"), null);
-   assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
- }
+  @Test
+  public void createOrReplaceDocumentTestB() throws NotConnectedException, InternalException {
 
- @Test(expected = NotConnectedException.class)
- public void updateShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    document.put("name", "Yoann");
+    document.put("nickname", "El angel de la muerte que hace el JAVA");
 
-   AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-   Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+    kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
 
-   Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-   String index = "nyc-open-data";
-   String collection = "yellow-taxi";
-   String id = "some-id";
+    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("waitForRefresh"), null);
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
+  }
 
-   ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
-   document.put("name", "Yoann");
+  @Test(expected = NotConnectedException.class)
+  public void createOrReplaceDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
 
-   kuzzleMock.getDocumentController().update(index, collection, id, document);
- }
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    document.put("name", "Yoann");
+    document.put("nickname", "El angel de la muerte que hace el JAVA");
+
+    kuzzleMock.getDocumentController().createOrReplace(index, collection, "some-id", document);
+  }
+
+  @Test
+  public void udpateDocumentTestA() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    document.put("name", "Yoann");
+
+    UpdateOptions options = new UpdateOptions();
+    options.setWaitForRefresh(false);
+    options.setSource(true);
+    options.setRetryOnConflict(1);
+
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().update(index, collection, "some-id", document, options);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
+
+    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "update");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+    assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), 1);
+    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("source"), true);
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
+  }
+
+  @Test
+  public void udpateDocumentTestB() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+
+    document.put("name", "Yoann");
+    ArgumentCaptor arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().update(index, collection, "some-id", document);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query((KuzzleMap) arg.capture());
+
+    assertEquals(((KuzzleMap) arg.getValue()).getString("controller"), "document");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "update");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
+    assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), null);
+    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), null);
+    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("source"), null);
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void updateShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+    String id = "some-id";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+    document.put("name", "Yoann");
+
+    kuzzleMock.getDocumentController().update(index, collection, id, document);
+  }
 
   @Test
   public void mCreateDocumentTestA() throws NotConnectedException, InternalException {
@@ -298,8 +294,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mCreate");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test
@@ -334,8 +330,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mCreate");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test(expected = NotConnectedException.class)
@@ -615,8 +611,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test
@@ -651,8 +647,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test(expected = NotConnectedException.class)
@@ -713,7 +709,115 @@ public class DocumentTest {
 
     kuzzleMock.getDocumentController().exists(index, collection, "some-id");
   }
-  
+
+  @Test
+  public void mUpdateDocumentTestA() throws NotConnectedException, InternalException {
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
+
+    document1.put("_id", "some-id1");
+    body1.put("key1", "value1");
+    document1.put("body", body1);
+
+    document2.put("_id", "some-id2");
+    body2.put("key2", "value2");
+    document2.put("body", body2);
+
+    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
+    documents.add(document1);
+    documents.add(document2);
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().mUpdate(index, collection, documents);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "mUpdate");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getNumber("retryOnConflict"), null);
+    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+  }
+
+  @Test
+  public void mUpdateDocumentTestB() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
+
+    document1.put("_id", "some-id1");
+    body1.put("key1", "value1");
+    document1.put("body", body1);
+
+    document2.put("_id", "some-id2");
+    body2.put("key2", "value2");
+    document2.put("body", body2);
+
+    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
+    documents.add(document1);
+    documents.add(document2);
+
+    UpdateOptions options = new UpdateOptions();
+    options.setRetryOnConflict(0);
+    options.setWaitForRefresh(false);
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().mUpdate(index, collection, documents, options);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "mUpdate");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getNumber("retryOnConflict"), 0);
+    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void mUpdateDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document1 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> document2 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> body1 = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> body2 = new ConcurrentHashMap<>();
+
+    document1.put("_id", "some-id1");
+    body1.put("key1", "value1");
+    document1.put("body", body1);
+
+    document2.put("_id", "some-id2");
+    body2.put("key2", "value2");
+    document2.put("body", body2);
+
+    final ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
+    documents.add(document1);
+    documents.add(document2);
+
+    kuzzleMock.getDocumentController().mUpdate(index, collection, documents);
+  }
+
   @Test
   public void mCreateOrReplaceDocumentTestA() throws NotConnectedException, InternalException {
 
@@ -747,8 +851,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mCreateOrReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test
@@ -783,8 +887,8 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mCreateOrReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
-    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>)(((KuzzleMap)(arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
+    assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
 
   @Test(expected = NotConnectedException.class)
