@@ -16,7 +16,7 @@ Checks if a collection exists.
 ```java
 public CompletableFuture<Boolean> exists(
       final String index,
-      final String collection
+      final String collection)
 throws NotConnectedException, InternalException
 
 ```
