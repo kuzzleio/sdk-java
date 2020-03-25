@@ -82,7 +82,7 @@ public class Kuzzle extends EventManager {
   }
 
   /**
-   * @return The DocumentController
+   * @return The CollectionController
    */
   public CollectionController getCollectionController() {
     return new CollectionController(this);
