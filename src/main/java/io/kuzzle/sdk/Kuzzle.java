@@ -1,6 +1,7 @@
 package io.kuzzle.sdk;
 
 import io.kuzzle.sdk.API.Controllers.AuthController;
+import io.kuzzle.sdk.API.Controllers.CollectionController;
 import io.kuzzle.sdk.API.Controllers.DocumentController;
 import io.kuzzle.sdk.API.Controllers.IndexController;
 import io.kuzzle.sdk.API.Controllers.RealtimeController;
@@ -78,6 +79,13 @@ public class Kuzzle extends EventManager {
    */
   public AuthController getAuthController() {
     return new AuthController(this);
+  }
+
+  /**
+   * @return The CollectionController
+   */
+  public CollectionController getCollectionController() {
+    return new CollectionController(this);
   }
 
   /**
