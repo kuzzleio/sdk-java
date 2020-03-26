@@ -37,7 +37,7 @@ throws NotConnectedException, InternalException
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
-| `mapping`          | <pre>object</pre>                            | Describes the data mapping to associate to the new collection, using Elasticsearch [mapping format](https://www.elastic.co/guide/en/elasticsearch/reference/7.4/mapping.html) |
+| `mapping`          | <pre>ConcurrentHashMap<String, Object></pre> | Describes the data mapping to associate to the new collection, using Elasticsearch [mapping format](https://www.elastic.co/guide/en/elasticsearch/reference/7.4/mapping.html) |
 
 ---
 
@@ -57,7 +57,7 @@ The mapping must have a root field `properties` that contain the mapping definit
   mapping.put("properties", properties);
 ```
 
-More informations about database mappings [here](/core/2/guides/essentials/database-mappings).
+More information about database mappings [here](/core/2/guides/essentials/database-mappings).
 
 ## Return
 
