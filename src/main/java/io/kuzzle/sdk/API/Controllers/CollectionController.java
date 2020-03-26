@@ -1,11 +1,9 @@
 package io.kuzzle.sdk.API.Controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
-import io.kuzzle.sdk.Options.CreateOptions;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;

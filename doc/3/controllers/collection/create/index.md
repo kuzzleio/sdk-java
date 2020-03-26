@@ -37,7 +37,7 @@ throws NotConnectedException, InternalException
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `index`            | <pre>String</pre>                            | Index                             |
 | `collection`       | <pre>String</pre>                            | Collection                        |
-| `mapping`          | <pre>object</pre>                            | Describes the data mapping to associate to the new collection, using Elasticsearch [mapping format](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/mapping.html) |
+| `mapping`          | <pre>object</pre>                            | Describes the data mapping to associate to the new collection, using Elasticsearch [mapping format](https://www.elastic.co/guide/en/elasticsearch/reference/7.4/mapping.html) |
 
 ---
 
