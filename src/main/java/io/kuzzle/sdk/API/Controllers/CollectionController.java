@@ -5,7 +5,9 @@ import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
 
+import java.util.ConcurrentModificationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CollectionController extends BaseController {
 
@@ -37,5 +39,31 @@ public class CollectionController extends BaseController {
         .query(query)
         .thenApplyAsync(
             (response) -> (Boolean) response.result);
+  }
+
+  /**
+   * Deletes every collections documents.
+   *
+   * @param index
+   * @param collection
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> truncate(
+      final String index,
+      final String collection) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "collection")
+        .put("action", "truncate");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
 }
