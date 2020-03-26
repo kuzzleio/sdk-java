@@ -5,7 +5,6 @@ import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
 
-import java.util.ConcurrentModificationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,7 +41,7 @@ public class CollectionController extends BaseController {
   }
 
   /**
-   * Deletes every collections documents.
+   * Removes all documents from collection.
    *
    * @param index
    * @param collection
