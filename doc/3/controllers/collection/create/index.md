@@ -21,13 +21,13 @@ This method will only update the mapping if the collection already exists.
 ## Arguments
 
 ```java
-public void create(
+public CompletableFuture<Void> create(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> mapping)
 throws NotConnectedException, InternalException
 
-public void create(
+public CompletableFuture<Void> create(
       final String index,
       final String collection)
 throws NotConnectedException, InternalException
