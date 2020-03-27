@@ -2,7 +2,7 @@
 code: true
 type: page
 title: truncate
-description: Remove all documents from collection
+description: Remove all documents from a collection
 ---
 
 # truncate
