@@ -7,7 +7,7 @@ description: Remove all documents from a collection
 
 # truncate
 
-Removes all documents from a collection, while keeping the associated mapping.
+Removes all documents from a collection, while keeping the associated mappings.
 
 <br/>
 
