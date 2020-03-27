@@ -1,6 +1,6 @@
 ConcurrentHashMap<String, Object> result = kuzzle
     .getCollectionController()
-    .getMapping("nyc-open-data", "test")
+    .getMapping("nyc-open-data", "yellow-taxi")
     .get();
 
 /*
