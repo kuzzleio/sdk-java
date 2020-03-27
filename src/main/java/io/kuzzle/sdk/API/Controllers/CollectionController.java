@@ -50,7 +50,7 @@ public class CollectionController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+  public void create(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> mappings) throws NotConnectedException, InternalException {
@@ -64,10 +64,7 @@ public class CollectionController extends BaseController {
         .put("action", "create")
         .put("body", mappings != null ? new KuzzleMap(mappings) : null);
 
-    return kuzzle
-        .query(query)
-        .thenApplyAsync(
-            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+    kuzzle.query(query);
   }
 
   /**
@@ -79,11 +76,11 @@ public class CollectionController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+  public void create(
       final String index,
       final String collection) throws NotConnectedException, InternalException {
 
-    return this.create(index, collection, null);
+    this.create(index, collection, null);
   }
 
 }

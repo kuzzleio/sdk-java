@@ -21,13 +21,13 @@ This method will only update the mapping if the collection already exists.
 ## Arguments
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+public void create(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> mapping)
 throws NotConnectedException, InternalException
 
-public CompletableFuture<ConcurrentHashMap<String, Object>> create(
+public void create(
       final String index,
       final String collection)
 throws NotConnectedException, InternalException
@@ -58,10 +58,6 @@ The mapping must have a root field `properties` that contain the mapping definit
 ```
 
 More information about database mappings [here](/core/2/guides/essentials/database-mappings).
-
-## Return
-
-A `ConcurrentHashMap` which has an `acknowledged` Boolean.
 
 ## Usage
 
