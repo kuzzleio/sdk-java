@@ -49,7 +49,7 @@ public class CollectionController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> truncate(
+  public CompletableFuture<Void> truncate(
       final String index,
       final String collection) throws NotConnectedException, InternalException {
 
@@ -63,6 +63,6 @@ public class CollectionController extends BaseController {
     return kuzzle
         .query(query)
         .thenApplyAsync(
-            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+            (response) -> (null));
   }
 }

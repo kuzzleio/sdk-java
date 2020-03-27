@@ -12,7 +12,7 @@ Removes all documents from a collection, while keeping the associated mappings.
 <br/>
 
 ```java
-public CompletableFuture<ConcurrentHashMap<String, Object>> truncate(
+public CompletableFuture<Void> truncate(
       final String index,
       final String collection) throws NotConnectedException, InternalException
 ```
@@ -23,10 +23,6 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> truncate(
 | ------------ | ----------------- | --------------- |
 | `index`      | <pre>String</pre> | Index name      |
 | `collection` | <pre>String</pre> | Collection name |
-
-## Returns
-
-A `ConcurrentHashMap` which has an `acknowledged` Boolean.
 
 ## Usage
 
