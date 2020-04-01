@@ -39,29 +39,29 @@ public class CollectionController extends BaseController {
             (response) -> (Boolean) response.result);
   }
 
-  /**
-   * Removes all documents from collection.
-   *
-   * @param index
-   * @param collection
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<Void> truncate(
-      final String index,
-      final String collection) throws NotConnectedException, InternalException {
-
-    final KuzzleMap query = new KuzzleMap();
-    query
-        .put("index", index)
-        .put("collection", collection)
-        .put("controller", "collection")
-        .put("action", "truncate");
-
-    return kuzzle
-        .query(query)
-        .thenApplyAsync(
-            (response) -> (null));
-  }
+//  /**
+//   * Removes all documents from collection.
+//   *
+//   * @param index
+//   * @param collection
+//   * @return a CompletableFuture
+//   * @throws NotConnectedException
+//   * @throws InternalException
+//   */
+//  public CompletableFuture<Void> truncate(
+//      final String index,
+//      final String collection) throws NotConnectedException, InternalException {
+//
+//    final KuzzleMap query = new KuzzleMap();
+//    query
+//        .put("index", index)
+//        .put("collection", collection)
+//        .put("controller", "collection")
+//        .put("action", "truncate");
+//
+//    return kuzzle
+//        .query(query)
+//        .thenApplyAsync(
+//            (response) -> (null));
+//  }
 }
