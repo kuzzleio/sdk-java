@@ -51,51 +51,51 @@ public class CollectionTest {
     kuzzleMock.getCollectionController().exists(index, collection);
   }
 
-  @Test
-  public void listCollectionTestA() throws NotConnectedException, InternalException {
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-    String index = "nyc-open-data";
-
-    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-    kuzzleMock.getCollectionController().list(index);
-    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-
-    assertEquals((arg.getValue()).getString("controller"), "collection");
-    assertEquals((arg.getValue()).getString("action"), "list");
-    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-  }
-
-  @Test
-  public void listCollectionTestB() throws NotConnectedException, InternalException {
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-    String index = "nyc-open-data";
-
-    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-    ListOptions options = new ListOptions();
-    options.setFrom(1);
-    options.setSize(20);
-    kuzzleMock.getCollectionController().list(index, options);
-    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-
-    assertEquals((arg.getValue()).getString("controller"), "collection");
-    assertEquals((arg.getValue()).getString("action"), "list");
-    assertEquals((arg.getValue()).getNumber("from"), 1);
-    assertEquals((arg.getValue()).getNumber("size"), 20);
-    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-  }
-
-  @Test(expected = NotConnectedException.class)
-  public void listCollectionShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
-    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-    String index = "nyc-open-data";
-
-    kuzzleMock.getCollectionController().list(index);
-  }
+//  @Test
+//  public void listCollectionTestA() throws NotConnectedException, InternalException {
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+//    String index = "nyc-open-data";
+//
+//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+//
+//    kuzzleMock.getCollectionController().list(index);
+//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+//
+//    assertEquals((arg.getValue()).getString("controller"), "collection");
+//    assertEquals((arg.getValue()).getString("action"), "list");
+//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+//  }
+//
+//  @Test
+//  public void listCollectionTestB() throws NotConnectedException, InternalException {
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+//    String index = "nyc-open-data";
+//
+//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+//
+//    ListOptions options = new ListOptions();
+//    options.setFrom(1);
+//    options.setSize(20);
+//    kuzzleMock.getCollectionController().list(index, options);
+//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+//
+//    assertEquals((arg.getValue()).getString("controller"), "collection");
+//    assertEquals((arg.getValue()).getString("action"), "list");
+//    assertEquals((arg.getValue()).getNumber("from"), 1);
+//    assertEquals((arg.getValue()).getNumber("size"), 20);
+//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+//  }
+//
+//  @Test(expected = NotConnectedException.class)
+//  public void listCollectionShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+//    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+//    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+//    String index = "nyc-open-data";
+//
+//    kuzzleMock.getCollectionController().list(index);
+//  }
 }
