@@ -41,42 +41,42 @@ public class CollectionController extends BaseController {
             (response) -> (Boolean) response.result);
   }
 
- /**
-  * List collections.
-  *
-  * @param index
-  * @param options
-  * @return a CompletableFuture
-  * @throws NotConnectedException
-  * @throws InternalException
-  */
- public CompletableFuture<ConcurrentHashMap<String, Object>> list(
-     final String index,
-     final ListOptions options) throws NotConnectedException, InternalException {
+  /**
+   * List collections.
+   *
+   * @param index
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> list(
+      final String index,
+      final ListOptions options) throws NotConnectedException, InternalException {
 
-   final KuzzleMap query = new KuzzleMap();
-   query
-       .put("index", index)
-       .put("controller", "collection")
-       .put("action", "list");
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("controller", "collection")
+        .put("action", "list");
 
-   if (options != null) {
-     query
-         .put("from", options.getFrom())
-         .put("size", options.getSize());
-   }
+    if (options != null) {
+      query
+          .put("from", options.getFrom())
+          .put("size", options.getSize());
+    }
 
-   return kuzzle
-       .query(query)
-       .thenApplyAsync(
-           (response) -> (ConcurrentHashMap<String, Object>) response.result);
- }
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+  }
 
- public CompletableFuture<ConcurrentHashMap<String, Object>> list(
-     final String index) throws NotConnectedException, InternalException {
+  public CompletableFuture<ConcurrentHashMap<String, Object>> list(
+      final String index) throws NotConnectedException, InternalException {
 
-   return this.list(index, null);
- }
+    return this.list(index, null);
+  }
 
   /**
    * Get collection mapping
