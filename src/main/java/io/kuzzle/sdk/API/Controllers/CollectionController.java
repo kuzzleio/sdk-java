@@ -40,48 +40,74 @@ public class CollectionController extends BaseController {
             (response) -> (Boolean) response.result);
   }
 
-//  /**
-//   * Creates a collection in a given index.
-//   *
-//   * @param index
-//   * @param collection
-//   * @param mappings
-//   * @return a CompletableFuture
-//   * @throws NotConnectedException
-//   * @throws InternalException
-//   */
-//  public CompletableFuture<Void> create(
-//      final String index,
-//      final String collection,
-//      final ConcurrentHashMap<String, Object> mappings) throws NotConnectedException, InternalException {
-//
-//    final KuzzleMap query = new KuzzleMap();
-//
-//    query
-//        .put("index", index)
-//        .put("collection", collection)
-//        .put("controller", "collection")
-//        .put("action", "create")
-//        .put("body", mappings != null ? new KuzzleMap(mappings) : null);
-//
-//    return kuzzle
-//          .query(query)
-//          .thenApplyAsync((response) -> null);
-//  }
-//
-//  /**
-//   * Creates a collection in a given index.
-//   *
-//   * @param index
-//   * @param collection
-//   * @return a CompletableFuture
-//   * @throws NotConnectedException
-//   * @throws InternalException
-//   */
-//  public CompletableFuture<Void> create(
-//      final String index,
-//      final String collection) throws NotConnectedException, InternalException {
-//
-//    return this.create(index, collection, null);
-//  }
+ /**
+  * Creates a collection in a given index.
+  *
+  * @param index
+  * @param collection
+  * @param mappings
+  * @return a CompletableFuture
+  * @throws NotConnectedException
+  * @throws InternalException
+  */
+ public CompletableFuture<Void> create(
+     final String index,
+     final String collection,
+     final ConcurrentHashMap<String, Object> mappings) throws NotConnectedException, InternalException {
+
+   final KuzzleMap query = new KuzzleMap();
+
+   query
+       .put("index", index)
+       .put("collection", collection)
+       .put("controller", "collection")
+       .put("action", "create")
+       .put("body", mappings != null ? new KuzzleMap(mappings) : null);
+
+   return kuzzle
+         .query(query)
+         .thenApplyAsync((response) -> null);
+ }
+
+ /**
+  * Creates a collection in a given index.
+  *
+  * @param index
+  * @param collection
+  * @return a CompletableFuture
+  * @throws NotConnectedException
+  * @throws InternalException
+  */
+ public CompletableFuture<Void> create(
+     final String index,
+     final String collection) throws NotConnectedException, InternalException {
+
+   return this.create(index, collection, null);
+ }
+  
+  /**
+   * Get collection mapping
+   *
+   * @param index
+   * @param collection
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> getMapping(
+      final String index,
+      final String collection) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "collection")
+        .put("action", "getMapping");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+  }
 }
