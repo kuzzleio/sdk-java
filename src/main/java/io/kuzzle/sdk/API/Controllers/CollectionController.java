@@ -110,4 +110,31 @@ public class CollectionController extends BaseController {
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
+
+  /**
+   * Gets the validation specifications associated to the given index and collection.
+   *
+   * @param index
+   * @param collection
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> getSpecifications(
+      final String index,
+      final String collection) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "collection")
+        .put("action", "getSpecifications");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+  }
 }
