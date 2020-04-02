@@ -136,4 +136,31 @@ public class CollectionController extends BaseController {
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
+
+  /**
+   * Deletes the validation specifications associated to the given index and collection.
+   *
+   * @param index
+   * @param collection
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Void> deleteSpecifications(
+      final String index,
+      final String collection) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "collection")
+        .put("action", "deleteSpecifications");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> null);
+  }
 }
