@@ -8,7 +8,10 @@
     fields.put("license", license);
     specifications.put("fields", fields);
 
-    ConcurrentHashMap<String, Object> result = kuzzle.getCollectionController().updateSpecifications("nyc-open-data", "yellow-taxi", specifications).get();
+    ConcurrentHashMap<String, Object> result = kuzzle
+        .getCollectionController()
+        .updateSpecifications("nyc-open-data", "yellow-taxi", specifications)
+        .get();
 
 /*
    {
