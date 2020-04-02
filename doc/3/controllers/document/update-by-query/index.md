@@ -60,6 +60,7 @@ Each updated document is an object of the `successes` array with the following p
 |------------- |--------------------------------------------- |--------------------------------- |
 | `_source`    | <pre>ConcurrentHashMap<String, Object></pre> | Updated document (if `source` option set to true)  |
 | `_id`        | <pre>String</pre>                            | ID of the udated document                   |
+| `_version`   | <pre>Integer</pre>                           | Version of the document in the persistent data storage |
 | `status`     | <pre>Integer</pre>                           | HTTP status code |
 
 Each errored document is an object of the `errors` array with the following properties:
