@@ -49,7 +49,6 @@ The following options can be set:
 | Arguments          | Type                                         | Description                       |
 | ------------------ | -------------------------------------------- | --------------------------------- |
 | `waitForRefresh`   | <pre>Boolean</pre>                           | If set to `true`, Kuzzle will wait for the persistence layer to finish indexing|
-| `retryOnConflict`  | <pre>Integer</pre>                           | The number of times the database layer should retry in case of version conflict |
 | `source`           | <pre>Boolean</pre>                           | If true, returns the updated document inside the response |
 
 ## Returns
