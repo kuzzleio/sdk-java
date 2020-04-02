@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CreateOptions {
 
   private String id;
+  private Integer retryOnConflict;
   private Boolean waitForRefresh;
   /**
    * Constructor
@@ -19,6 +20,11 @@ public class CreateOptions {
   public CreateOptions(CreateOptions options) {
     this.id = options.getId();
     this.waitForRefresh = options.getWaitForRefresh();
+    this.retryOnConflict = options.getRetryOnConflict();
+  }
+
+  public Integer getRetryOnConflict() {
+    return retryOnConflict;
   }
 
   public Boolean getWaitForRefresh() {
@@ -37,11 +43,16 @@ public class CreateOptions {
     this.id = id;
   }
 
+  public void setRetryOnConflict(Integer retryOnConflict) {
+    this.retryOnConflict = retryOnConflict;
+  }
+
   public ConcurrentHashMap<String, Object> toHashMap() {
     ConcurrentHashMap<String, Object> options = new ConcurrentHashMap<>();
 
     options.put("_id", this.id);
     options.put("waitForRefresh", this.waitForRefresh);
+    options.put("retryOnConflict", this.retryOnConflict);
 
     return options;
   }
