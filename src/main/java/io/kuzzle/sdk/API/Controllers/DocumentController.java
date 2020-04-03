@@ -550,6 +550,64 @@ public class DocumentController extends BaseController {
   }
 
   /**
+   * Updates multiple documents in a given collection and index.
+   *
+   * @param index
+   * @param collection
+   * @param documents
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mUpdate(
+      final String index,
+      final String collection,
+      final ArrayList<ConcurrentHashMap<String, Object>> documents,
+      final UpdateOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    Integer retryOnConflict = null;
+    Boolean waitForRefresh = null;
+    if (options != null) {
+      retryOnConflict = options.getRetryOnConflict();
+      waitForRefresh = options.getWaitForRefresh();
+    }
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "mUpdate")
+        .put("body", new KuzzleMap().put("documents", documents))
+        .put("retryOnConflict", retryOnConflict)
+        .put("waitForRefresh", waitForRefresh);
+
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
+  }
+
+  /**
+   * Updates multiple documents in a given collection and index.
+   *
+   * @param index
+   * @param collection
+   * @param documents
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> mUpdate(
+      final String index,
+      final String collection,
+      final ArrayList<ConcurrentHashMap<String, Object>> documents) throws NotConnectedException, InternalException {
+
+    return this.mUpdate(index, collection, documents, null);
+  }
+
+  /**
    * Creates or replaces multiple documents in a given collection and index.
    *
    * @param index
@@ -597,6 +655,35 @@ public class DocumentController extends BaseController {
       final ArrayList<ConcurrentHashMap<String, Object>> documents) throws NotConnectedException, InternalException {
 
     return this.mCreateOrReplace(index, collection, documents, null);
+  }
+
+  /**
+   * Validates data against existing validation rules.
+   *
+   * @param index
+   * @param collection
+   * @param document
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Boolean> validate(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "validate")
+        .put("body", new KuzzleMap(document));
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (Boolean) ((ConcurrentHashMap<String, Object>) response.result).get("valid"));
   }
 
   /**
@@ -656,11 +743,11 @@ public class DocumentController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public SearchResult search(
+  public CompletableFuture<SearchResult> search(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> searchQuery,
-      final SearchOptions options) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+      final SearchOptions options) throws NotConnectedException, InternalException {
 
     final KuzzleMap query = new KuzzleMap();
     query
@@ -668,7 +755,7 @@ public class DocumentController extends BaseController {
         .put("collection", collection)
         .put("controller", "document")
         .put("action", "search")
-        .put("body", new KuzzleMap().put("query", searchQuery));
+        .put("body", new KuzzleMap(searchQuery));
 
     if (options != null) {
       query
@@ -679,8 +766,10 @@ public class DocumentController extends BaseController {
       }
     }
 
-    Response response = kuzzle.query(query).get();
-    return new SearchResult(kuzzle, query, options, response);
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> new SearchResult(kuzzle, query, options, response));
   }
 
   /**
@@ -693,10 +782,10 @@ public class DocumentController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public SearchResult search(
+  public CompletableFuture<SearchResult> search(
       final String index,
       final String collection,
-      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
 
     return this.search(index, collection, searchQuery, new SearchOptions());
   }

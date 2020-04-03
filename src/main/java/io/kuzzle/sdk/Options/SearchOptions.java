@@ -4,9 +4,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SearchOptions {
 
-  private Integer from = 0;
+  private Integer from;
   private String scroll;
-  private Integer size = 10;
+  private Integer size;
   /**
    * Constructor
    */

@@ -109,14 +109,10 @@ public class SearchResult {
 
     if (this.scrollId != null) {
       nextRequest = this.getScrollRequest();
-    }
-
-    else if (this.options.getSize() != null
+    } else if (this.options.getSize() != null
         && ((ConcurrentHashMap<String, Object>) this.request.get("body")).get("sort") != null) {
       nextRequest = this.getSearchAfterRequest();
-    }
-
-    else if (this.options.getSize() != null) {
+    } else if (this.options.getSize() != null) {
 
       if (this.options.getFrom() != null && this.options.getFrom() > this.total) {
         return null;

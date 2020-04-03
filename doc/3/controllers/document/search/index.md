@@ -31,7 +31,7 @@ You can restrict the scroll session maximum duration under the `services.storage
 ## Arguments
  
 ```java
-public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>>> search(
+public CompletableFuture<SearchResult> search(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> searchQuery,
