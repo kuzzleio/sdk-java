@@ -35,8 +35,6 @@ public class SearchResult {
 
     ConcurrentHashMap<String, Object> _response = response.toMap();
 
-    System.out.println(response.result);
-    System.out.println(_response);
     this.kuzzle = kuzzle;
     this.options = options;
     this.request = request;
@@ -108,20 +106,16 @@ public class SearchResult {
     if (this.fetched >= this.total) return null;
 
     ConcurrentHashMap<String, Object> nextRequest = new ConcurrentHashMap<>();
-
     if (this.scrollId != null) {
       nextRequest = this.getScrollRequest();
     } else if (this.options.getSize() != null
         && ((ConcurrentHashMap<String, Object>) this.request.get("body")).get("sort") != null) {
       nextRequest = this.getSearchAfterRequest();
     } else if (this.options.getSize() != null) {
-
       if (this.options.getFrom() != null && this.options.getFrom() > this.total) {
         return null;
       }
 
-      System.out.println(this.hits);
-      System.out.println(this.fetched);
       this.options.setFrom(this.fetched);
       nextRequest = this.request;
     }
@@ -130,9 +124,7 @@ public class SearchResult {
       return null;
     }
 
-    System.out.println(nextRequest);
     Response response = this.kuzzle.query(nextRequest).get();
-
     return new SearchResult(this.kuzzle, nextRequest, this.options, response, this.fetched);
   }
 }
