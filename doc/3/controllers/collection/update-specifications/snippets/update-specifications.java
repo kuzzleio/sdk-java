@@ -20,7 +20,7 @@
       license={
         mandatory=true,
         type="string"
-          }
-        }
+      }
+      }
     }
  */
