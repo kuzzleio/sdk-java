@@ -35,6 +35,8 @@ public class SearchResult {
 
     ConcurrentHashMap<String, Object> _response = response.toMap();
 
+    System.out.println(response.result);
+    System.out.println(_response);
     this.kuzzle = kuzzle;
     this.options = options;
     this.request = request;
@@ -118,6 +120,8 @@ public class SearchResult {
         return null;
       }
 
+      System.out.println(this.hits);
+      System.out.println(this.fetched);
       this.options.setFrom(this.fetched);
       nextRequest = this.request;
     }
@@ -126,6 +130,7 @@ public class SearchResult {
       return null;
     }
 
+    System.out.println(nextRequest);
     Response response = this.kuzzle.query(nextRequest).get();
 
     return new SearchResult(this.kuzzle, nextRequest, this.options, response, this.fetched);

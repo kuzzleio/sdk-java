@@ -25,6 +25,8 @@
         .getDocumentController()
         .search("nyc-open-data", "yellow-taxi", searchQuery).get();
 
+    System.out.println("Successfully retrieved " + results.total + " documents");
+
   /*
     {
       "aggregations"=undefined,
@@ -49,4 +51,3 @@
     "fetched"=5,
     "scroll_id"=undefined
   */
-    System.out.println("Successfully retrieved " + results.total + " documents");

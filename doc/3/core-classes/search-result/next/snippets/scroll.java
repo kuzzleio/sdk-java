@@ -1,11 +1,12 @@
     ArrayList<ConcurrentHashMap<String, Object>> documents = new ArrayList<>();
-    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
     ConcurrentHashMap<String, Object> body = new ConcurrentHashMap<>();
 
     body.put("category", "suv");
 
     for (int i = 0; i < 100; i++) {
+      ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
       document.put("_id", "suv_no" + i);
+      document.put("body", body);
       documents.add(document);
     }
 
