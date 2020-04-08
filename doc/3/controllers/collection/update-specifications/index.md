@@ -32,16 +32,7 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> updateSpecifications
 
 A `ConcurrentHashMap<String, Object>` representing the specifications.
 
-It must follow the [Specification Structure](/core/2/guides/essentials/data-validation):
-
-```java
-{
-  strict=<boolean>,
-  fields={
-    // ... specification for each field
-  }
-}
-```
+It must follow the [Specification Structure](/core/2/guides/essentials/data-validation).
 
 ## Returns
 
