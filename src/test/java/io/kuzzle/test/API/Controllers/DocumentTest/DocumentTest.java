@@ -946,11 +946,84 @@ public class DocumentTest {
 
   @Test
   public void deleteByQueryDocumentTestA() throws NotConnectedException, InternalException {
+<<<<<<< HEAD
+=======
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
     String collection = "yellow-taxi";
 
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    query.put("match", match);
+    searchQuery.put("query", query);
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().deleteByQuery(index, collection, searchQuery);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "deleteByQuery");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), null);
+    assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
+  }
+
+  @Test
+  public void deleteByQueryDocumentTestB() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    query.put("match", match);
+    searchQuery.put("query", query);
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().deleteByQuery(index, collection, searchQuery, false);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "deleteByQuery");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void deleteByQueryDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    searchQuery.put("match", match);
+
+    kuzzleMock.getDocumentController().deleteByQuery(index, collection, searchQuery);
+  }
+
+  @Test
+  public void validateDocumentTest() throws NotConnectedException, InternalException {
+>>>>>>> 3-dev
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+<<<<<<< HEAD
     ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
     ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
     ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
@@ -1049,6 +1122,37 @@ public class DocumentTest {
 
     document.put("Tirion", "Fordring");
 
+=======
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+
+    document.put("Tirion", "Fordring");
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getDocumentController().validate(index, collection, document);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "validate");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("Tirion").toString(), "Fordring");
+
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void validateDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> document = new ConcurrentHashMap<>();
+
+    document.put("Tirion", "Fordring");
+
+>>>>>>> 3-dev
     kuzzleMock.getDocumentController().validate(index, collection, document);
   }
 
@@ -1190,114 +1294,114 @@ public class DocumentTest {
     kuzzleMock.getDocumentController().updateByQuery(index, collection, searchQuery, changes);
   }
 
-//  @Test
-//  public void searchDocumentTestA() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-//
-//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-//    String index = "nyc-open-data";
-//    String collection = "yellow-taxi";
-//
-//    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
-//    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
-//    ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
-//    match.put("Hello", "Clarisse");
-//    query.put("match", match);
-//    searchQuery.put("query", query);
-//
-//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-//    CompletableFuture<Response> queryResponse = new CompletableFuture<>();
-//
-//    Response r = new Response();
-//    r.result = new ConcurrentHashMap<String, Object>();
-//    ((ConcurrentHashMap<String, Object>) r.result).put("aggregations", new ConcurrentHashMap<String, Object>());
-//    ((ConcurrentHashMap<String, Object>) r.result).put("total", new LazilyParsedNumber("1"));
-//    ((ConcurrentHashMap<String, Object>) r.result).put("scrollId", "");
-//    ((ConcurrentHashMap<String, Object>) r.result).put("hits", new ArrayList<ConcurrentHashMap<String, Object>>());
-//    doReturn(queryResponse).when(kuzzleMock).query(any(ConcurrentHashMap.class));
-//
-//    new Thread(() -> {
-//      try {
-//        kuzzleMock.getDocumentController().search(index, collection, searchQuery);
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//    }).start();
-//    queryResponse.complete(r);
-//    Thread.sleep(1000);
-//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-//
-//    assertEquals((arg.getValue()).getString("controller"), "document");
-//    assertEquals((arg.getValue()).getString("action"), "search");
-//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-//    assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
-//
-//  }
-//
-//  @Test
-//  public void searchDocumentTestB() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-//
-//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-//    String index = "nyc-open-data";
-//    String collection = "yellow-taxi";
-//    SearchOptions options = new SearchOptions();
-//    options.setSize(10);
-//    options.setFrom(0);
-//    options.setScroll("30s");
-//
-//    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
-//    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
-//    ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
-//    match.put("Hello", "Clarisse");
-//    query.put("match", match);
-//    searchQuery.put("query", query);
-//
-//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-//    CompletableFuture<Response> queryResponse = new CompletableFuture<>();
-//
-//    Response r = new Response();
-//    r.result = new ConcurrentHashMap<String, Object>();
-//    ((ConcurrentHashMap<String, Object>) r.result).put("aggregations", new ConcurrentHashMap<String, Object>());
-//    ((ConcurrentHashMap<String, Object>) r.result).put("total", new LazilyParsedNumber("1"));
-//    ((ConcurrentHashMap<String, Object>) r.result).put("scrollId", "");
-//    ((ConcurrentHashMap<String, Object>) r.result).put("hits", new ArrayList<ConcurrentHashMap<String, Object>>());
-//    doReturn(queryResponse).when(kuzzleMock).query(any(ConcurrentHashMap.class));
-//
-//    new Thread(() -> {
-//      try {
-//        kuzzleMock.getDocumentController().search(index, collection, searchQuery, options);
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//    }).start();
-//    queryResponse.complete(r);
-//    Thread.sleep(1000);
-//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-//
-//    assertEquals((arg.getValue()).getString("controller"), "document");
-//    assertEquals((arg.getValue()).getString("action"), "search");
-//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-//    assertEquals((arg.getValue()).getNumber("from"), 0);
-//    assertEquals((arg.getValue()).getNumber("size"), 10);
-//    assertEquals((arg.getValue()).getString("scroll"), "30s");
-//
-//    assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
-//
-//  }
-//
-//  @Test(expected = NotConnectedException.class)
-//  public void searchDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-//    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-//    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-//
-//    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-//    String index = "nyc-open-data";
-//    String collection = "yellow-taxi";
-//
-//    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
-//    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
-//    match.put("Hello", "Clarisse");
-//    searchQuery.put("match", match);
-//
-//    kuzzleMock.getDocumentController().search(index, collection, searchQuery);
-//  }
+  @Test
+  public void searchDocumentTestA() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    query.put("match", match);
+    searchQuery.put("query", query);
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+    CompletableFuture<Response> queryResponse = new CompletableFuture<>();
+
+    Response r = new Response();
+    r.result = new ConcurrentHashMap<String, Object>();
+    ((ConcurrentHashMap<String, Object>) r.result).put("aggregations", new ConcurrentHashMap<String, Object>());
+    ((ConcurrentHashMap<String, Object>) r.result).put("total", new LazilyParsedNumber("1"));
+    ((ConcurrentHashMap<String, Object>) r.result).put("scrollId", "");
+    ((ConcurrentHashMap<String, Object>) r.result).put("hits", new ArrayList<ConcurrentHashMap<String, Object>>());
+    doReturn(queryResponse).when(kuzzleMock).query(any(ConcurrentHashMap.class));
+
+    new Thread(() -> {
+      try {
+        kuzzleMock.getDocumentController().search(index, collection, searchQuery);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).start();
+    queryResponse.complete(r);
+    Thread.sleep(1000);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "search");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
+
+  }
+
+  @Test
+  public void searchDocumentTestB() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+    SearchOptions options = new SearchOptions();
+    options.setSize(10);
+    options.setFrom(0);
+    options.setScroll("30s");
+
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> query = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    query.put("match", match);
+    searchQuery.put("query", query);
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+    CompletableFuture<Response> queryResponse = new CompletableFuture<>();
+
+    Response r = new Response();
+    r.result = new ConcurrentHashMap<String, Object>();
+    ((ConcurrentHashMap<String, Object>) r.result).put("aggregations", new ConcurrentHashMap<String, Object>());
+    ((ConcurrentHashMap<String, Object>) r.result).put("total", new LazilyParsedNumber("1"));
+    ((ConcurrentHashMap<String, Object>) r.result).put("scrollId", "");
+    ((ConcurrentHashMap<String, Object>) r.result).put("hits", new ArrayList<ConcurrentHashMap<String, Object>>());
+    doReturn(queryResponse).when(kuzzleMock).query(any(ConcurrentHashMap.class));
+
+    new Thread(() -> {
+      try {
+        kuzzleMock.getDocumentController().search(index, collection, searchQuery, options);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).start();
+    queryResponse.complete(r);
+    Thread.sleep(1000);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "document");
+    assertEquals((arg.getValue()).getString("action"), "search");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getNumber("from"), 0);
+    assertEquals((arg.getValue()).getNumber("size"), 10);
+    assertEquals((arg.getValue()).getString("scroll"), "30s");
+
+    assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
+
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void searchDocumentShouldThrowWhenNotConnected() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> match = new ConcurrentHashMap<>();
+    match.put("Hello", "Clarisse");
+    searchQuery.put("match", match);
+
+    kuzzleMock.getDocumentController().search(index, collection, searchQuery);
+  }
 }
