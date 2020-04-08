@@ -89,7 +89,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "create");
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
+    assertEquals(((KuzzleMap) arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
   }
@@ -153,7 +153,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "createOrReplace");
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
+    assertEquals(((KuzzleMap) arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
   }
@@ -208,7 +208,7 @@ public class DocumentTest {
     document.put("name", "Yoann");
 
     UpdateOptions options = new UpdateOptions();
-    options.setWaitForRefresh(false);
+    options.setWaitForRefresh(true);
     options.setSource(true);
     options.setRetryOnConflict(1);
 
@@ -222,7 +222,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
     assertEquals(((KuzzleMap) arg.getValue()).getNumber("retryOnConflict"), 1);
-    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals(((KuzzleMap) arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((KuzzleMap) arg.getValue()).getBoolean("source"), true);
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
   }
@@ -348,13 +348,13 @@ public class DocumentTest {
 
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().mCreate(index, collection, documents, false);
+    kuzzleMock.getDocumentController().mCreate(index, collection, documents, true);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
 
     assertEquals((arg.getValue()).getString("controller"), "document");
     assertEquals((arg.getValue()).getString("action"), "mCreate");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
@@ -422,13 +422,13 @@ public class DocumentTest {
     ids.add("some-id2");
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().mDelete(index, collection, ids, false);
+    kuzzleMock.getDocumentController().mDelete(index, collection, ids, true);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
 
     assertEquals((arg.getValue()).getString("controller"), "document");
     assertEquals((arg.getValue()).getString("action"), "mDelete");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ArrayList<String>) (((KuzzleMap) (arg.getValue()).get("body"))).get("ids")).get(0), "some-id1");
     assertEquals(((ArrayList<String>) (((KuzzleMap) (arg.getValue()).get("body"))).get("ids")).get(1), "some-id2");
   }
@@ -469,7 +469,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "replace");
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
+    assertEquals(((KuzzleMap) arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("name").toString(), "Yoann");
     assertEquals(((ConcurrentHashMap<String, Object>) (((KuzzleMap) arg.getValue()).get("body"))).get("nickname").toString(), "El angel de la muerte que hace el JAVA");
   }
@@ -531,7 +531,7 @@ public class DocumentTest {
     assertEquals(((KuzzleMap) arg.getValue()).getString("action"), "delete");
     assertEquals(((KuzzleMap) arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals(((KuzzleMap) arg.getValue()).getString("_id"), "some-id");
-    assertEquals(((KuzzleMap) arg.getValue()).getBoolean("waitForRefresh"), true);
+    assertEquals(((KuzzleMap) arg.getValue()).getString("refresh"), "wait_for");
   }
 
   @Test
@@ -665,13 +665,13 @@ public class DocumentTest {
 
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().mReplace(index, collection, documents, false);
+    kuzzleMock.getDocumentController().mReplace(index, collection, documents, true);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
 
     assertEquals((arg.getValue()).getString("controller"), "document");
     assertEquals((arg.getValue()).getString("action"), "mReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
@@ -798,7 +798,7 @@ public class DocumentTest {
 
     UpdateOptions options = new UpdateOptions();
     options.setRetryOnConflict(0);
-    options.setWaitForRefresh(false);
+    options.setWaitForRefresh(true);
 
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
@@ -809,7 +809,7 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "mUpdate");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getNumber("retryOnConflict"), 0);
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
@@ -905,13 +905,13 @@ public class DocumentTest {
 
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().mCreateOrReplace(index, collection, documents, false);
+    kuzzleMock.getDocumentController().mCreateOrReplace(index, collection, documents, true);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
 
     assertEquals((arg.getValue()).getString("controller"), "document");
     assertEquals((arg.getValue()).getString("action"), "mCreateOrReplace");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(0).get("_id").toString(), "some-id1");
     assertEquals(((ArrayList<ConcurrentHashMap<String, Object>>) (((KuzzleMap) (arg.getValue()).get("body"))).get("documents")).get(1).get("_id").toString(), "some-id2");
   }
@@ -986,13 +986,13 @@ public class DocumentTest {
 
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
-    kuzzleMock.getDocumentController().deleteByQuery(index, collection, searchQuery, false);
+    kuzzleMock.getDocumentController().deleteByQuery(index, collection, searchQuery, true);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
 
     assertEquals((arg.getValue()).getString("controller"), "document");
     assertEquals((arg.getValue()).getString("action"), "deleteByQuery");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
   }
 
@@ -1151,7 +1151,7 @@ public class DocumentTest {
     ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
 
     UpdateOptions options = new UpdateOptions();
-    options.setWaitForRefresh(false);
+    options.setWaitForRefresh(true);
     options.setSource(true);
     options.setRetryOnConflict(1);
     ConcurrentHashMap<String, Object> changes = new ConcurrentHashMap<>();
@@ -1164,7 +1164,7 @@ public class DocumentTest {
     assertEquals((arg.getValue()).getString("action"), "updateByQuery");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getNumber("retryOnConflict"), 1);
-    assertEquals((arg.getValue()).getBoolean("waitForRefresh"), false);
+    assertEquals((arg.getValue()).getString("refresh"), "wait_for");
     assertEquals((arg.getValue()).getBoolean("source"), true);
     assertEquals(((ConcurrentHashMap<String, Object>) ((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("query")).get("match")).get("Hello"), "Clarisse");
     assertEquals((((ConcurrentHashMap<String, Object>) (((KuzzleMap) (arg.getValue()).get("body"))).get("changes")).get("Hello")), "Mister Anderson");
