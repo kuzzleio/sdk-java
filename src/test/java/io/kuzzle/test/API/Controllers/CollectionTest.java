@@ -179,34 +179,65 @@ public class CollectionTest {
     kuzzleMock.getCollectionController().getMapping(index, collection);
   }
 
-//  @Test
-//  public void deleteSpecificationsCollectionTest() throws NotConnectedException, InternalException {
-//
-//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-//    String index = "nyc-open-data";
-//    String collection = "yellow-taxi";
-//
-//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-//
-//    kuzzleMock.getCollectionController().deleteSpecifications(index, collection);
-//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-//
-//    assertEquals((arg.getValue()).getString("controller"), "collection");
-//    assertEquals((arg.getValue()).getString("action"), "deleteSpecifications");
-//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-//    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
-//  }
-//
-//  @Test(expected = NotConnectedException.class)
-//  public void deleteSpecificationsCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
-//
-//    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-//    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-//
-//    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-//    String index = "nyc-open-data";
-//    String collection = "yellow-taxi";
-//
-//    kuzzleMock.getCollectionController().deleteSpecifications(index, collection);
-//  }
+  @Test
+  public void deleteSpecificationsCollectionTest() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getCollectionController().deleteSpecifications(index, collection);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "collection");
+    assertEquals((arg.getValue()).getString("action"), "deleteSpecifications");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void deleteSpecificationsCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
+
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    kuzzleMock.getCollectionController().deleteSpecifications(index, collection);
+  }
+
+  @Test
+  public void getSpecificationsCollectionTest() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    kuzzleMock.getCollectionController().getSpecifications(index, collection);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "collection");
+    assertEquals((arg.getValue()).getString("action"), "getSpecifications");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void getSpecificationsCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
+
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    kuzzleMock.getCollectionController().getSpecifications(index, collection);
+  }
 }
