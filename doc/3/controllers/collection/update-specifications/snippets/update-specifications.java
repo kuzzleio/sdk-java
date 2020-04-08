@@ -21,6 +21,6 @@
         mandatory=true,
         type="string"
       }
-        }
+      }
     }
  */
