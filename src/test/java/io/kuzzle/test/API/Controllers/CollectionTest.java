@@ -180,58 +180,6 @@ public class CollectionTest {
   }
 
   @Test
-  public void updateSpecificationsCollectionTest() throws NotConnectedException, InternalException {
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
-
-    ConcurrentHashMap<String, Object> specifications = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> fields = new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, Object> license = new ConcurrentHashMap<>();
-
-    specifications.put("strict", false);
-    license.put("mandatory", true);
-    license.put("type", "string");
-    fields.put("license", license);
-    specifications.put("fields", fields);
-
-    kuzzleMock.getCollectionController().updateSpecifications(index, collection, specifications);
-    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
-
-    assertEquals((arg.getValue()).getString("controller"), "collection");
-    assertEquals((arg.getValue()).getString("action"), "updateSpecifications");
-    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
-    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
-    assertEquals((
-        (ConcurrentHashMap<String, Object>) (
-            (ConcurrentHashMap<String, Object>) (
-                ((ConcurrentHashMap<String, Object>)
-                    ((arg.getValue())
-                        .get("body")))
-                    .get("fields")))
-            .get("license"))
-        .get("type").toString(), "string");
-  }
-
-  @Test(expected = NotConnectedException.class)
-  public void updateSpecificationsCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
-
-    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
-    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
-
-    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
-    String index = "nyc-open-data";
-    String collection = "yellow-taxi";
-
-    ConcurrentHashMap<String, Object> specifications = new ConcurrentHashMap<>();
-
-    kuzzleMock.getCollectionController().updateSpecifications(index, collection, specifications);
-  }
-
-  @Test
   public void getSpecificationsCollectionTest() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
@@ -261,4 +209,56 @@ public class CollectionTest {
 
     kuzzleMock.getCollectionController().getSpecifications(index, collection);
   }
+
+//  @Test
+//  public void updateSpecificationsCollectionTest() throws NotConnectedException, InternalException {
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+//
+//    ConcurrentHashMap<String, Object> specifications = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> fields = new ConcurrentHashMap<>();
+//    ConcurrentHashMap<String, Object> license = new ConcurrentHashMap<>();
+//
+//    specifications.put("strict", false);
+//    license.put("mandatory", true);
+//    license.put("type", "string");
+//    fields.put("license", license);
+//    specifications.put("fields", fields);
+//
+//    kuzzleMock.getCollectionController().updateSpecifications(index, collection, specifications);
+//    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+//
+//    assertEquals((arg.getValue()).getString("controller"), "collection");
+//    assertEquals((arg.getValue()).getString("action"), "updateSpecifications");
+//    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+//    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
+//    assertEquals((
+//        (ConcurrentHashMap<String, Object>) (
+//            (ConcurrentHashMap<String, Object>) (
+//                ((ConcurrentHashMap<String, Object>)
+//                    ((arg.getValue())
+//                        .get("body")))
+//                    .get("fields")))
+//            .get("license"))
+//        .get("type").toString(), "string");
+//  }
+//
+//  @Test(expected = NotConnectedException.class)
+//  public void updateSpecificationsCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
+//
+//    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+//    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+//
+//    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+//    String index = "nyc-open-data";
+//    String collection = "yellow-taxi";
+//
+//    ConcurrentHashMap<String, Object> specifications = new ConcurrentHashMap<>();
+//
+//    kuzzleMock.getCollectionController().updateSpecifications(index, collection, specifications);
+//  }
 }

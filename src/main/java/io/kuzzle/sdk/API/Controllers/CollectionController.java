@@ -138,36 +138,6 @@ public class CollectionController extends BaseController {
   }
 
   /**
-   * Updates validation specifications for a collection.
-   *
-   * @param index
-   * @param collection
-   * @param specifications
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<ConcurrentHashMap<String, Object>> updateSpecifications(
-      final String index,
-      final String collection,
-      final ConcurrentHashMap<String, Object> specifications) throws NotConnectedException, InternalException {
-
-    final KuzzleMap query = new KuzzleMap();
-
-    query
-        .put("index", index)
-        .put("collection", collection)
-        .put("controller", "collection")
-        .put("action", "updateSpecifications")
-        .put("body", new KuzzleMap(specifications));
-
-    return kuzzle
-        .query(query)
-        .thenApplyAsync(
-            (response) -> (ConcurrentHashMap<String, Object>) response.result);
-  }
-
-  /**
    * Gets the validation specifications associated to the given index and collection.
    *
    * @param index
@@ -193,4 +163,34 @@ public class CollectionController extends BaseController {
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
+
+//  /**
+//   * Updates validation specifications for a collection.
+//   *
+//   * @param index
+//   * @param collection
+//   * @param specifications
+//   * @return a CompletableFuture
+//   * @throws NotConnectedException
+//   * @throws InternalException
+//   */
+//  public CompletableFuture<ConcurrentHashMap<String, Object>> updateSpecifications(
+//      final String index,
+//      final String collection,
+//      final ConcurrentHashMap<String, Object> specifications) throws NotConnectedException, InternalException {
+//
+//    final KuzzleMap query = new KuzzleMap();
+//
+//    query
+//        .put("index", index)
+//        .put("collection", collection)
+//        .put("controller", "collection")
+//        .put("action", "updateSpecifications")
+//        .put("body", new KuzzleMap(specifications));
+//
+//    return kuzzle
+//        .query(query)
+//        .thenApplyAsync(
+//            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+//  }
 }
