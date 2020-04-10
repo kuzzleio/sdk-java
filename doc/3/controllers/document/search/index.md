@@ -65,7 +65,7 @@ The following options can be set:
 | ---------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `from`     | <pre>Integer</pre><br/>(`0`)    | Offset of the first document to fetch                                                                                                                                                                             |
 | `size`     | <pre>Integer</pre><br/>(`10`)   | Maximum number of documents to retrieve per page                                                                                                                                                                  |
-| `scroll`   | <pre>String</pre><br/>(`""`)    | When set, gets a forward-only cursor having its ttl set to the given value (ie `30s`; cf [elasticsearch time limits](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/common-options.html#time-units)) |
+| `scroll`   | <pre>String</pre><br/>(`""`)    | When set, gets a forward-only cursor having its ttl set to the given value (ie `1s`; cf [elasticsearch time limits](https://www.elastic.co/guide/en/elasticsearch/reference/7.3/common-options.html#time-units)) |
 
 ## Return
 
