@@ -15,7 +15,7 @@
       .mCreate("nyc-open-data", "yellow-taxi", documents, true).get();
 
     SearchOptions options = new SearchOptions();
-    options.setScroll("10s");
+    options.setScroll("1s");
     options.setSize(10);
 
     ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
