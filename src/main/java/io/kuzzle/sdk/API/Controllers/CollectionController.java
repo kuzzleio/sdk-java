@@ -111,29 +111,29 @@ public class CollectionController extends BaseController {
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
 
-  /**
-   * Refreshes collection.
-   *
-   * @param index
-   * @param collection
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<Void> refresh(
-      final String index,
-      final String collection) throws NotConnectedException, InternalException {
-
-    final KuzzleMap query = new KuzzleMap();
-    query
-        .put("index", index)
-        .put("collection", collection)
-        .put("controller", "collection")
-        .put("action", "refresh");
-
-    return kuzzle
-        .query(query)
-        .thenApplyAsync(
-            (response) -> null);
-  }
+//  /**
+//   * Refreshes collection.
+//   *
+//   * @param index
+//   * @param collection
+//   * @return a CompletableFuture
+//   * @throws NotConnectedException
+//   * @throws InternalException
+//   */
+//  public CompletableFuture<Void> refresh(
+//      final String index,
+//      final String collection) throws NotConnectedException, InternalException {
+//
+//    final KuzzleMap query = new KuzzleMap();
+//    query
+//        .put("index", index)
+//        .put("collection", collection)
+//        .put("controller", "collection")
+//        .put("action", "refresh");
+//
+//    return kuzzle
+//        .query(query)
+//        .thenApplyAsync(
+//            (response) -> null);
+//  }
 }
