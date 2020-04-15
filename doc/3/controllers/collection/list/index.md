@@ -14,10 +14,6 @@ The returned list is sorted in alphanumerical order.
 
 ```java
 public CompletableFuture<ConcurrentHashMap<String, Object>> list(
-      final String index,
-      final ListOptions options) throws NotConnectedException, InternalException
-
-public CompletableFuture<ConcurrentHashMap<String, Object>> list(
       final String index) throws NotConnectedException, InternalException
 ```
 
@@ -25,18 +21,6 @@ public CompletableFuture<ConcurrentHashMap<String, Object>> list(
 | Arguments | Type                   | Description   |
 | --------- | ---------------------- | ------------- |
 | `index`   | <pre>String</pre>      | Index name    |
-| `options` | <pre>ListOptions</pre> | List options |
-
-### options
-
-A [ListOptions](/sdk/java/3/core-classes/list-options) object.
-
-The following options can be set:
-
-| Argument   | Type                             | Description                                                                  |
-| ---------- | -------------------------------- | ---------------------------------------------------------------------------- |
-| `from`     | <pre>Integer</pre> <br/>(`0`)    | Offset of the first result                                                   |
-| `size`     | <pre>Integer</pre> <br/>(`10`)   | Maximum number of returned results                                           |
 
 ## Returns
 
