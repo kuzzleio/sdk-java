@@ -7,7 +7,9 @@ description: Forces an Elasticsearch search index update
 
 # refresh
 
-When writing or deleting documents in Kuzzle, the update needs to be indexed before being available in search results.
+When writing or deleting documents in Kuzzle, it can take up to 1 second for search indexes to be updated, making the changes available in search results.
+
+This API route forces an immediate refresh of search indexes.
 
 :::info
 A refresh operation comes with some performance costs.
