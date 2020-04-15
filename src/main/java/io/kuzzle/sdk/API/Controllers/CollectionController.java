@@ -138,6 +138,32 @@ public class CollectionController extends BaseController {
   }
 
   /**
+   * Refreshes collection.
+   *
+   * @param index
+   * @param collection
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Void> refresh(
+      final String index,
+      final String collection) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "collection")
+        .put("action", "refresh");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> null);
+  }
+
+  /**
    * Deletes the validation specifications associated to the given index and collection.
    *
    * @param index
