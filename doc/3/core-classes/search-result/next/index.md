@@ -13,7 +13,7 @@ Advances through the search results and returns the next page of items.
 ## Arguments
 
 ```java
-public SearchResult next()
+public CompletableFuture<SearchResult> next()
 ```
 
 ## Returns

@@ -68,7 +68,7 @@ public class SearchResultTest {
     response.result = result;
 
     SearchResult searchResult = new SearchResult(kuzzleMock, request, options, response, 10);
-    searchResult = searchResult.next();
+    searchResult = searchResult.next().get();
     Assert.assertNull(searchResult);
   }
 
@@ -86,7 +86,7 @@ public class SearchResultTest {
     response.result = result;
 
     SearchResult searchResult = new SearchResult(kuzzleMock, request, options, response, 10);
-    searchResult = searchResult.next();
+    searchResult = searchResult.next().get();
     Assert.assertNull(searchResult);
   }
 }

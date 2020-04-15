@@ -102,8 +102,10 @@ public class SearchResult {
     return nextRequest;
   }
 
-  public SearchResult next() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-    if (this.fetched >= this.total) return null;
+  public CompletableFuture<SearchResult> next() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
+    System.out.println("fetched: " + this.fetched + " total: " + this.total);
+
+    if (this.fetched >= this.total) return CompletableFuture.completedFuture(null);
 
     ConcurrentHashMap<String, Object> nextRequest = new ConcurrentHashMap<>();
     if (this.scrollId != null) {
@@ -113,7 +115,7 @@ public class SearchResult {
       nextRequest = this.getSearchAfterRequest();
     } else if (this.options.getSize() != null) {
       if (this.options.getFrom() != null && this.options.getFrom() > this.total) {
-        return null;
+        return CompletableFuture.completedFuture(null);
       }
 
       this.options.setFrom(this.fetched);
@@ -121,10 +123,12 @@ public class SearchResult {
     }
 
     if (nextRequest == null) {
-      return null;
+      return CompletableFuture.completedFuture(null);
     }
 
-    Response response = this.kuzzle.query(nextRequest).get();
-    return new SearchResult(this.kuzzle, nextRequest, this.options, response, this.fetched);
+    final ConcurrentHashMap<String, Object> request = nextRequest;
+    return this.kuzzle.query(nextRequest)
+        .thenApplyAsync(
+            (response) -> new SearchResult(this.kuzzle, request, this.options, response, this.fetched));
   }
 }

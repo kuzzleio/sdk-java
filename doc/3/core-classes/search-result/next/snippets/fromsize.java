@@ -34,7 +34,7 @@
 
     while (results != null) {
       matched.addAll(results.hits);
-      results = results.next();
+      results = results.next().get();
     }
 
   /*
