@@ -13,7 +13,7 @@ Advances through the search results and returns the next page of items.
 ## Arguments
 
 ```java
-next();
+public SearchResult next()
 ```
 
 ## Returns
