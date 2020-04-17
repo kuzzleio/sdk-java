@@ -103,7 +103,6 @@ public class SearchResult {
   }
 
   public CompletableFuture<SearchResult> next() throws NotConnectedException, InternalException, ExecutionException, InterruptedException {
-    System.out.println("fetched: " + this.fetched + " total: " + this.total);
 
     if (this.fetched >= this.total) return CompletableFuture.completedFuture(null);
 
