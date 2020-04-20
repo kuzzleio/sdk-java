@@ -276,4 +276,27 @@ public class CollectionController extends BaseController {
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
+
+  /**
+   * List collections.
+   *
+   * @param index
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> list(
+      final String index) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("controller", "collection")
+        .put("action", "list");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+  }
 }
