@@ -50,11 +50,7 @@ It can lead to memory leaks if ascroll duration too great is provided, or if too
 You can restrict the scroll session maximum duration under the `services.storage.maxScrollDuration` configuration key.
 :::
 
-<<<<<<< HEAD
-
-=======
 <<< ./snippets/scroll.java
->>>>>>> 3-dev
 
 ### Strategy: sort / size
 
