@@ -1,6 +1,7 @@
 ---
 code: true
 type: page
+<<<<<<< HEAD
 title: searchSpecifications
 description: Search for specifications
 ---
@@ -63,3 +64,4 @@ The following options can be set:
 ## Usage
 
 <<< ./snippets/search-specifications.java
+

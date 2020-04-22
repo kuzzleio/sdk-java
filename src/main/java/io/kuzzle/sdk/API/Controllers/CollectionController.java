@@ -279,51 +279,74 @@ public class CollectionController extends BaseController {
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
 
-//  /**
-//   * Searches collection specifications.
-//   *
-//   * @param searchQuery
-//   * @param options
-//   * @return a CompletableFuture
-//   * @throws NotConnectedException
-//   * @throws InternalException
-//   */
-//  public CompletableFuture<SearchResult> searchSpecifications(
-//      final ConcurrentHashMap<String, Object> searchQuery,
-//      final SearchOptions options) throws NotConnectedException, InternalException {
-//
-//    final KuzzleMap query = new KuzzleMap();
-//    query
-//        .put("controller", "collection")
-//        .put("action", "searchSpecifications")
-//        .put("body", new KuzzleMap(searchQuery));
-//
-//    if (options != null) {
-//      query
-//          .put("from", options.getFrom())
-//          .put("size", options.getSize());
-//      if (options.getScroll() != null) {
-//        query.put("scroll", options.getScroll());
-//      }
-//    }
-//
-//    return kuzzle
-//        .query(query)
-//        .thenApplyAsync(
-//            (response) -> new SearchResult(kuzzle, query, options, response));
-//  }
-//
-//  /**
-//   * Searches collection specifications.
-//   *
-//   * @param searchQuery
-//   * @return a CompletableFuture
-//   * @throws NotConnectedException
-//   * @throws InternalException
-//   */
-//  public CompletableFuture<SearchResult> searchSpecifications(
-//      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
-//
-//    return this.searchSpecifications(searchQuery, null);
-//  }
+  /**
+   * Searches collection specifications.
+   *
+   * @param searchQuery
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> searchSpecifications(
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final SearchOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("controller", "collection")
+        .put("action", "searchSpecifications")
+        .put("body", new KuzzleMap(searchQuery));
+
+    if (options != null) {
+      query
+          .put("from", options.getFrom())
+          .put("size", options.getSize());
+      if (options.getScroll() != null) {
+        query.put("scroll", options.getScroll());
+      }
+    }
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> new SearchResult(kuzzle, query, options, response));
+  }
+
+  /**
+   * Searches collection specifications.
+   *
+   * @param searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> searchSpecifications(
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    return this.searchSpecifications(searchQuery, null);
+  }
+
+  /**
+   * List collections.
+   *
+   * @param index
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, Object>> list(
+      final String index) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("controller", "collection")
+        .put("action", "list");
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, Object>) response.result);
+  }
 }

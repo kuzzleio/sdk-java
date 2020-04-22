@@ -242,7 +242,7 @@ public class Kuzzle extends EventManager {
     }
     final KuzzleMap queryMap = KuzzleMap.from(query);
 
-    if (queryMap.contains("waitForRefresh")) {
+    if (queryMap.containsKey("waitForRefresh")) {
       if (queryMap.optBoolean("waitForRefresh", false).booleanValue()) {
         queryMap.put("refresh", "wait_for");
       }
