@@ -1,10 +1,9 @@
 
 ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
 ConcurrentHashMap<String, Object> filters = new ConcurrentHashMap<>();
-ConcurrentHashMap<String, Object> boost = new ConcurrentHashMap<>();
+ConcurrentHashMap<String, Object> args = new ConcurrentHashMap<>();
 
-boost.put("boost", 1);
-filters.put("match_all", boost);
+filters.put("match_all", args);
 searchQuery.put("query", filters);
 
 SearchOptions options = new SearchOptions();
@@ -16,7 +15,7 @@ SearchResult result = kuzzle
     .getCollectionController()
     .searchSpecifications(searchQuery, options).get();
 
-  System.out.println("fetched: " + result.fetched);
+System.out.println("fetched: " + result.fetched);
   /*
     {
       "total"=1,
