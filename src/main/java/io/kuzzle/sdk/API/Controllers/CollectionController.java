@@ -1,9 +1,11 @@
 package io.kuzzle.sdk.API.Controllers;
 
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
+import io.kuzzle.sdk.CoreClasses.SearchResult;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
+import io.kuzzle.sdk.Options.SearchOptions;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -275,6 +277,54 @@ public class CollectionController extends BaseController {
         .query(query)
         .thenApplyAsync(
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
+  }
+
+  /**
+   * Searches collection specifications.
+   *
+   * @param searchQuery
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> searchSpecifications(
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final SearchOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("controller", "collection")
+        .put("action", "searchSpecifications")
+        .put("body", new KuzzleMap(searchQuery));
+
+    if (options != null) {
+      query
+          .put("from", options.getFrom())
+          .put("size", options.getSize());
+      if (options.getScroll() != null) {
+        query.put("scroll", options.getScroll());
+      }
+    }
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> new SearchResult(kuzzle, query, options, response));
+  }
+
+  /**
+   * Searches collection specifications.
+   *
+   * @param searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> searchSpecifications(
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    return this.searchSpecifications(searchQuery, null);
   }
 
   /**
