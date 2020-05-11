@@ -1,0 +1,9 @@
+name: collection#create
+description: Creates a new collection
+hooks:
+  before: |
+    curl -XDELETE kuzzle:7512/nyc-open-data
+    curl -XPOST kuzzle:7512/nyc-open-data/_create
+  after:
+template: default
+expected: Success

@@ -2,5 +2,12 @@
 build
 out
 .idea
+bin
+*.iml
+*.class
+bin
+.classpath
+.project
 
 doc/framework
+node_modules
