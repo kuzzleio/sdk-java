@@ -83,12 +83,12 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             groupId 'io.kuzzle'
-            artifactId 'sdk-java'
+            artifactId 'kuzzle-sdk-java'
             version version
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Kuzzle JAVA SDK')
-                root.appendNode('name', 'sdk-java')
+                root.appendNode('name', 'kuzzle-sdk-java')
                 root.appendNode('url', 'https://github.com/kuzzleio/sdk-java')
                 root.children().last() + pomConfig
             }
