@@ -33,6 +33,12 @@ The following examples are made to be executed without any IDE.
 If you're using Eclipse, IntelliJ or another Java IDE, you need to add the SDK as a project dependency in your classpath.
 :::
 
+### Installing on Android using gradle
+
+In yout app build.gradle add the following line and sync.
+
+    implementation "io.kuzzle:kuzzle-sdk-java:3.0.0"
+
 ## First connection
 
 Initialize a new Java project, create a `gettingstartedfirstconnection.java` file and start by adding the code below:
