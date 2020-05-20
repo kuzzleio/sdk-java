@@ -111,33 +111,33 @@ public class CollectionController extends BaseController {
             (response) -> (ConcurrentHashMap<String, Object>) response.result);
   }
 
-  /**
-   * Updates collection mapping.
-   *
-   * @param index
-   * @param collection
-   * @param mapping
-   * @return a CompletableFuture
-   * @throws NotConnectedException
-   * @throws InternalException
-   */
-  public CompletableFuture<Void> update(
-      final String index,
-      final String collection,
-      final ConcurrentHashMap<String, Object> mapping) throws NotConnectedException, InternalException {
+  // /**
+  //  * Updates collection mapping.
+  //  *
+  //  * @param index
+  //  * @param collection
+  //  * @param mapping
+  //  * @return a CompletableFuture
+  //  * @throws NotConnectedException
+  //  * @throws InternalException
+  //  */
+  // public CompletableFuture<Void> update(
+  //     final String index,
+  //     final String collection,
+  //     final ConcurrentHashMap<String, Object> mapping) throws NotConnectedException, InternalException {
 
-    final KuzzleMap query = new KuzzleMap();
+  //   final KuzzleMap query = new KuzzleMap();
 
-    query
-        .put("index", index)
-        .put("collection", collection)
-        .put("controller", "collection")
-        .put("action", "update")
-        .put("body", new KuzzleMap(mapping));
+  //   query
+  //       .put("index", index)
+  //       .put("collection", collection)
+  //       .put("controller", "collection")
+  //       .put("action", "update")
+  //       .put("body", new KuzzleMap(mapping));
 
-    return kuzzle
-        .query(query)
-        .thenApplyAsync(
-            (response) -> null);
-  }
+  //   return kuzzle
+  //       .query(query)
+  //       .thenApplyAsync(
+  //           (response) -> null);
+  // }
 }
