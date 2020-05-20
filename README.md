@@ -11,7 +11,7 @@ You can access the Kuzzle repository on [Github](https://github.com/kuzzleio/kuz
 
 ## SDK Documentation
 
-The complete SDK documentation is available [here](https://docs.kuzzle.io/sdk/java/2)
+The complete SDK documentation is available [here](https://docs.kuzzle.io/sdk/java/3)
 
 ## Protocol used
 
@@ -42,8 +42,8 @@ https://bintray.com/kuzzle/maven
 ```xml
 <dependency>
   <groupId>io.kuzzle</groupId>
-  <artifactId>sdk-java</artifactId>
-  <version>2.0.0</version>
+  <artifactId>kuzzle-sdk-java</artifactId>
+  <version>3.0.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -52,11 +52,11 @@ https://bintray.com/kuzzle/maven
 ### Gradle
 
 ```groovy
-compile 'io.kuzzle:sdk-java:2.0.0'
+compile 'io.kuzzle:kuzzle-sdk-java:3.0.0'
 ```
 
 For amd64:
 
 ```groovy
-compile 'io.kuzzle:sdk-java:2.0.0'
+compile 'io.kuzzle:kuzzle-sdk-java:3.0.0'
 ```

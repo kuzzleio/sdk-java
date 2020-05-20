@@ -2,15 +2,20 @@ package io.kuzzle.sdk.API.Controllers;
 
 import com.google.gson.internal.LazilyParsedNumber;
 import io.kuzzle.sdk.CoreClasses.Maps.KuzzleMap;
+import io.kuzzle.sdk.CoreClasses.Responses.Response;
+import io.kuzzle.sdk.CoreClasses.SearchResult;
 import io.kuzzle.sdk.Exceptions.InternalException;
 import io.kuzzle.sdk.Exceptions.NotConnectedException;
 import io.kuzzle.sdk.Kuzzle;
+import io.kuzzle.sdk.Options.SearchOptions;
 import io.kuzzle.sdk.Options.UpdateOptions;
 import io.kuzzle.sdk.Options.CreateOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 public class DocumentController extends BaseController {
   public DocumentController(final Kuzzle kuzzle) {
@@ -653,41 +658,92 @@ public class DocumentController extends BaseController {
     return this.mCreateOrReplace(index, collection, documents, null);
   }
 
- /**
-  * Validates data against existing validation rules.
-  *
-  * @param index
-  * @param collection
-  * @param document
-  * @return a CompletableFuture
-  * @throws NotConnectedException
-  * @throws InternalException
-  */
- public CompletableFuture<Boolean> validate(
-     final String index,
-     final String collection,
-     final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
+  /**
+   * Deletes documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param waitForRefresh
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ArrayList<String>> deleteByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final Boolean waitForRefresh) throws NotConnectedException, InternalException {
 
-   final KuzzleMap query = new KuzzleMap();
-   query
-       .put("index", index)
-       .put("collection", collection)
-       .put("controller", "document")
-       .put("action", "validate")
-       .put("body", new KuzzleMap(document));
+    final KuzzleMap query = new KuzzleMap();
 
-   return kuzzle
-       .query(query)
-       .thenApplyAsync(
-           (response) -> (Boolean)((ConcurrentHashMap<String, Object>)response.result).get("valid"));
- }
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "deleteByQuery")
+        .put("body", new KuzzleMap(searchQuery))
+        .put("waitForRefresh", waitForRefresh);
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ArrayList<String>) ((ConcurrentHashMap<String, Object>) response.result).get("ids"));
+  }
+
+  /**
+   * Deletes documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ArrayList<String>> deleteByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    return this.deleteByQuery(index, collection, searchQuery, null);
+  }
+
+  /**
+   * Validates data against existing validation rules.
+   *
+   * @param index
+   * @param collection
+   * @param document
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<Boolean> validate(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> document) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "validate")
+        .put("body", new KuzzleMap(document));
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (Boolean) ((ConcurrentHashMap<String, Object>) response.result).get("valid"));
+  }
 
   /**
    * Counts documents in a collection.
    *
    * @param index
    * @param collection
-   * @paran searchQuery
+   * @param searchQuery
    * @return a CompletableFuture
    * @throws NotConnectedException
    * @throws InternalException
@@ -708,7 +764,7 @@ public class DocumentController extends BaseController {
     return kuzzle
         .query(query)
         .thenApplyAsync(
-            (response) -> ((LazilyParsedNumber) ((ConcurrentHashMap<String, Object>)response.result).get("count")).intValue());
+            (response) -> ((LazilyParsedNumber) ((ConcurrentHashMap<String, Object>) response.result).get("count")).intValue());
   }
 
   /**
@@ -727,5 +783,132 @@ public class DocumentController extends BaseController {
     final ConcurrentHashMap<String, Object> searchQuery = new ConcurrentHashMap<>();
 
     return this.count(index, collection, searchQuery);
+  }
+
+  /**
+   * Updates documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param changes
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> updateByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final ConcurrentHashMap<String, Object> changes,
+      final UpdateOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+
+    Integer retryOnConflict = null;
+    Boolean waitForRefresh = null;
+    Boolean source = null;
+
+    if (options != null) {
+      retryOnConflict = options.getRetryOnConflict();
+      source = options.getSource();
+      waitForRefresh = options.getWaitForRefresh();
+    }
+
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "updateByQuery")
+        .put("body", new KuzzleMap()
+            .put("query", searchQuery)
+            .put("changes", changes))
+        .put("source", source)
+        .put("retryOnConflict", retryOnConflict)
+        .put("waitForRefresh", waitForRefresh);
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> (ConcurrentHashMap<String, ArrayList<Object>>) response.result);
+  }
+
+  /**
+   * Updates documents matching the provided search query.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param changes
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<ConcurrentHashMap<String, ArrayList<Object>>> updateByQuery(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final ConcurrentHashMap<String, Object> changes) throws NotConnectedException, InternalException {
+
+    return this.updateByQuery(index, collection, searchQuery, changes, null);
+  }
+
+  /**
+   * Searches documents.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @param options
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> search(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery,
+      final SearchOptions options) throws NotConnectedException, InternalException {
+
+    final KuzzleMap query = new KuzzleMap();
+    query
+        .put("index", index)
+        .put("collection", collection)
+        .put("controller", "document")
+        .put("action", "search")
+        .put("body", new KuzzleMap(searchQuery));
+
+    if (options != null) {
+      query
+          .put("from", options.getFrom())
+          .put("size", options.getSize());
+      if (options.getScroll() != null) {
+        query.put("scroll", options.getScroll());
+      }
+    }
+
+    return kuzzle
+        .query(query)
+        .thenApplyAsync(
+            (response) -> new SearchResult(kuzzle, query, options, response));
+  }
+
+  /**
+   * Searches documents.
+   *
+   * @param index
+   * @param collection
+   * @param searchQuery
+   * @return a CompletableFuture
+   * @throws NotConnectedException
+   * @throws InternalException
+   */
+  public CompletableFuture<SearchResult> search(
+      final String index,
+      final String collection,
+      final ConcurrentHashMap<String, Object> searchQuery) throws NotConnectedException, InternalException {
+
+    return this.search(index, collection, searchQuery, new SearchOptions());
   }
 }

@@ -1,4 +1,5 @@
 {
+  "name": "sdk-java",
   "scripts": {
     "doc-prepare": "kuzdoc framework:install",
     "doc-dev": "kuzdoc repo:dev -d /sdk/java/3/ -v 3",
