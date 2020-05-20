@@ -150,7 +150,7 @@ public class CollectionTest {
   }
 
   @Test
-  public void updateMappingCollectionTest() throws NotConnectedException, InternalException {
+  public void updateCollectionTest() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
     String index = "nyc-open-data";
@@ -166,11 +166,11 @@ public class CollectionTest {
     properties.put("license", license);
     mapping.put("properties", properties);
 
-    kuzzleMock.getCollectionController().updateMapping(index, collection, mapping);
+    kuzzleMock.getCollectionController().update(index, collection, mapping);
     Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
 
     assertEquals((arg.getValue()).getString("controller"), "collection");
-    assertEquals((arg.getValue()).getString("action"), "updateMapping");
+    assertEquals((arg.getValue()).getString("action"), "update");
     assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
     assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
     assertEquals((
@@ -185,7 +185,7 @@ public class CollectionTest {
   }
 
   @Test(expected = NotConnectedException.class)
-  public void updateMappingCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
+  public void updateCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
 
     AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
     Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
@@ -202,6 +202,6 @@ public class CollectionTest {
     properties.put("license", license);
     mapping.put("properties", properties);
 
-    kuzzleMock.getCollectionController().updateMapping(index, collection, mapping);
+    kuzzleMock.getCollectionController().update(index, collection, mapping);
   }
 }

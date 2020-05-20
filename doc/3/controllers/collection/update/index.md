@@ -1,13 +1,13 @@
 ---
 code: true
 type: page
-title: updateMapping
+title: update
 description: Update the collection mapping
 ---
 
-# updateMapping
+# update
 
-<SinceBadge version="1.7.1" />
+<SinceBadge version="2.1.0" />
 
 You can define the collection [dynamic mapping policy](/core/2/guides/essentials/database-mappings#dynamic-mapping-policy) by setting the `dynamic` field to the desired value.
 
@@ -16,7 +16,7 @@ You can define [collection additional metadata](/core/2/guides/essentials/databa
 <br/>
 
 ```java
-  public CompletableFuture<Void> updateMapping(
+  public CompletableFuture<Void> update(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> mapping)
@@ -57,4 +57,4 @@ Returns a `CompletableFuture<Void>`.
 
 ## Usage
 
-<<< ./snippets/update-mapping.java
+<<< ./snippets/update.java

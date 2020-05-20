@@ -8,5 +8,5 @@
 
     kuzzle
         .getCollectionController()
-        .updateMapping("nyc-open-data", "yellow-taxi", mapping)
+        .update("nyc-open-data", "yellow-taxi", mapping)
         .get();

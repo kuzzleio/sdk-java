@@ -121,7 +121,7 @@ public class CollectionController extends BaseController {
    * @throws NotConnectedException
    * @throws InternalException
    */
-  public CompletableFuture<Void> updateMapping(
+  public CompletableFuture<Void> update(
       final String index,
       final String collection,
       final ConcurrentHashMap<String, Object> mapping) throws NotConnectedException, InternalException {
@@ -132,7 +132,7 @@ public class CollectionController extends BaseController {
         .put("index", index)
         .put("collection", collection)
         .put("controller", "collection")
-        .put("action", "updateMapping")
+        .put("action", "update")
         .put("body", new KuzzleMap(mapping));
 
     return kuzzle
