@@ -7,7 +7,7 @@ description: Update the collection mapping
 
 # update
 
-<SinceBadge version="2.1.0" />
+<SinceBadge version="Kuzzle 2.1.0" />
 
 You can define the collection [dynamic mapping policy](/core/2/guides/essentials/database-mappings#dynamic-mapping-policy) by setting the `dynamic` field to the desired value.
 
