@@ -38,11 +38,17 @@ It must have a root field `properties` that contain the mapping definition:
 
 ```java
 {
-  properties={
-    field1={ type='text' },
-    field2={
-      properties={
-        nestedField={ type='keyword' }
+  mappings={
+    dynamic="[true|false|strict]",
+    _meta={
+      field="value"
+  },
+    properties={
+      field1={ type='text' },
+      field2={
+        properties={
+          nestedField={ type='keyword' }
+        }
       }
     }
   }
