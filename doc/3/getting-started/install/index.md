@@ -35,7 +35,7 @@ If you're using Eclipse, IntelliJ or another Java IDE, you need to add the SDK a
 
 ### Installing on Android using gradle
 
-In yout app build.gradle add the following line and sync.
+In your app build.gradle add the following line and sync.
 
     implementation "io.kuzzle:kuzzle-sdk-java:3.0.0"
 
