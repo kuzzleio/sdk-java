@@ -5,7 +5,7 @@
     "doc-dev": "kuzdoc repo:dev -d /sdk/java/3/ -v 3",
     "doc-build": "kuzdoc repo:build -d /sdk/java/3/ -v 3",
     "doc-upload": "kuzdoc repo:deploy -d /sdk/java/3/ -v 3",
-    "doc-cloudfront": "kuzdoc repo:cloudfront -d /sdk/java/3/",
+    "doc-cloudfront": "kuzdoc repo:cloudfront -d /sdk/java/3/*",
     "doc-deploy": "npm run doc-upload && npm run doc-cloudfront",
     "doc-netlify": "npm run doc-prepare && kuzdoc repo:build -d / -v 3"
   },
