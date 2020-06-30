@@ -43,4 +43,4 @@ Returns an `ArrayList<String>` containing the deleted document ids.
 
 ## Usage
 
-<<< ./snippets/delete-by-query.js
+<<< ./snippets/delete-by-query.java

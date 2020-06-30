@@ -30,4 +30,4 @@ Returns a `ConcurrentHashMap<String, Object>` representing the collection mappin
 
 ## Usage
 
-<<< ./snippets/get-mapping.js
+<<< ./snippets/get-mapping.java
