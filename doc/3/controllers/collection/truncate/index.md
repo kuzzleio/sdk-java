@@ -26,4 +26,4 @@ public CompletableFuture<Void> truncate(
 
 ## Usage
 
-<<< ./snippets/truncate.js
+<<< ./snippets/truncate.java
