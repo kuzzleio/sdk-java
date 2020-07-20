@@ -73,4 +73,4 @@ Each errored document is an object of the `errors` array with the following prop
 
 ## Usage
 
-<<< ./snippets/update-by-query.js
+<<< ./snippets/update-by-query.java
