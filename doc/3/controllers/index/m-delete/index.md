@@ -18,7 +18,7 @@ CompletableFuture<ArrayList<String>> mDelete(final ArrayList<String> indexes)
 
 | Argument  | Type              | Description           |
 |-----------|-------------------|-----------------------|
-| `indexes` | <pre>ArrayList<String></pre> | List of indexes names |
+| `indexes` | `ArrayList<String>` | List of indexes names |
 
 ## Return
 

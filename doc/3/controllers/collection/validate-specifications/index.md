@@ -43,7 +43,7 @@ It contains the following properties:
 | Property      | Type                         | Description                  |
 | ------------- | ---------------------------- | ---------------------------- |
 | `valid`       | <pre>Boolean</pre>           | Specifications validity      |
-| `details`     | <pre>ArrayList<String></pre> | Specifications errors        |
+| `details`     | `ArrayList<String>` | Specifications errors        |
 | `description` | <pre>String</pre>            | Global description of errors |
 
 ## Usage
