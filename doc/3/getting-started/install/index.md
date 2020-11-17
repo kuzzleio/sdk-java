@@ -37,11 +37,11 @@ If you're using Eclipse, IntelliJ or another Java IDE, you need to add the SDK a
 
 In your app build.gradle add the following line and sync.
 
-    implementation "io.kuzzle:kuzzle-sdk-java:3.0.0"
+  `implementation "io.kuzzle:kuzzle-sdk-java:3.0.0"`
 
 ## First connection
 
-Initialize a new Java project, create a `gettingstartedfirstconnection.java` file and start by adding the code below:
+Initialize a new Java project, create a `GettingStartedFirstConnection.java` file and start by adding the code below:
 
 <<< ./snippets/firstconnection.java
 
@@ -49,8 +49,8 @@ This program initializes the Kuzzle Server storage by creating a index, and a co
 Run the program with the following command:
 
 ```bash
-$ javac -classpath ./path/to/the/sdk.jar gettingstartedfirstconnection.java
-$ java -classpath .:./path/to/the/sdk.jar gettingstartedfirstconnection
+$ javac -classpath ./path/to/the/sdk.jar GettingStartedFirstConnection.java
+$ java -classpath .:./path/to/the/sdk.jar GettingStartedFirstConnection
 Connected!
 Index nyc-open-data created!
 Collection yellow-taxi created!
@@ -71,15 +71,15 @@ Here is how Kuzzle structures its storage space:
 
 - indexes contain collections
 - collections contain documents
-  Create a `gettingstartedstorage.java` file in the playground and add this code:
+  Create a `GettingStartedStorage.java` file in the playground and add this code:
 
 <<< ./snippets/document.java
 
 As you did before, build and run your program:
 
 ```bash
-$ javac -classpath ./path/to/the/sdk.jar  gettingstartedstorage.java
-$ java -classpath .:./path/to/the/sdk.jar gettingstartedstorage
+$ javac -classpath ./path/to/the/sdk.jar  GettingStartedStorage.java
+$ java -classpath .:./path/to/the/sdk.jar GettingStartedStorage
 Connected!
 New document added to yellow-taxi collection!
 ```
@@ -92,7 +92,7 @@ Now you know how to:
 
 ## Subscribe to realtime document notifications (pub/sub)
 
-Time to use realtime with Kuzzle. Create a new file `gettingstartedrealtime.java` with the following code:
+Time to use realtime with Kuzzle. Create a new file `GettingStartedRealtime.java` with the following code:
 
 <<< ./snippets/realtime.java
 
@@ -101,8 +101,8 @@ This program subscribes to changes made to documents with a `license` field set 
 Build and run your program:
 
 ```bash
-$ javac -classpath ./path/to/the/sdk.jar gettingstartedrealtime.java
-$ java -classpath .:./path/to/the/sdk.jar gettingstartedrealtime
+$ javac -classpath ./path/to/the/sdk.jar GettingStartedRealtime.java
+$ java -classpath .:./path/to/the/sdk.jar GettingStartedRealtime
 Connected!
 Successfully subscribing!
 New document added to yellow-taxi collection!
