@@ -49,7 +49,7 @@ implementation 'io.kuzzle:kuzzle-sdk-java:3.0.0'
 implementation 'io.kuzzle:sdk-jvm:1.0.0'
 ```
 
-# Ivy:
+### Ivy:
 **from**
 ```html
 <dependency org='io.kuzzle' name='kuzzle-sdk-java' rev='3.0.0'>
