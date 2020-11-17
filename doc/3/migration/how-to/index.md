@@ -70,7 +70,7 @@ implementation 'io.kuzzle:sdk-jvm:1.0.0'
 The main difference between those two SDKs is the way how we handle options.
 
 In the Java SDK, we have an `Options` class for each option type such as [SearchOptions](/sdk/java/3/core-classes/search-options),
-[CreateOptions](/sdk/java/3/core-classes/create-options) or [SubscriptionOptions](/sdk/java/3/core-classes/subscription-options).
+[CreateOptions](/sdk/java/3/core-classes/create-options) or [SubscriptionOptions](/sdk/java/3/core-classes/subscribe-options).
 
 It allowed us to not write as much as overloads as available options.
 If the method signature could have 5 options, we had to have 5 different signatures,
@@ -159,5 +159,5 @@ SearchResult results = kuzzle.getDocumentController().search(
 ```
 
 ::: info
-You can find the full documentation of the Jvm SDK [here](/sdk/jvm/1), and compare signatures to adapt your code.
+You can find the full documentation of the Jvm SDK [here](https://docs.kuzzle.io/sdk/jvm/1), and compare signatures to adapt your code.
 :::
