@@ -39,7 +39,7 @@ You can find the SDK JARs directly on [bintray](https://bintray.com/kuzzle/maven
 </dependency>
 ```
 
-# Gradle:
+### Gradle:
 **from**
 ```groovy
 implementation 'io.kuzzle:kuzzle-sdk-java:3.0.0'
