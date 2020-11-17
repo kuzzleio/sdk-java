@@ -19,7 +19,7 @@ Having trouble? Get in touch with us on [Discord](http://join.discord.kuzzle.io)
 The installation of the SDK is the same as the Java SDK.
 You can find the SDK JARs directly on [bintray](https://bintray.com/kuzzle/maven/sdk-jvm). Download and add it to your classpath.
 
-# Maven:
+### Maven:
 **from**
 ```xml
 <dependency>
@@ -39,7 +39,7 @@ You can find the SDK JARs directly on [bintray](https://bintray.com/kuzzle/maven
 </dependency>
 ```
 
-# Gradle:
+### Gradle:
 **from**
 ```groovy
 implementation 'io.kuzzle:kuzzle-sdk-java:3.0.0'
@@ -49,7 +49,7 @@ implementation 'io.kuzzle:kuzzle-sdk-java:3.0.0'
 implementation 'io.kuzzle:sdk-jvm:1.0.0'
 ```
 
-# Ivy:
+### Ivy:
 **from**
 ```html
 <dependency org='io.kuzzle' name='kuzzle-sdk-java' rev='3.0.0'>
