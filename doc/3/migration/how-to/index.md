@@ -16,7 +16,7 @@ Having trouble? Get in touch with us on [Discord](http://join.discord.kuzzle.io)
 
 ## Installation
 
-The installation of the SDK is the same as the Java SDK.
+The installation of the JVM SDK is the same as for the Java SDK.
 You can find the SDK JARs directly on [bintray](https://bintray.com/kuzzle/maven/sdk-jvm). Download and add it to your classpath.
 
 ### Maven:
