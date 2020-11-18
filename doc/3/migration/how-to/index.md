@@ -124,13 +124,6 @@ public CompletableFuture<SearchResult> search(
       ConcurrentHashMap<String, Object> searchQuery,
       String scroll,
       Integer size)
-
-public CompletableFuture<SearchResult> search(
-      String index,
-      String collection,
-      ConcurrentHashMap<String, Object> searchQuery
-      Integer size,
-      Integer from)
 ```
 
 ### Example
@@ -139,7 +132,7 @@ Using the Java SDK, you could have written:
 
 ```java
 SearchOptions options = new SearchOptions();
-    options.setFrom(1);
+    options.setScroll("10s");
     options.setSize(5);
 
 SearchResult results = kuzzle.getDocumentController().search(
@@ -154,7 +147,7 @@ With the new Jvm SDK it becomes:
 SearchResult results = kuzzle.getDocumentController().search(
   "nyc-open-data",
   "yellow-taxi",
-  searchQuery, 5, 1).get();
+  searchQuery, "10s", 5).get();
 ```
 
 ::: info
