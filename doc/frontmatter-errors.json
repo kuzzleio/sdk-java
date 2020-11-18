@@ -1,0 +1,22 @@
+{
+    "/migration/": [
+        {
+            "fix": {
+                "type": "branch"
+            },
+            "error": "MISSING_KEY",
+            "key": "type"
+        },
+        {
+            "error": "MISSING_KEY",
+            "key": "title"
+        },
+        {
+            "fix": {
+                "code": false
+            },
+            "error": "MISSING_KEY",
+            "key": "code"
+        }
+    ]
+}

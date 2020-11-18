@@ -100,8 +100,8 @@ fun search(
       collection: String,
       searchQuery: ConcurrentHashMap<String, Any?>,
       scroll: String? = null,
-      from: Int = 0,
-      size: Int? = null): CompletableFuture<SearchResult>
+      size: Int? = null,
+      from: Int = 0): CompletableFuture<SearchResult>
 ```
 
 Which will generate the followings signatures:
@@ -110,17 +110,7 @@ Which will generate the followings signatures:
 public CompletableFuture<SearchResult> search(
       String index,
       String collection,
-      ConcurrentHashMap<String, Object> searchQuery,
-      String scroll,
-      Integer from,
-      Integer size)
-
-public CompletableFuture<SearchResult> search(
-      String index,
-      String collection,
-      ConcurrentHashMap<String, Object> searchQuery,
-      String scroll,
-      Integer from)
+      ConcurrentHashMap<String, Object> searchQuery)
 
 public CompletableFuture<SearchResult> search(
       String index,
@@ -131,7 +121,16 @@ public CompletableFuture<SearchResult> search(
 public CompletableFuture<SearchResult> search(
       String index,
       String collection,
-      ConcurrentHashMap<String, Object> searchQuery)
+      ConcurrentHashMap<String, Object> searchQuery,
+      String scroll,
+      Integer size)
+
+public CompletableFuture<SearchResult> search(
+      String index,
+      String collection,
+      ConcurrentHashMap<String, Object> searchQuery
+      Integer size,
+      Integer from)
 ```
 
 ### Example
@@ -155,7 +154,7 @@ With the new Jvm SDK it becomes:
 SearchResult results = kuzzle.getDocumentController().search(
   "nyc-open-data",
   "yellow-taxi",
-  searchQuery, null, 1, 5).get();
+  searchQuery, 5, 1).get();
 ```
 
 ::: info
