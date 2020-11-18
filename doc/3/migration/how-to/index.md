@@ -1,8 +1,8 @@
 ---
 code: false
 type: page
-title: SDK Java to SDK Jvm
-description: SDK Java to SDK Jvm
+title: SDK Java to SDK JVM
+description: SDK Java to SDK JVM
 order: 99
 ---
 
