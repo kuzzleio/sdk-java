@@ -6,7 +6,7 @@ description: SDK Java to SDK Jvm
 order: 99
 ---
 
-# SDK Jvm
+# SDK JVM
 
 In this tutorial you will learn how to migrate from the Kuzzle **Java SDK** to the **Jvm SDK**.
 
