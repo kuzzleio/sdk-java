@@ -8,7 +8,7 @@ order: 99
 
 # SDK JVM
 
-In this tutorial you will learn how to migrate from the Kuzzle **Java SDK** to the **Jvm SDK**.
+In this tutorial you will learn how to migrate from the Kuzzle **Java SDK** to the **JVM SDK**.
 
 ::: info
 Having trouble? Get in touch with us on [Discord](http://join.discord.kuzzle.io)!
