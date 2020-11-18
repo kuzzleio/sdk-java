@@ -67,7 +67,7 @@ implementation 'io.kuzzle:sdk-jvm:1.0.0'
 
 ## Options handling
 
-The main difference between those two SDKs is the way how we handle options.
+The main difference between those two SDKs is the way they handle options on API actions.
 
 In the Java SDK, we have an `Options` class for each option type such as [SearchOptions](/sdk/java/3/core-classes/search-options),
 [CreateOptions](/sdk/java/3/core-classes/create-options) or [SubscriptionOptions](/sdk/java/3/core-classes/subscribe-options).
