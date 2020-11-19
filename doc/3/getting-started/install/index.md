@@ -35,9 +35,9 @@ If you're using Eclipse, IntelliJ or another Java IDE, you need to add the SDK a
 
 ### Installing on Android using gradle
 
-In your app build.gradle add the following line and sync.
+To build the project, add the following lines:
 
-### Maven:
+### Maven
 
 ```xml
 <dependency>
@@ -47,12 +47,19 @@ In your app build.gradle add the following line and sync.
   <type>pom</type>
 </dependency>
 ```
-### Gradle:
+### Gradle
 
 ```groovy
-compile 'io.kuzzle:kuzzle-sdk-java:3.0.0'
+repositories {
+    maven() {
+        url  "https://dl.bintray.com/kuzzle/maven" 
+    }
+}
+dependencies {
+  compile 'io.kuzzle:kuzzle-sdk-java:3.0.0'
+}
 ```
-### Ivy:
+### Ivy
 
 ```html
 <dependency org='io.kuzzle' name='kuzzle-sdk-java' rev='3.0.0'>
