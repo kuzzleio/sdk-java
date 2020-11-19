@@ -50,7 +50,7 @@ In your app build.gradle add the following line and sync.
 ### Gradle:
 
 ```groovy
-implementation 'io.kuzzle:kuzzle-sdk-java:3.0.0'
+compile 'io.kuzzle:kuzzle-sdk-java:3.0.0'
 ```
 ### Ivy:
 
