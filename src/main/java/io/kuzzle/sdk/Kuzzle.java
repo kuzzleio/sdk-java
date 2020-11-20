@@ -197,23 +197,15 @@ public class Kuzzle extends EventManager {
       return;
     }
 
-    if (response.error.id == null
-        || !response.error.id.equals("security.token.expired")) {
-      final Task<Response> task = requests.get(response.requestId);
-      if (task != null) {
-        task.setException(new ApiErrorException(response));
-      }
-      return;
-    }
-
     final Task<Response> task = requests.get(response.requestId);
-
     if (task != null) {
       task.setException(new ApiErrorException(response));
     }
-
     requests.remove(response.requestId);
-    super.trigger(Event.tokenExpired);
+
+    if (response.error.id != null && response.error.id.equals("security.token.expired")) {
+      super.trigger(Event.tokenExpired);
+    }
   }
 
   protected void onStateChanged(final Object... args) {
