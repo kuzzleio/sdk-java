@@ -29,7 +29,7 @@ Returns a `ConcurrentHashMap<String, Object>` containing the following propertie
 | Property      | Type                | Description                                                        |
 | ------------- | ------------------- | ------------------------------------------------------------------ |
 | `type`        | <pre>String</pre>   | Types of returned collections <br/>(`all`, `realtime` or `stored`) |
-| `collections` | <pre>ArrayList<Object></pre> | List of collections                                                |
+| `collections` | `ArrayList<Object>` | List of collections                                                |
 | `from`        | <pre>Integer</pre>   | Offset of the first result                                         |
 | `size`        | <pre>Integer</pre>   | Maximum number of returned results                                 |
 

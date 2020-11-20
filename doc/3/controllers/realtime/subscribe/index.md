@@ -23,7 +23,7 @@ public CompletableFuture<String> subscribe(
 
 | Argument     | Type                                    | Description                                                                                                    |
 |--------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| `index`      | <pre>String/pre>                       | Index name                                                                                                     |
+| `index`      | <pre>String</pre>                       | Index name                                                                                                     |
 | `collection` | <pre>String</pre>                       | Collection name                                                                                                |
 | `filters`    | <pre>ConcurrentHashMap<String, Object></pre>                      | ConcurrentHashMap representing a set of filters following [Koncorde syntax](/core/2/guides/cookbooks/realtime-api/terms) |
 | `handler`   | <pre>NotificationHandler</pre>          | Handler function to handle notifications                                                                      |

@@ -187,6 +187,62 @@ public class CollectionTest {
   }
 
   @Test
+  public void updateCollectionTest() throws NotConnectedException, InternalException {
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ArgumentCaptor<KuzzleMap> arg = ArgumentCaptor.forClass(KuzzleMap.class);
+
+    ConcurrentHashMap<String, Object> mapping = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> properties = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> license = new ConcurrentHashMap<>();
+
+    license.put("type", "keyword");
+    properties.put("license", license);
+    mapping.put("properties", properties);
+
+    kuzzleMock.getCollectionController().update(index, collection, mapping);
+    Mockito.verify(kuzzleMock, Mockito.times(1)).query(arg.capture());
+
+    assertEquals((arg.getValue()).getString("controller"), "collection");
+    assertEquals((arg.getValue()).getString("action"), "update");
+    assertEquals((arg.getValue()).getString("index"), "nyc-open-data");
+    assertEquals((arg.getValue()).getString("collection"), "yellow-taxi");
+    assertEquals((
+        (ConcurrentHashMap<String, Object>) (
+            (ConcurrentHashMap<String, Object>) (
+                ((ConcurrentHashMap<String, Object>)
+                    ((arg.getValue())
+                        .get("body")))
+                    .get("properties")))
+            .get("license"))
+        .get("type").toString(), "keyword");
+  }
+
+  @Test(expected = NotConnectedException.class)
+  public void updateCollectionThrowWhenNotConnected() throws NotConnectedException, InternalException {
+
+    AbstractProtocol fakeNetworkProtocol = Mockito.mock(WebSocket.class);
+    Mockito.when(fakeNetworkProtocol.getState()).thenAnswer((Answer<ProtocolState>) invocation -> ProtocolState.CLOSE);
+
+    Kuzzle kuzzleMock = spy(new Kuzzle(fakeNetworkProtocol));
+    String index = "nyc-open-data";
+    String collection = "yellow-taxi";
+
+    ConcurrentHashMap<String, Object> mapping = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> properties = new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, Object> license = new ConcurrentHashMap<>();
+
+    license.put("type", "keyword");
+    properties.put("license", license);
+    mapping.put("properties", properties);
+
+    kuzzleMock.getCollectionController().update(index, collection, mapping);
+  }
+
+  @Test
   public void refreshCollectionTest() throws NotConnectedException, InternalException {
 
     Kuzzle kuzzleMock = spy(new Kuzzle(networkProtocol));
