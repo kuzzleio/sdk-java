@@ -206,6 +206,13 @@ public class Kuzzle extends EventManager {
       return;
     }
 
+    final Task<Response> task = requests.get(response.requestId);
+
+    if (task != null) {
+      task.setException(new ApiErrorException(response));
+    }
+
+    requests.remove(response.requestId);
     super.trigger(Event.tokenExpired);
   }
 
