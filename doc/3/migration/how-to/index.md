@@ -72,13 +72,12 @@ The main difference between those two SDKs is the way they handle options on API
 In the Java SDK, there is an option class for each API action, such as [SearchOptions](/sdk/java/3/core-classes/search-options),
 [CreateOptions](/sdk/java/3/core-classes/create-options) or [SubscriptionOptions](/sdk/java/3/core-classes/subscribe-options).
 
-It allowed us to not write as much as overloads as available options.
-If the method signature could have 5 options, we had to have 5 different signatures,
-or one with the options object, and another without it.
+Using option objects was a simple and easy way for our SDK users to handle the many available options in API actions.
 
-Since the new Jvm SDK is written in Kotlin, we now use the optional parameters directly in
-the function signature, and add a `@JvmOverload` annotation to it in order to generate
-as much as overload as we need.
+The new JVM SDK is now entirely written in Kotlin. The Java part of that SDK is now generated from the Kotlin code.  
+The idiomatic way of handling optional arguments in Kotlin is to use named arguments, which is not supported by Java. 
+
+What this means is this: optional arguments in Java are now handled using overloads. Most of them are automatically created when converting Kotlin code to Java, but we also added a few ones of our own, and removed less pertinent ones, so that the methods exposed by the Java SDK are as consistent as possible.
 
 That is why in this SDK, **we do not have any `Options` object**.
 
