@@ -124,6 +124,13 @@ public CompletableFuture<SearchResult> search(
       ConcurrentHashMap<String, Object> searchQuery,
       String scroll,
       Integer size)
+      
+public CompletableFuture<SearchResult> search(
+      String index,
+      String collection,
+      ConcurrentHashMap<String, Object> searchQuery,
+      Integer size,
+      Integer from)
 ```
 
 ### Example
