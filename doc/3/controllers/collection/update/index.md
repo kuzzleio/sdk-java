@@ -9,9 +9,9 @@ description: Update the collection mapping
 
 <SinceBadge version="Kuzzle 2.1.0" />
 
-You can define the collection [dynamic mapping policy](/core/2/guides/essentials/database-mappings#dynamic-mapping-policy) by setting the `dynamic` field to the desired value.
+You can define the collection [dynamic mapping policy](/core/2/guides/main-concepts/data-storage#mappings-dynamic-policy) by setting the `dynamic` field to the desired value.
 
-You can define [collection additional metadata](/core/2/guides/essentials/database-mappings#collection-metadata) within the `_meta` root field.
+You can define [collection additional metadata](/core/2/guides/main-concepts/data-storage#mappings-metadata) within the `_meta` root field.
 
 <br/>
 
@@ -55,7 +55,7 @@ It must have a root field `properties` that contain the mapping definition:
 };
 ```
 
-More information about database mappings [here](/core/2/guides/essentials/database-mappings).
+More information about database mappings [here](/core/2/guides/main-concepts/data-storage).
 
 ## Returns
 
