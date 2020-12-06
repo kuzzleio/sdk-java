@@ -32,7 +32,7 @@ When the validation specification is not formatted correctly, a detailed error m
 
 A `ConcurrentHashMap<String, Object>` representing the specifications.
 
-This object must follow the [Specification Structure](/core/2/guides/cookbooks/datavalidation).
+This object must follow the [Specification Structure](/core/2/guides/advanced/data-validation).
 
 ## Returns
 
