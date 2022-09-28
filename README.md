@@ -1,3 +1,5 @@
+# Deprecated, use the SDK JVM instead
+
 [![Build Status](https://travis-ci.org/kuzzleio/sdk-java.svg?branch=master)](https://travis-ci.org/kuzzleio/sdk-java)
 
 Official Kuzzle JAVA SDK
